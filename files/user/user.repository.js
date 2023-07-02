@@ -37,8 +37,6 @@ class UserRepository {
   }
 
   static async updateUserProfile(payload, params) {
-    console.log(params)
-
     return User.findOneAndUpdate({ ...payload }, { $set: { ...params } })
   }
 
@@ -47,49 +45,12 @@ class UserRepository {
     return userCount
   }
 
-  static async searchUser(query) {
-    let { startDate, endDate, status, search, accountType } = query
+  static async deleteAccount(payload) {
+    const deleteAccount = await User.findOneAndDelete({
+      ...payload,
+    })
 
-    if (!search) search = ""
-
-    let extraParams = {
-      accountType,
-    }
-
-    if (status && status.length > 0) extraParams.status = status
-    if (startDate && endDate)
-      extraParams.date = {
-        $gte: startDate,
-        $lte: endDate,
-      }
-
-    const userSearch = await User.aggregate([
-      {
-        $addFields: {
-          date: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
-        },
-      },
-      {
-        $match: {
-          $and: [
-            {
-              $or: [
-                { fullName: { $regex: search, $options: "i" } },
-                { email: { $regex: search, $options: "i" } },
-              ],
-              ...extraParams,
-            },
-          ],
-        },
-      },
-    ])
-
-    return userSearch
-  }
-
-  static async fetchUsersWithTotalLoanHistory(payload) {
-    const loans = await User.aggregate([...payload])
-    return loans
+    return deleteAccount
   }
 }
 

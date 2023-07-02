@@ -19,6 +19,7 @@ const {
   userGalleryController,
   updateUserController,
   changePasswordController,
+  deleteUserController,
 } = require("../user/controllers/profile.controller")
 
 //routes
@@ -41,5 +42,6 @@ userRoute.route("/search").get(searchUserController)
 userRoute.route("/gallery").get(userGalleryController)
 userRoute.route("/update").put(updateUserController)
 userRoute.route("/change-password").put(changePasswordController)
+userRoute.route("/delete-account").delete(deleteUserController)
 
 module.exports = userRoute

@@ -137,6 +137,16 @@ class ProfileService {
 
     return { success: true, msg: UserSuccess.UPDATE }
   }
+
+  static async deleteAccountService(locals) {
+    const deleteAccount = await UserRepository.deleteAccount({
+      _id: locals._id,
+    })
+
+    if (!deleteAccount) return { success: false, msg: UserFailure.DELETE }
+
+    return { success: true, msg: UserSuccess.DELETE }
+  }
 }
 
 module.exports = { ProfileService }

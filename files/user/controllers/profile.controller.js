@@ -88,6 +88,19 @@ const changePasswordController = async (req, res, next) => {
 
   return responseHandler(res, SUCCESS, data)
 }
+const deleteUserController = async (req, res, next) => {
+  const [error, data] = await manageAsyncOps(
+    ProfileService.deleteAccountService(res.locals.jwt)
+  )
+
+  console.log("error", error)
+
+  if (error) return next(error)
+
+  if (!data.success) return next(new CustomError(data.msg, BAD_REQUEST, data))
+
+  return responseHandler(res, SUCCESS, data)
+}
 
 module.exports = {
   profileImageController,
@@ -97,4 +110,5 @@ module.exports = {
   userGalleryController,
   updateUserController,
   changePasswordController,
+  deleteUserController,
 }

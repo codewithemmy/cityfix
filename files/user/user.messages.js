@@ -2,6 +2,7 @@ module.exports.UserSuccess = {
   CREATE: "User successfully created",
   FETCH: "User successfully fetched",
   UPDATE: "Update Successful",
+  DELETE: "Delete Successful",
 }
 
 module.exports.UserFailure = {
@@ -11,6 +12,7 @@ module.exports.UserFailure = {
   USER_FOUND: "User not found, Sign-Up to login",
   PHONE_EXIST: "Phone number exist already",
   SOFT_DELETE: "User account deleted",
+  DELETE: "User account deleted",
   FETCH: "User not found",
   SEARCH_ERROR: "Invalid data input",
   PASSWORD: "Invalid password input",
