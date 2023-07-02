@@ -1,0 +1,64 @@
+const { queryConstructor } = require("../../utils")
+const { LIMIT, SKIP, SORT } = require("../../constants")
+const { ContractRepository } = require("./contract.repository")
+const { ContractFailure, ContractSuccess } = require("./contract.messages")
+
+class ContractService {
+  static async createContractService(payload, locals) {
+    const contract = await ContractRepository.create({
+      ...payload,
+      assignedBy: locals._id,
+    })
+
+    if (!contract) return { success: false, msg: ContractFailure.CREATE }
+
+    return {
+      success: true,
+      msg: ContractSuccess.CREATE,
+      contract,
+    }
+  }
+
+  static async searchContractService(payload) {
+    const contract = await ContractRepository.searchContract(payload)
+
+    if (!contract) return { success: false, msg: ContractFailure.FETCH }
+
+    return {
+      success: true,
+      msg: ContractSuccess.FETCH,
+      contract,
+    }
+  }
+
+  static async startContractService(payload, locals) {
+    const contract = await ContractRepository.findSingleContractWithParams({
+      $or: [
+        {
+          assignedBy: locals._id,
+          assignedTo: payload.assignedTo,
+        },
+        {
+          assignedTo: locals._id,
+        },
+      ],
+    })
+
+    if (!contract) return { success: false, msg: ContractFailure.START }
+
+    if (locals._id === payload.assignedTo && contract.status === "waiting") {
+      contract.accepted = true
+      contract.status = "ongoing"
+      await contract.save()
+    } else {
+      contract.status = "waiting"
+      await contract.save()
+    }
+
+    return {
+      success: true,
+      msg: ContractSuccess.START,
+    }
+  }
+}
+module.exports = { ContractService }

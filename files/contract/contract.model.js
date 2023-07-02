@@ -1,20 +1,21 @@
 const mongoose = require("mongoose")
 
-const userSchema = new mongoose.Schema(
+const contractSchema = new mongoose.Schema(
   {
-    title: {
+    contractPurpose: {
       type: String,
     },
     description: {
       type: String,
     },
-    otherDetails: {
-      type: String,
-    },
     status: {
       type: String,
-      enum: ["pending", "complete"],
+      enum: ["pending", "ongoing", "completed", "waiting"],
       default: "pending",
+    },
+    accepted: {
+      type: Boolean,
+      default: false,
     },
     assignedTo: {
       type: mongoose.Types.ObjectId,
@@ -28,6 +29,6 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 )
 
-const task = mongoose.model("Task", userSchema, "task")
+const contract = mongoose.model("Contract", contractSchema, "contract")
 
-module.exports = { Task: task }
+module.exports = { Contract: contract }
