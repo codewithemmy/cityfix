@@ -43,22 +43,12 @@ class ProfileService {
   }
 
   static async getUsersService(payload) {
-    const { error, params, limit, skip, sort } = queryConstructor(
-      payload,
-      "createdAt",
-      "User"
-    )
-
-    if (error) return { success: false, msg: error }
-
     let extra = { accountType: "CityBuilder" }
 
-    const user = await UserRepository.findAllUsersParams(
-      extra,
-      limit,
-      skip,
-      sort
-    )
+    const user = await UserRepository.findAllUsersParams({
+      ...extra,
+      ...payload,
+    })
 
     if (!user) return { success: false, msg: UserFailure.FETCH }
 

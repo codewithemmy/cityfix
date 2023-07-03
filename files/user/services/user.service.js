@@ -1,3 +1,4 @@
+const mongoose = require("mongoose")
 const {
   hashPassword,
   tokenHandler,
@@ -96,6 +97,23 @@ class UserService {
       msg: UserSuccess.FETCH,
       data: user,
     }
+  }
+
+  static async rateUserService(payload, locals) {
+    const { rating, comment, userId } = payload
+    const { _id } = locals
+
+    const rateUser = await UserRepository.updateUserDetails(userId, {
+      review: {
+        rating: rating,
+        comment: comment,
+        ratedBy: new mongoose.Types.ObjectId(_id),
+      },
+    })
+
+    if (!rateUser) return { success: false, msg: UserFailure.UPDATE }
+
+    return { success: true, msg: UserSuccess.UPDATE }
   }
 }
 module.exports = { UserService }

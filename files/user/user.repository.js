@@ -18,13 +18,11 @@ class UserRepository {
     return User.exists({ ...userPayload })
   }
 
-  static async findAllUsersParams(userPayload) {
-    const { limit, skip, sort, ...restOfPayload } = userPayload
-
-    const user = await User.find({ ...restOfPayload })
-      .sort(sort)
-      .skip(skip)
-      .limit(limit)
+  static async findAllUsersParams(payload) {
+    const user = await User.find({ ...payload }).populate({
+      path: "review.ratedBy",
+      select: "name profileImage ",
+    })
 
     return user
   }

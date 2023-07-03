@@ -25,7 +25,7 @@ const contractSchema = new mongoose.Schema(
       type: mongoose.Types.ObjectId,
       ref: "User",
     },
-    declineReason: String,
+    declineReason: { type: String },
   },
   { timestamps: true }
 )

@@ -8,6 +8,7 @@ const {
   createUserController,
   userLoginController,
   cityBuilderController,
+  rateUserController,
 } = require("../user/controllers/user.controller")
 
 //profile
@@ -43,5 +44,6 @@ userRoute.route("/gallery").get(userGalleryController)
 userRoute.route("/update").put(updateUserController)
 userRoute.route("/change-password").put(changePasswordController)
 userRoute.route("/delete-account").delete(deleteUserController)
+userRoute.route("/rate").put(rateUserController)
 
 module.exports = userRoute

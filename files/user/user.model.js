@@ -66,6 +66,13 @@ const userSchema = new mongoose.Schema(
       type: Date,
     },
     verified: { type: Date, default: Date.now() },
+    review: [
+      {
+        rating: Number,
+        comment: String,
+        ratedBy: { type: mongoose.Types.ObjectId, ref: "User" },
+      },
+    ],
   },
   { timestamps: true }
 )
