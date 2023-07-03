@@ -8,14 +8,14 @@ const contractSchema = new mongoose.Schema(
     description: {
       type: String,
     },
-    status: {
+    contractStatus: {
       type: String,
       enum: ["pending", "ongoing", "completed", "waiting"],
       default: "pending",
     },
-    accepted: {
-      type: Boolean,
-      default: false,
+    status: {
+      type: String,
+      enum: ["accepted", "declined"],
     },
     assignedTo: {
       type: mongoose.Types.ObjectId,
@@ -25,6 +25,7 @@ const contractSchema = new mongoose.Schema(
       type: mongoose.Types.ObjectId,
       ref: "User",
     },
+    declineReason: String,
   },
   { timestamps: true }
 )

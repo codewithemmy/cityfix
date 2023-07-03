@@ -3,6 +3,7 @@ module.exports.ContractSuccess = {
   FETCH: "Contracts successfully fetched",
   UPDATE: "Update Successful",
   START: "Contract is waiting or ongoing",
+  ACCEPT: "Contract Accepted",
 }
 
 module.exports.ContractFailure = {
@@ -13,4 +14,5 @@ module.exports.ContractFailure = {
   FETCH: "Contract not found",
   SEARCH_ERROR: "Invalid data input",
   CONTRACT_ASSIGNED: "Artisan already have a Contract",
+  DECLINED: "Contract declined",
 }

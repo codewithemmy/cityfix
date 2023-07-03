@@ -47,17 +47,22 @@ class ContractService {
     if (!contract) return { success: false, msg: ContractFailure.START }
 
     if (locals._id === payload.assignedTo && contract.status === "waiting") {
-      contract.accepted = true
-      contract.status = "ongoing"
+      contract.status = "accepted"
+      contract.contractStatus = "ongoing"
       await contract.save()
-    } else {
-      contract.status = "waiting"
-      await contract.save()
-    }
 
-    return {
-      success: true,
-      msg: ContractSuccess.START,
+      return {
+        success: true,
+        msg: ContractSuccess.ACCEPT,
+      }
+    } else {
+      contract.contractStatus = "waiting"
+      await contract.save()
+
+      return {
+        success: true,
+        msg: ContractSuccess.START,
+      }
     }
   }
 }
