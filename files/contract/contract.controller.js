@@ -28,9 +28,21 @@ const startContractController = async (req, res, next) => {
   return responseHandler(res, SUCCESS, data)
 }
 
-const searchContractController = async (req, res, next) => {
+const getContractController = async (req, res, next) => {
   const [error, data] = await manageAsyncOps(
-    ContractService.searchContractService(req.query)
+    ContractService.getContractService(req.query)
+  )
+
+  if (error) return next(error)
+
+  if (!data.success) return next(new CustomError(data.msg, BAD_REQUEST, data))
+
+  return responseHandler(res, SUCCESS, data)
+}
+
+const declineContractController = async (req, res, next) => {
+  const [error, data] = await manageAsyncOps(
+    ContractService.declineContractService(req.params.id)
   )
 
   if (error) return next(error)
@@ -43,5 +55,6 @@ const searchContractController = async (req, res, next) => {
 module.exports = {
   createContractController,
   startContractController,
-  searchContractController,
+  getContractController,
+  declineContractController,
 }

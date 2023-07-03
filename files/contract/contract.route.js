@@ -3,15 +3,17 @@ const { isAuthenticated } = require("../../utils")
 
 const {
   createContractController,
-  searchContractController,
+  getContractController,
   startContractController,
+  declineContractController,
 } = require("./contract.controller")
 
 contractRoute.use(isAuthenticated)
 
 //routes
 contractRoute.route("/").post(createContractController)
-contractRoute.route("/").get(searchContractController)
+contractRoute.route("/").get(getContractController)
 contractRoute.route("/start").put(startContractController)
+contractRoute.route("/decline/:id").put(declineContractController)
 
 module.exports = contractRoute

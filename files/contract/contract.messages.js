@@ -4,10 +4,12 @@ module.exports.ContractSuccess = {
   UPDATE: "Update Successful",
   START: "Contract is waiting or ongoing",
   ACCEPT: "Contract Accepted",
+  DECLINE: "Contract successfully declined",
 }
 
 module.exports.ContractFailure = {
   CREATE: "Unable to create Contract",
+  DECLINE: "Unable to decline contract",
   START: "Unable to start contract",
   UPDATE: "unable to Update",
   SOFT_DELETE: "Contract is deleted",

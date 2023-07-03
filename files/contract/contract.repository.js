@@ -46,13 +46,14 @@ class ContractRepository {
   }
 
   static async searchContract(query) {
-    let { status, search } = query
+    let { userId, search, status } = query
 
     if (!search) search = ""
 
     let extraParams = {}
 
     if (status) extraParams.status = status
+    if (userId) extraParams._id = new mongoose.Types.ObjectId(userId)
 
     const ContractSearch = await Contract.aggregate([
       {
@@ -64,7 +65,7 @@ class ContractRepository {
         $match: {
           $and: [
             {
-              $or: [{ title: { $regex: search, $options: "i" } }],
+              $or: [{ contractPurpose: { $regex: search, $options: "i" } }],
               ...extraParams,
             },
           ],

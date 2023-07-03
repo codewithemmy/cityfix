@@ -19,7 +19,7 @@ class ContractService {
     }
   }
 
-  static async searchContractService(payload) {
+  static async getContractService(payload) {
     const contract = await ContractRepository.searchContract(payload)
 
     if (!contract) return { success: false, msg: ContractFailure.FETCH }
@@ -63,6 +63,22 @@ class ContractService {
         success: true,
         msg: ContractSuccess.START,
       }
+    }
+  }
+
+  static async declineContractService(payload) {
+    const contract = await ContractRepository.findSingleContractWithParams({
+      _id: payload,
+    })
+
+    if (!contract) return { success: false, msg: ContractFailure.DECLINE }
+
+    contract.status = "declined"
+    await contract.save()
+
+    return {
+      success: true,
+      msg: ContractSuccess.DECLINE,
     }
   }
 }
