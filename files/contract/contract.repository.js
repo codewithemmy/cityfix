@@ -46,13 +46,13 @@ class ContractRepository {
   }
 
   static async searchContract(query) {
-    let { userId, search, status } = query
+    let { userId, search, contractStatus } = query
 
     if (!search) search = ""
 
     let extraParams = {}
 
-    if (status) extraParams.status = status
+    if (contractStatus) extraParams.contractStatus = contractStatus
     if (userId) extraParams._id = new mongoose.Types.ObjectId(userId)
 
     const ContractSearch = await Contract.aggregate([
