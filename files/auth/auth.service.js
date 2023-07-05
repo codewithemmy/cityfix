@@ -9,6 +9,7 @@ const createHash = require("../../utils/createHash")
 const { sendSms } = require("../../utils/sms")
 const { AuthFailure, AuthSuccess } = require("./auth.messages")
 const { UserRepository } = require("../user/user.repository")
+
 // const { AdminRepository } = require("../admin/admin.repository")
 
 class AuthService {
@@ -52,6 +53,16 @@ class AuthService {
     await user.save()
 
     /**send otp to email or phone number*/
+    const substitutional_parameters = {
+      resetOtp: otp,
+    }
+
+    await sendMailNotification(
+      email,
+      "Reset Password",
+      substitutional_parameters,
+      "RESET_OTP"
+    )
 
     return { success: true, msg: AuthSuccess.OTP_SENT, otp: otp, id: user._id }
   }
