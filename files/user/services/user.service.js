@@ -11,10 +11,11 @@ const createHash = require("../../../utils/createHash")
 const { UserSuccess, UserFailure } = require("../user.messages")
 const { UserRepository } = require("../user.repository")
 const { LIMIT, SKIP, SORT } = require("../../../constants")
-const { onRequestOTP } = require("../../../utils/sms")
+const { sendMailNotification } = require("../../../utils/email")
 
 class UserService {
   static async createUser(payload) {
+    const { name, email, phoneNumber } = payload
     const validPhone = sanitizePhoneNumber(payload.phoneNumber)
 
     const userExist = await UserRepository.validateUser({
@@ -35,9 +36,20 @@ class UserService {
 
     if (!user._id) return { success: false, msg: UserFailure.CREATE }
 
-    // await onRequestOTP(otp, validPhone.phone)
-
     /** once the created send otp mail for verification, if role is citybuilder send otp to phone number*/
+    const substitutional_parameters = {
+      name: name,
+      emailOtp: user.verificationOtp,
+    }
+
+    await sendMailNotification(
+      email,
+      "Sign-Up",
+      substitutional_parameters,
+      "VERIFICATION"
+    )
+
+    // await onRequestOTP(otp, validPhone.phone)
 
     return {
       success: true,

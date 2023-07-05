@@ -29,12 +29,11 @@ const galleryController = async (req, res, next) => {
 
   return responseHandler(res, SUCCESS, data)
 }
+
 const getUserController = async (req, res, next) => {
   const [error, data] = await manageAsyncOps(
-    ProfileService.getUsersService(req.query)
+    ProfileService.getUsersService(req.query, res.locals.jwt)
   )
-
-  console.log("error", error)
 
   if (error) return next(error)
 

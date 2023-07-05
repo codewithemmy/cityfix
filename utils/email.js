@@ -1,19 +1,37 @@
-const sgMail = require("@sendgrid/mail")
+const nodemailer = require("nodemailer")
 const handlebars = require("handlebars")
 const fs = require("fs")
 const path = require("path")
 const { AuthSuccess, AuthFailure } = require("../files/auth/auth.messages")
-
-sgMail.setApiKey(process.env.SENDGRID_API_KEY)
-
 handlebars.registerHelper("eq", (a, b) => a == b)
 
-const sendMailNotification = (
+const mailTransport = nodemailer.createTransport({
+  host: process.env.SMS_HOST,
+  port: process.env.SMS_PORT,
+  secure: true, // use TLS
+  auth: {
+    user: process.env.SMS_USER,
+    pass: process.env.SMS_PASS,
+  },
+  tls: {
+    // do not fail on invalid certs
+    rejectUnauthorized: false,
+  },
+})
+
+mailTransport.verify(function (error, success) {
+  if (error) {
+    console.log(error)
+  } else {
+    console.log("Server is ready to take our messages")
+  }
+})
+
+const sendMailNotification = async (
   to_email,
   subject,
   substitutional_parameters,
-  Template_Name,
-  is_save
+  Template_Name
 ) => {
   const source = fs.readFileSync(
     path.join(__dirname, `../templates/${Template_Name}.hbs`),
@@ -21,66 +39,13 @@ const sendMailNotification = (
   )
 
   const compiledTemplate = handlebars.compile(source)
-  const email = new Promise((resolve, reject) => {
-    const msg = {
-      from: {
-        name: "WhoUEpp",
-        email: process.env.COMPANY_EMAIL,
-      },
-      to: to_email,
-      subject: subject,
-      html: compiledTemplate(substitutional_parameters),
-    }
 
-    return sgMail
-      .send(msg)
-      .then(() => {
-        return resolve(true)
-      })
-      .catch((error) => {
-        if (error) {
-          return reject(error)
-        }
-      })
+  await mailTransport.sendMail({
+    from: '"Citifix" <citifix@gmail.com>', // sender address
+    to: to_email, // list of receivers
+    subject: subject, // Subject line
+    html: compiledTemplate(substitutional_parameters),
   })
-
-  return email
-    .then((data) => {
-      return {
-        success: true,
-        msg: AuthSuccess.EMAIL,
-        data,
-      }
-    })
-    .catch((error) => {
-      return {
-        success: false,
-        msg: AuthFailure.EMAIL,
-        data: error,
-      }
-    })
 }
 
-const sendMultiEmailNotification = (
-  to_emails,
-  subject,
-  substitutional_parameters,
-  Template_Names,
-  is_save,
-  whoIAm = "User"
-) => {
-  for (let index = 0; index < to_emails.length; index++) {
-    const to_email = to_emails[index]
-    const template_name = Template_Names[index]
-    sendMailNotification(
-      to_email,
-      subject,
-      substitutional_parameters,
-      template_name,
-      is_save ? index : 0,
-      whoIAm
-    )
-  }
-}
-
-module.exports = { sendMailNotification, sendMultiEmailNotification }
+module.exports = { sendMailNotification }

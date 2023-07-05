@@ -42,17 +42,32 @@ class ProfileService {
     return { return: true, msg: ProfileSuccess.UPDATE }
   }
 
-  static async getUsersService(payload) {
-    let extra = { accountType: "CityBuilder" }
+  static async getUsersService(userPayload, locals) {
+    const { error, params, limit, skip, sort } = queryConstructor(
+      userPayload,
+      "createdAt",
+      "User"
+    )
+    if (error) return { success: false, msg: error }
+    let extra = {}
 
-    const user = await UserRepository.findAllUsersParams({
+    if (locals.accountType === "User") extra.accountType = "CityBuilder"
+    if (locals.accountType === "CityBuilder") extra.accountType = "User"
+    if (locals.isAdmin === true) extra.accountType = ""
+
+    console.log("extra", extra)
+
+    const allUsers = await UserRepository.findAllUsersParams({
+      ...params,
+      limit,
+      skip,
+      sort,
       ...extra,
-      ...payload,
     })
 
-    if (!user) return { success: false, msg: UserFailure.FETCH }
+    if (allUsers.length < 1) return { success: false, msg: UserFailure.FETCH }
 
-    return { success: true, msg: UserSuccess.FETCH, data: user }
+    return { success: true, msg: UserSuccess.FETCH, data: allUsers }
   }
 
   static async searchUser(payload) {

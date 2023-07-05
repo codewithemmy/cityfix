@@ -34,17 +34,6 @@ const userLoginController = async (req, res, next) => {
   return responseHandler(res, SUCCESS, data)
 }
 
-const getAllUserController = async (req, res, next) => {
-  const [error, data] = await manageAsyncOps(
-    UserService.getAllUserService(req.query)
-  )
-  if (error) return next(error)
-
-  if (!data.success) return next(new CustomError(data.msg, BAD_REQUEST, data))
-
-  return responseHandler(res, SUCCESS, data)
-}
-
 const searchUser = async (req, res, next) => {
   const [error, data] = await manageAsyncOps(UserService.searchUser(req.query))
   if (error) return next(error)
@@ -67,7 +56,6 @@ const rateUserController = async (req, res, next) => {
 module.exports = {
   createUserController,
   userLoginController,
-  getAllUserController,
   searchUser,
   rateUserController,
 }
