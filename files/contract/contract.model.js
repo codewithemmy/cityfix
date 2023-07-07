@@ -15,7 +15,8 @@ const contractSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["accepted", "declined"],
+      enum: ["accepted", "declined", "pending"],
+      default: "pending",
     },
     assignedTo: {
       type: mongoose.Types.ObjectId,

@@ -21,6 +21,9 @@ const startContractController = async (req, res, next) => {
     ContractService.startContractService(req.body, res.locals.jwt)
   )
 
+  console.log("error", error)
+  console.log("locals", res.locals.jwt)
+
   if (error) return next(error)
 
   if (!data.success) return next(new CustomError(data.msg, BAD_REQUEST, data))
