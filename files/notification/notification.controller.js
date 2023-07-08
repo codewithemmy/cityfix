@@ -5,8 +5,9 @@ const { NotificationService } = require("./notification.service")
 
 const fetchNotifications = async (req, res, next) => {
   const [error, data] = await manageAsyncOps(
-    NotificationService.fetchNotifications(req.payload, req.query)
+    NotificationService.fetchNotifications(req.query)
   )
+
   if (error) return next(error)
 
   if (!data.success) return next(new CustomError(data.msg, 400, data))

@@ -11,32 +11,10 @@ class NotificationService {
     return NotificationRepository.createNotification(payload)
   }
 
-  static async fetchNotifications(user, query) {
-    const { _id, isAdmin } = user
-
-    const { error, params, limit, skip, sort } = queryConstructor(
-      query,
-      "createdAt",
-      "Notifications"
-    )
-
-    if (error) return { success: false, msg: error }
-
-    let extraParams = {}
-
-    if (isAdmin) {
-      extraParams.recipient = "admin"
-    } else {
-      extraParams.userId = new mongoose.Types.ObjectId(_id)
-    }
-
+  static async fetchNotifications(query) {
     const notifications =
       await NotificationRepository.fetchNotificationsByParams({
-        ...params,
-        limit,
-        skip,
-        sort,
-        ...extraParams,
+        ...query,
       })
 
     if (!notifications)

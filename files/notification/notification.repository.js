@@ -10,14 +10,21 @@ class NotificationRepository {
   }
 
   static async fetchNotificationsByParams(userPayload) {
-    const { limit, skip, sort, ...restOfPayload } = userPayload
     const notification = await Notification.find({
-      ...restOfPayload,
+      ...userPayload,
     })
-      .populate("userId", { name: 1, firstName: 1, lastName: 1 })
-      .sort(sort)
-      .skip(skip)
-      .limit(limit)
+      .populate("userId", {
+        name: 1,
+        firstName: 1,
+        lastName: 1,
+        profileImage: 1,
+      })
+      .populate("recipientId", {
+        name: 1,
+        firstName: 1,
+        lastName: 1,
+      })
+
     return notification
   }
 }
