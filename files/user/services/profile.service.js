@@ -16,6 +16,8 @@ const {
   ProfileSuccess,
 } = require("../messages/profile.messages")
 
+const { ReviewService } = require("../../review/review.service")
+
 class ProfileService {
   static async profileImage(payload, locals) {
     const { image } = payload
@@ -42,27 +44,19 @@ class ProfileService {
     return { return: true, msg: ProfileSuccess.UPDATE }
   }
 
-  static async getUsersService(userPayload, locals) {
+  static async getUserService(userPayload) {
     const { error, params, limit, skip, sort } = queryConstructor(
       userPayload,
       "createdAt",
       "User"
     )
     if (error) return { success: false, msg: error }
-    let extra = {}
-
-    if (locals.accountType === "User") extra.accountType = "CityBuilder"
-    if (locals.accountType === "CityBuilder") extra.accountType = "User"
-    if (locals.isAdmin === true) extra.accountType = ""
-
-    console.log("extra", extra)
 
     const allUsers = await UserRepository.findAllUsersParams({
       ...params,
       limit,
       skip,
       sort,
-      ...extra,
     })
 
     if (allUsers.length < 1) return { success: false, msg: UserFailure.FETCH }
@@ -151,6 +145,23 @@ class ProfileService {
     if (!deleteAccount) return { success: false, msg: UserFailure.DELETE }
 
     return { success: true, msg: UserSuccess.DELETE }
+  }
+
+  static async getUserProfileService(payload) {
+    const user = await this.getUserService(payload)
+
+    let extra = { userRated: payload }
+
+    const reviews = await ReviewService.getReviewService(extra)
+
+    if (!user) return { success: false, msg: UserFailure.DELETE }
+
+    return {
+      success: true,
+      msg: UserSuccess.DELETE,
+      data: user,
+      review: reviews,
+    }
   }
 }
 

@@ -79,25 +79,19 @@ class UserService {
     if (!isPassword) return { success: false, msg: UserFailure.FETCH }
 
     let token
-    if (userProfile.accountType === "User") {
-      token = await tokenHandler(
-        userProfile.phoneNumber,
-        userProfile._id,
-        userProfile.accountType,
-        false
-      )
-    } else {
-      token = await tokenHandler(
-        userProfile.email,
-        userProfile._id,
-        userProfile.accountType,
-        false
-      )
-    }
+
+    token = await tokenHandler(
+      userProfile.email,
+      userProfile.phoneNumber,
+      userProfile._id,
+      userProfile.accountType,
+      false
+    )
 
     const user = {
       _id: userProfile._id,
       name: userProfile.name,
+      firstName: userProfile.firstName,
       phoneNumber: userProfile.phoneNumber,
       email: userProfile.email,
       ...token,

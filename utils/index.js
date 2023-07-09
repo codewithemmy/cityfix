@@ -7,10 +7,16 @@ const crypto = require("crypto")
 
 const COUNTRY_CODE = "234"
 
-const tokenHandler = async (phoneNumber, _id, accountType, isAdmin = false) => {
+const tokenHandler = async (
+  email,
+  phoneNumber,
+  _id,
+  accountType,
+  isAdmin = false
+) => {
   try {
     const token = jwt.sign(
-      { phoneNumber, _id, accountType, isAdmin },
+      { email, phoneNumber, _id, accountType, isAdmin },
       process.env.JWT_SECRET,
       {
         expiresIn: "1d",
@@ -121,7 +127,6 @@ const fileModifier = (req) => {
   return formBody
 }
 
-
 const hashPassword = async (password) => {
   const salt = await bcrypt.genSalt(10)
   return bcrypt.hash(password, salt)
@@ -229,7 +234,6 @@ const generateOtp = () => {
 
   return { otp, expiry }
 }
-
 
 module.exports = {
   tokenHandler,

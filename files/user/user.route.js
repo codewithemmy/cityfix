@@ -21,7 +21,12 @@ const {
   updateUserController,
   changePasswordController,
   deleteUserController,
+  getUserProfileController,
 } = require("../user/controllers/profile.controller")
+const {
+  createReviewController,
+  getReviewController,
+} = require("../review/review.controller")
 
 //routes
 userRoute.route("/").post(createUserController)
@@ -44,6 +49,8 @@ userRoute.route("/gallery").get(userGalleryController)
 userRoute.route("/update").put(updateUserController)
 userRoute.route("/change-password").put(changePasswordController)
 userRoute.route("/delete-account").delete(deleteUserController)
-userRoute.route("/rate").put(rateUserController)
+userRoute.route("/review").post(createReviewController)
+userRoute.route("/review").get(getReviewController)
+userRoute.route("/profile").get(getUserProfileController)
 
 module.exports = userRoute

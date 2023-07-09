@@ -32,7 +32,7 @@ const galleryController = async (req, res, next) => {
 
 const getUserController = async (req, res, next) => {
   const [error, data] = await manageAsyncOps(
-    ProfileService.getUsersService(req.query, res.locals.jwt)
+    ProfileService.getUserService(req.query, res.locals.jwt)
   )
 
   if (error) return next(error)
@@ -101,6 +101,18 @@ const deleteUserController = async (req, res, next) => {
   return responseHandler(res, SUCCESS, data)
 }
 
+const getUserProfileController = async (req, res, next) => {
+  const [error, data] = await manageAsyncOps(
+    ProfileService.getUserProfileService(req.query)
+  )
+
+  if (error) return next(error)
+
+  if (!data.success) return next(new CustomError(data.msg, BAD_REQUEST, data))
+
+  return responseHandler(res, SUCCESS, data)
+}
+
 module.exports = {
   profileImageController,
   galleryController,
@@ -110,4 +122,5 @@ module.exports = {
   updateUserController,
   changePasswordController,
   deleteUserController,
+  getUserProfileController,
 }
