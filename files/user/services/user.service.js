@@ -101,7 +101,7 @@ class UserService {
     return {
       success: true,
       msg: UserSuccess.FETCH,
-      data: user,
+      data: userProfile,
     }
   }
 
