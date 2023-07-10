@@ -17,7 +17,8 @@ class TextService {
       accountType,
       io,
       image: senderImage,
-      fullName,
+      firstName,
+      name,
       email,
     } = textPayload
 
@@ -38,10 +39,9 @@ class TextService {
     if (!conversation) {
       const newConversation = await ConversationRepository.createConversation({
         entityOneId: new mongoose.Types.ObjectId(_id),
-        entityOne: accountType ? "CityBuilder" : "User",
+        entityOne: "User",
         entityTwoId: new mongoose.Types.ObjectId(recipientId),
         entityTwo: recipient,
-        companyId,
       })
       conversationId = newConversation._id
       conversation = newConversation
@@ -53,7 +53,7 @@ class TextService {
 
     const text = await TextRepository.createText({
       senderId: new mongoose.Types.ObjectId(_id),
-      sender: accountType ? "CityBuilder" : "User",
+      sender: "User",
       recipientId: new mongoose.Types.ObjectId(recipientId),
       recipient: recipient,
       conversationId,
@@ -80,7 +80,7 @@ class TextService {
         image,
         sender: {
           image: senderImage,
-          fullName,
+          name: name ? name : firstName,
           email,
         },
       })
@@ -92,7 +92,7 @@ class TextService {
     const { error, params, limit, skip, sort } = queryConstructor(
       textPayload,
       "createdAt",
-      "Chats"
+      "Text"
     )
     if (error) return { success: false, msg: error }
 

@@ -16,13 +16,13 @@ class ConversationRepository {
     })
       .populate("entityOneId", {
         name: 1,
-        fistName: 1,
+        firstName: 1,
         email: 1,
         profileImage: 1,
       })
       .populate("entityTwoId", {
         name: 1,
-        fistName: 1,
+        firstName: 1,
         email: 1,
         profileImage: 1,
       })

@@ -16,7 +16,7 @@ const routes = (app) => {
   app.use(`${base_url}/contract`, contractRoute)
   app.use(`${base_url}/report`, reportRoute)
   app.use(`${base_url}/notification`, notificationRoute)
-  app.use(`${base_url}/text`, textRoute)
+  app.use(`${base_url}/chats`, textRoute)
   app.use(`${base_url}/conversation`, conversationRoute)
 }
 

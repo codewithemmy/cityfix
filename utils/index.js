@@ -7,21 +7,11 @@ const crypto = require("crypto")
 
 const COUNTRY_CODE = "234"
 
-const tokenHandler = async (
-  email,
-  phoneNumber,
-  _id,
-  accountType,
-  isAdmin = false
-) => {
+const tokenHandler = async (payload) => {
   try {
-    const token = jwt.sign(
-      { email, phoneNumber, _id, accountType, isAdmin },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: "1d",
-      }
-    )
+    const token = jwt.sign({ ...payload }, process.env.JWT_SECRET, {
+      expiresIn: "1d",
+    })
     return { token }
   } catch (error) {
     throw new Error("Unable to generate token.")

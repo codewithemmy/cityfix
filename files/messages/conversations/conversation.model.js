@@ -4,7 +4,7 @@ const conversationSchema = new mongoose.Schema(
   {
     entityOne: {
       type: String,
-      enum: ["CityBuilder", "User"],
+      enum: ["User"],
     },
     entityOneId: {
       type: mongoose.Types.ObjectId,
@@ -12,7 +12,7 @@ const conversationSchema = new mongoose.Schema(
     },
     entityTwo: {
       type: String,
-      enum: ["CityBuilder", "User"],
+      enum: ["User"],
     },
     entityTwoId: {
       type: mongoose.Types.ObjectId,

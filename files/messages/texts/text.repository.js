@@ -14,8 +14,8 @@ class TextRepository {
     const texts = await Text.find({
       ...restOfPayload,
     })
-      .populate("senderId", { fullName: 1 })
-      .populate("recipientId", { fullName: 1 })
+      .populate({ path: "senderId", select: "name firstName" })
+      .populate({ path: "recipientId", select: "name firstName" })
       .sort(sort)
       .skip(skip)
       .limit(limit)

@@ -4,7 +4,7 @@ const textSchema = new mongoose.Schema(
   {
     sender: {
       type: String,
-      enum: ["Admin", "User"],
+      enum: ["User"],
     },
     senderId: {
       type: mongoose.Types.ObjectId,
@@ -12,7 +12,7 @@ const textSchema = new mongoose.Schema(
     },
     recipient: {
       type: String,
-      enum: ["Admin", "User"],
+      enum: ["User"],
     },
     recipientId: {
       type: mongoose.Types.ObjectId,
@@ -20,7 +20,7 @@ const textSchema = new mongoose.Schema(
     },
     conversationId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Conversations",
+      ref: "Conversation",
       required: true,
     },
     message: {
