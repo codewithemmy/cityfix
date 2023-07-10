@@ -94,6 +94,8 @@ class UserService {
       firstName: userProfile.firstName,
       phoneNumber: userProfile.phoneNumber,
       email: userProfile.email,
+      accountType: userProfile.accountType,
+      role: userProfile.role,
       ...token,
     }
 
@@ -101,7 +103,7 @@ class UserService {
     return {
       success: true,
       msg: UserSuccess.FETCH,
-      data: userProfile,
+      data: user,
     }
   }
 
