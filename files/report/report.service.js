@@ -14,8 +14,20 @@ class ReportService {
     return { success: true, msg: ReportSuccess.CREATE }
   }
 
-  static async getReport() {
-    const report = await ReportRepository.findReportWithParams()
+  static async getReport(payload) {
+    const { error, params, limit, skip, sort } = queryConstructor(
+      payload,
+      "createdAt",
+      "Report"
+    )
+    if (error) return { success: false, msg: error }
+
+    const report = await ReportRepository.findAllReportParams({
+      ...params,
+      limit,
+      skip,
+      sort,
+    })
 
     if (!report) return { success: false, msg: ReportFailure.FETCH }
 

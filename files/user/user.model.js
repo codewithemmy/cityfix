@@ -48,6 +48,11 @@ const userSchema = new mongoose.Schema(
       enum: ["Active", "InActive"],
       default: "Active",
     },
+    disable: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
     isDelete: {
       type: Boolean,
       default: false,

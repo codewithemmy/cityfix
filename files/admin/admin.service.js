@@ -8,6 +8,7 @@ const {
 } = require("../../utils/index")
 const { authMessages } = require("./messages/auth.messages")
 const { adminMessages } = require("./messages/admin.messages")
+const { UserRepository } = require("../user/user.repository")
 
 class AdminAuthService {
   static async adminSignUpService(body) {
@@ -50,7 +51,7 @@ class AdminAuthService {
       true
     )
 
-    admin.password = undefined
+    // admin.password = undefined
     return {
       SUCCESS: true,
       msg: authMessages.ADMIN_FOUND,
@@ -165,7 +166,7 @@ class AdminAuthService {
     }
   }
 
-  static async getLoggedInAdminController(adminPayload) {
+  static async getLoggedInAdminService(adminPayload) {
     const { _id } = adminPayload
     const getAdmin = await AdminRepository.fetchAdmin({
       _id: new mongoose.Types.ObjectId(_id),
@@ -174,6 +175,23 @@ class AdminAuthService {
     if (!getAdmin) return { SUCCESS: false, msg: authMessages.ADMIN_NOT_FOUND }
 
     return { SUCCESS: true, msg: authMessages.ADMIN_FOUND, data: getAdmin }
+  }
+
+  static async disableOrEnableService(payload) {
+    const user = await UserRepository.findSingleUserWithParams({
+      _id: new mongoose.Types.ObjectId(payload),
+    })
+
+    if (!user) return { SUCCESS: false, msg: authMessages.USER_NOT_FOUND }
+
+    user.disable = !user.disable
+    await user.save()
+
+    return {
+      SUCCESS: true,
+      msg: authMessages.USER_FOUND,
+      data: user.disable,
+    }
   }
 }
 

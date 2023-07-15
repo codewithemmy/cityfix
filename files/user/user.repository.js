@@ -43,6 +43,12 @@ class UserRepository {
   static async updateUserProfile(payload, params) {
     return User.findOneAndUpdate({ ...payload }, { $set: { ...params } })
   }
+  static async updateUserById(id, params) {
+    return User.findByIdAndUpdate(
+      { _id: new mongoose.Types.ObjectId(id) },
+      { ...params }
+    )
+  }
 
   static async countsByStatus(query) {
     const userCount = await User.countDocuments().where({ ...query })

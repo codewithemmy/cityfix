@@ -71,6 +71,7 @@ class ProfileService {
       $or: [
         { profession: { $regex: search, $options: "i" } },
         { location: { $regex: search, $options: "i" } },
+        { name: { $regex: search, $options: "i" } },
       ],
     }
 
@@ -82,7 +83,6 @@ class ProfileService {
       success: true,
       msg: UserSuccess.FETCH,
       data: user,
-      length: `${user.length} Services`,
     }
   }
 
@@ -139,7 +139,7 @@ class ProfileService {
 
   static async deleteAccountService(locals) {
     const deleteAccount = await UserRepository.deleteAccount({
-      _id: locals._id,
+      _id: new mongoose.Types.ObjectId(locals),
     })
 
     if (!deleteAccount) return { success: false, msg: UserFailure.DELETE }

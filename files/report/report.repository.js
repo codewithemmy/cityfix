@@ -8,7 +8,10 @@ class ReportRepository {
   static async findReportWithParams(payload, select) {
     return Report.find({ ...payload })
       .select(select)
-      .populate({ path: "reporterId" })
+      .populate({
+        path: "reporterId",
+        select: "firstName lastName name profileImage accountType",
+      })
   }
 
   static async validateReport(payload) {
@@ -22,6 +25,10 @@ class ReportRepository {
       .sort(sort)
       .skip(skip)
       .limit(limit)
+      .populate({
+        path: "reporterId",
+        select: "firstName lastName name profileImage accountType",
+      })
 
     return report
   }

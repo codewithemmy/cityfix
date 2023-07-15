@@ -2,6 +2,8 @@ const { manageAsyncOps, fileModifier } = require("../../utils/index")
 const { AdminAuthService } = require("./admin.service")
 const { responseHandler } = require("../../core/response")
 const { CustomError } = require("../../utils/errors")
+const { UserService } = require("../user/services/user.service")
+const { ProfileService } = require("../user/services/profile.service")
 
 const adminSignUpController = async (req, res, next) => {
   const [error, data] = await manageAsyncOps(
@@ -40,7 +42,7 @@ const getAdminController = async (req, res, next) => {
 
 const getLoggedInAdminController = async (req, res, next) => {
   const [error, data] = await manageAsyncOps(
-    AdminAuthService.getLoggedInAdminController(res.locals.jwt)
+    AdminAuthService.getLoggedInAdminService(res.locals.jwt)
   )
 
   if (error) return next(error)
@@ -86,6 +88,41 @@ const imageUpload = async (req, res, next) => {
   return responseHandler(res, 200, data)
 }
 
+const createUserController = async (req, res, next) => {
+  req.body.password = "1234"
+  const [error, data] = await manageAsyncOps(UserService.createUser(req.body))
+
+  if (error) return next(error)
+
+  if (!data.SUCCESS) return next(new CustomError(data.msg, 400, data))
+
+  return responseHandler(res, 200, data)
+}
+
+const disableOrEnableController = async (req, res, next) => {
+  const [error, data] = await manageAsyncOps(
+    AdminAuthService.disableOrEnableService(req.params.id)
+  )
+
+  if (error) return next(error)
+
+  if (!data.SUCCESS) return next(new CustomError(data.msg, 400, data))
+
+  return responseHandler(res, 200, data)
+}
+
+const deleteUserController = async (req, res, next) => {
+  const [error, data] = await manageAsyncOps(
+    ProfileService.deleteAccountService(req.params.id)
+  )
+
+  if (error) return next(error)
+
+  if (!data.SUCCESS) return next(new CustomError(data.msg, 400, data))
+
+  return responseHandler(res, 200, data)
+}
+
 module.exports = {
   adminSignUpController,
   adminLogin,
@@ -94,4 +131,7 @@ module.exports = {
   imageUpload,
   getAdminController,
   getLoggedInAdminController,
+  createUserController,
+  disableOrEnableController,
+  deleteUserController,
 }

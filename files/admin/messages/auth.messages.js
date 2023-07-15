@@ -18,4 +18,7 @@ module.exports.authMessages = {
 
   MISSING_INPUT: "One or more missing inputs",
   INVALID_FORMAT: "Invalid format",
+  USER_NOT_FOUND: "user not found",
+  USER_FOUND: "user found",
+  DISABLED: "User Successfully disabled",
 }

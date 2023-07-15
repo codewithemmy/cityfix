@@ -17,7 +17,7 @@ const createReportController = async (req, res, next) => {
 }
 
 const getReportController = async (req, res, next) => {
-  const [error, data] = await manageAsyncOps(ReportService.getReport())
+  const [error, data] = await manageAsyncOps(ReportService.getReport(req.query))
 
   if (error) return next(error)
 

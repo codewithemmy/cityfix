@@ -89,7 +89,7 @@ const changePasswordController = async (req, res, next) => {
 }
 const deleteUserController = async (req, res, next) => {
   const [error, data] = await manageAsyncOps(
-    ProfileService.deleteAccountService(res.locals.jwt)
+    ProfileService.deleteAccountService(res.locals.jwt._id)
   )
 
   console.log("error", error)
