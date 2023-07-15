@@ -12,6 +12,12 @@ const reportSchema = new mongoose.Schema(
     message: {
       type: String,
     },
+    image: {
+      type: String,
+    },
+    response: {
+      type: String,
+    },
   },
   { timestamps: true }
 )

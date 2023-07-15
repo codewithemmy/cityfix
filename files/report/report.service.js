@@ -4,14 +4,17 @@ const { ReportRepository } = require("./report.repository")
 
 class ReportService {
   static async createReport(payload, locals) {
+    const { image, body } = payload
+
     const report = await ReportRepository.create({
-      ...payload,
-      reporterId: locals._id,
+      ...body,
+      image,
+      reporterId: locals,
     })
 
     if (!report) return { success: false, msg: ReportFailure.CREATE }
 
-    return { success: true, msg: ReportSuccess.CREATE }
+    return { success: true, msg: ReportSuccess.CREATE, report }
   }
 
   static async getReport(payload) {
