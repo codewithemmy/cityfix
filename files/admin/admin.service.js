@@ -184,7 +184,8 @@ class AdminAuthService {
 
     if (!user) return { SUCCESS: false, msg: authMessages.USER_NOT_FOUND }
 
-    user.disable = !user.disable
+    user.disable = true
+    user.role = Disabled
     await user.save()
 
     return {
