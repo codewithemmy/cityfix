@@ -92,8 +92,6 @@ const deleteUserController = async (req, res, next) => {
     ProfileService.deleteAccountService(res.locals.jwt._id)
   )
 
-  console.log("error", error)
-
   if (error) return next(error)
 
   if (!data.success) return next(new CustomError(data.msg, BAD_REQUEST, data))

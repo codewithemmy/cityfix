@@ -116,11 +116,10 @@ class ProfileService {
   }
 
   static async changePasswordService(body, locals) {
-    const { currentPassword, newPassword, phoneNumber } = body
+    const { currentPassword, newPassword } = body
 
     const user = await UserRepository.findSingleUserWithParams({
       _id: locals._id,
-      phoneNumber,
     })
 
     if (!user) return { success: false, msg: UserFailure.UPDATE }
