@@ -67,7 +67,7 @@ class ContractRepository {
           localField: "assignedBy", // Field in the "Contract" model that references the "User" model
           foreignField: "_id", // Field in the "User" model that corresponds to the reference
           pipeline: [{ $project: { name: 1, email: 1, profileImage: 1 } }],
-          as: "assignedToUser", // Output field that will contain the matched "User" document
+          as: "contractor", // Output field that will contain the matched "User" document
         },
       },
       {
