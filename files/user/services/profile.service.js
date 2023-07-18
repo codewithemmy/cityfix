@@ -30,8 +30,9 @@ class ProfileService {
 
     if (!updateUser) return { success: false, msg: UserFailure.FETCH }
 
-    return { return: true, msg: ProfileSuccess.UPDATE }
+    return { success: true, msg: ProfileSuccess.UPDATE }
   }
+
   static async galleryService(payload, locals) {
     const { image } = payload
 
@@ -41,7 +42,7 @@ class ProfileService {
 
     if (!updateUser) return { success: false, msg: UserFailure.FETCH }
 
-    return { return: true, msg: ProfileSuccess.UPDATE }
+    return { success: true, msg: ProfileSuccess.UPDATE }
   }
 
   static async getUserService(userPayload) {
