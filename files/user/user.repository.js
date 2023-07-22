@@ -113,6 +113,42 @@ class UserRepository {
 
     return overview
   }
+
+  static async userAnalysis(month) {
+    const startOfMonth = new Date(new Date().getFullYear(), month - 1, 1)
+    const endOfMonth = new Date(new Date().getFullYear(), month, 1)
+
+    // Perform the aggregate query
+    const analysis = await User.aggregate([
+      {
+        $match: {
+          createdAt: {
+            $gte: startOfMonth,
+            $lt: endOfMonth,
+          },
+        },
+      },
+      {
+        $group: {
+          _id: {
+            accountType: "$accountType",
+            month: { $month: "$createdAt" },
+          },
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          accountType: "$_id.accountType",
+          month: "$_id.month",
+          count: 1,
+        },
+      },
+    ])
+
+    return analysis
+  }
 }
 
 module.exports = { UserRepository }

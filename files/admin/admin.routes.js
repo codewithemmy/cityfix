@@ -7,6 +7,7 @@ const {
 } = require("../user/controllers/profile.controller")
 const {
   userOverviewController,
+  userAnalysisController,
 } = require("../user/controllers/user.controller")
 const {
   adminSignUpController,
@@ -28,5 +29,6 @@ adminRoute.route("/create-user").post(createUserController)
 adminRoute.route("/disable/:id").put(disableOrEnableController)
 adminRoute.route("/delete/:id").put(deleteUserController)
 adminRoute.route("/overview").get(userOverviewController)
+adminRoute.route("/user-analysis").get(userAnalysisController)
 
 module.exports = adminRoute

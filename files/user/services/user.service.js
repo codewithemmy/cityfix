@@ -129,9 +129,20 @@ class UserService {
   static async userOverviewServices() {
     const userOverview = await UserRepository.userOverview()
 
-    if (!userOverview) return { success: false, msg: UserFailure.UPDATE }
+    if (!userOverview) return { success: false, msg: UserFailure.FETCH }
 
     return { success: true, msg: UserSuccess.FETCH, data: userOverview }
+  }
+
+  static async userAnalysisService(payload) {
+    if (isNaN(payload.month) || payload.month < 1 || payload.month > 12)
+      return { success: false, msg: `Incorrect Month or Number passed` }
+
+    const analysis = await UserRepository.userAnalysis(payload.month)
+
+    if (!analysis) return { success: false, msg: UserFailure.FETCH }
+
+    return { success: true, msg: UserSuccess.FETCH, data: analysis }
   }
 }
 module.exports = { UserService }

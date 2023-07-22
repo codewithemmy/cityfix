@@ -62,10 +62,24 @@ const userOverviewController = async (req, res, next) => {
   return responseHandler(res, 200, data)
 }
 
+const userAnalysisController = async (req, res, next) => {
+  const [error, data] = await manageAsyncOps(
+    UserService.userAnalysisService(req.query)
+  )
+
+  console.log("error", error)
+
+  if (error) return next(error)
+  if (!data.success) return next(new CustomError(data.msg, 400, data))
+
+  return responseHandler(res, 200, data)
+}
+
 module.exports = {
   createUserController,
   userLoginController,
   searchUser,
   rateUserController,
   userOverviewController,
+  userAnalysisController,
 }
