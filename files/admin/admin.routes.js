@@ -6,6 +6,9 @@ const {
   searchUserController,
 } = require("../user/controllers/profile.controller")
 const {
+  userOverviewController,
+} = require("../user/controllers/user.controller")
+const {
   adminSignUpController,
   adminLogin,
   createUserController,
@@ -17,10 +20,13 @@ adminRoute.route("/").post(adminSignUpController)
 adminRoute.route("/login").post(adminLogin)
 
 adminRoute.use(isAuthenticated)
+
+//user
 adminRoute.route("/user").get(getUserController)
 adminRoute.route("/search").get(searchUserController)
 adminRoute.route("/create-user").post(createUserController)
 adminRoute.route("/disable/:id").put(disableOrEnableController)
 adminRoute.route("/delete/:id").put(deleteUserController)
+adminRoute.route("/overview").get(userOverviewController)
 
 module.exports = adminRoute

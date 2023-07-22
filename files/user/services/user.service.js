@@ -36,7 +36,7 @@ class UserService {
 
     if (!user._id) return { success: false, msg: UserFailure.CREATE }
 
-    /** once the created send otp mail for verification, if role is citybuilder send otp to phone number*/
+    /** once the created send otp mail for verification, if accountType is citybuilder send otp to phone number*/
     const substitutional_parameters = {
       name: name,
       emailOtp: user.verificationOtp,
@@ -97,7 +97,7 @@ class UserService {
       phoneNumber: userProfile.phoneNumber,
       email: userProfile.email,
       accountType: userProfile.accountType,
-      role: userProfile.role,
+      status: userProfile.status,
       ...token,
     }
 
@@ -124,6 +124,14 @@ class UserService {
     if (!rateUser) return { success: false, msg: UserFailure.UPDATE }
 
     return { success: true, msg: UserSuccess.UPDATE }
+  }
+
+  static async userOverviewServices() {
+    const userOverview = await UserRepository.userOverview()
+
+    if (!userOverview) return { success: false, msg: UserFailure.UPDATE }
+
+    return { success: true, msg: UserSuccess.FETCH, data: userOverview }
   }
 }
 module.exports = { UserService }

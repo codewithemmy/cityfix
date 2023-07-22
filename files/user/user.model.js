@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema(
     accountType: {
       type: String,
       required: true,
-      enum: ["User", "CityBuilder", "Admin"],
+      enum: ["User", "CityBuilder", "Admin", "Marketer"],
       default: "User",
     },
     yearsOfExperience: { type: Number },
@@ -42,7 +42,7 @@ const userSchema = new mongoose.Schema(
     ninDriverLicense: {
       type: String,
     },
-    role: {
+    status: {
       type: String,
       required: true,
       enum: ["Active", "InActive", "Disabled"],
@@ -71,13 +71,6 @@ const userSchema = new mongoose.Schema(
       type: Date,
     },
     verified: { type: Date, default: Date.now() },
-    review: [
-      {
-        rating: Number,
-        comment: String,
-        ratedBy: { type: mongoose.Types.ObjectId, ref: "User" },
-      },
-    ],
   },
   { timestamps: true }
 )

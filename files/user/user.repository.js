@@ -23,7 +23,7 @@ class UserRepository {
   static async findAllUsersParams(userPayload) {
     const { limit, skip, sort, ...restOfPayload } = userPayload
 
-    const user = await User.find({ ...restOfPayload })
+    const user = await User.find({ ...restOfPayload }, { password: 0 })
       .sort(sort)
       .skip(skip)
       .limit(limit)
@@ -63,6 +63,55 @@ class UserRepository {
     })
 
     return deleteAccount
+  }
+
+  static async userOverview(payload) {
+    // Perform the aggregate query
+    const overview = await User.aggregate([
+      // Perform the $lookup to join with the "review" collection
+      {
+        $lookup: {
+          from: "review", // The collection to join with
+          localField: "_id", // The field from the "user" collection
+          foreignField: "userRated", // The field from the "review" collection to match with
+          as: "reviews", // The field in the result to store the joined reviews
+        },
+      },
+      // Group the results by user fields and get the count of users and total number of reviews
+      {
+        $group: {
+          _id: "$_id", // Group by user's _id (you can use other fields if needed)
+          userCount: { $sum: 1 }, // Count the users in the group
+          totalReviews: { $sum: { $size: "$reviews" } }, // Get the total number of reviews for each user
+        },
+      },
+      // Project to include only necessary information and exclude _id
+      {
+        $project: {
+          _id: 0,
+          userCount: 1,
+          totalReviews: 1,
+        },
+      },
+      // Group again to calculate the sum of all userCount and totalReviews
+      {
+        $group: {
+          _id: null, // Group by null to calculate the sum across all documents
+          registerUsers: { $sum: "$userCount" }, // Sum all userCount
+          reviews: { $sum: "$totalReviews" }, // Sum all totalReviews
+        },
+      },
+      // Optionally, project to exclude _id and show only the sums
+      {
+        $project: {
+          _id: 0,
+          registerUsers: 1,
+          reviews: 1,
+        },
+      },
+    ])
+
+    return overview
   }
 }
 
