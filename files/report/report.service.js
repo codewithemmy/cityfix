@@ -1,4 +1,4 @@
-const { queryConstructor } = require("../../utils")
+const { queryConstructor, AlphaNumeric } = require("../../utils")
 const { ReportFailure, ReportSuccess } = require("./report.messages")
 const { ReportRepository } = require("./report.repository")
 
@@ -6,9 +6,12 @@ class ReportService {
   static async createReport(payload, locals) {
     const { image, body } = payload
 
+    const reportHashId = AlphaNumeric(6, "alpha")
+
     const report = await ReportRepository.create({
       ...body,
       image,
+      reportId: `#${reportHashId}`,
       reporterId: locals,
     })
 

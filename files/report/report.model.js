@@ -12,6 +12,7 @@ const reportSchema = new mongoose.Schema(
     message: {
       type: String,
     },
+    reportId: { type: String },
     image: {
       type: String,
     },

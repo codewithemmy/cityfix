@@ -27,10 +27,6 @@ class UserRepository {
       .sort(sort)
       .skip(skip)
       .limit(limit)
-      .populate({
-        path: "review.ratedBy",
-        select: "name profileImage ",
-      })
 
     return user
   }
