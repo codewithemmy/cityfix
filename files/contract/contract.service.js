@@ -102,7 +102,23 @@ class ContractService {
 
     if (!contract) return { success: false, msg: ContractFailure.DECLINE }
 
-    contract.status = "declined"
+    contract.contractStatus = "declined"
+    await contract.save()
+
+    return {
+      success: true,
+      msg: ContractSuccess.DECLINE,
+    }
+  }
+
+  static async endContractService(payload) {
+    const contract = await ContractRepository.findSingleContractWithParams({
+      _id: payload,
+    })
+
+    if (!contract) return { success: false, msg: ContractFailure.END_CONTRACT }
+
+    contract.contractStatus = "completed"
     await contract.save()
 
     return {

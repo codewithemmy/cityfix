@@ -104,7 +104,6 @@ const getUserProfileController = async (req, res, next) => {
     ProfileService.getUserProfileService(req.query)
   )
 
-  console.log("error", error)
   if (error) return next(error)
 
   if (!data.success) return next(new CustomError(data.msg, BAD_REQUEST, data))

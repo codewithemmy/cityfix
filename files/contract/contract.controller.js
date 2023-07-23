@@ -8,7 +8,7 @@ const createContractController = async (req, res, next) => {
   const [error, data] = await manageAsyncOps(
     ContractService.createContractService(req.body, res.locals.jwt)
   )
-  console.log("error", error)
+
   if (error) return next(error)
 
   if (!data.success) return next(new CustomError(data.msg, BAD_REQUEST, data))
@@ -21,7 +21,6 @@ const startContractController = async (req, res, next) => {
     ContractService.startContractService(req.body, res.locals.jwt)
   )
 
-  console.log("error", error)
   console.log("locals", res.locals.jwt)
 
   if (error) return next(error)
@@ -54,10 +53,22 @@ const declineContractController = async (req, res, next) => {
 
   return responseHandler(res, SUCCESS, data)
 }
+const endContractController = async (req, res, next) => {
+  const [error, data] = await manageAsyncOps(
+    ContractService.endContractService(req.params.id)
+  )
+
+  if (error) return next(error)
+
+  if (!data.success) return next(new CustomError(data.msg, BAD_REQUEST, data))
+
+  return responseHandler(res, SUCCESS, data)
+}
 
 module.exports = {
   createContractController,
   startContractController,
   getContractController,
   declineContractController,
+  endContractController,
 }

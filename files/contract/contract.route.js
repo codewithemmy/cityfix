@@ -6,6 +6,7 @@ const {
   getContractController,
   startContractController,
   declineContractController,
+  endContractController,
 } = require("./contract.controller")
 
 contractRoute.use(isAuthenticated)
@@ -15,5 +16,6 @@ contractRoute.route("/").post(createContractController)
 contractRoute.route("/").get(getContractController)
 contractRoute.route("/start").put(startContractController)
 contractRoute.route("/decline/:id").put(declineContractController)
+contractRoute.route("/end/:id").put(endContractController)
 
 module.exports = contractRoute
