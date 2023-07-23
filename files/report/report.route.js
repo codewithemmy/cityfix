@@ -4,6 +4,7 @@ const { uploadManager } = require("../../utils/multer")
 const {
   createReportController,
   getReportController,
+  getReportAnalysis,
 } = require("./report.controller")
 
 reportRoute.use(isAuthenticated)

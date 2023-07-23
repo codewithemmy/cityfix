@@ -1,4 +1,5 @@
 const { Report } = require("./report.model")
+const mongoose = require("mongoose")
 
 class ReportRepository {
   static async create(payload) {
@@ -32,74 +33,78 @@ class ReportRepository {
 
     return report
   }
+
+  static async reportAnalysisService(payload) {
+    let { limit, skip, sort, ...query } = payload
+
+    let { from, to, search, _id } = query
+
+    if (!search) search = ""
+
+    let extraParams = {}
+
+    if (from && to)
+      extraParams.date = {
+        $gte: from,
+        $lte: to,
+      }
+
+    if (_id)
+      extraParams = {
+        _id: new mongoose.Types.ObjectId(_id),
+      }
+
+    const report = await Report.aggregate([
+      {
+        $addFields: {
+          date: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+        },
+      },
+      {
+        $lookup: {
+          from: "user",
+          localField: "reporterId",
+          foreignField: "_id",
+          pipeline: [
+            {
+              $project: {
+                name: 1,
+                firstName: 1,
+                lastName: 1,
+                email: 1,
+                profileImage: 1,
+              },
+            },
+          ],
+          as: "users",
+        },
+      },
+      {
+        $match: {
+          $and: [
+            {
+              $or: [
+                { "users.name": { $regex: search, $options: "i" } },
+                { "users.firstName": { $regex: search, $options: "i" } },
+                { "users.lastName": { $regex: search, $options: "i" } },
+                { "users.email": { $regex: search, $options: "i" } },
+              ],
+              ...extraParams,
+            },
+          ],
+        },
+      },
+    ])
+      .sort(sort)
+      .skip(skip)
+      .limit(limit)
+
+    return report
+  }
+
+  static async countAllReportParams() {
+    return await Report.countDocuments()
+  }
 }
 
 module.exports = { ReportRepository }
-
-// static async searchEnterprise(enterprisePayload) {
-//     const { status, search, startDate, endDate } = enterprisePayload
-
-//     const enterprise = await EnterpriseRepository.searchUser({
-//       status,
-//       search,
-//       startDate,
-//       endDate,
-//     })
-
-//     if (enterprise.length < 1)
-//       return { success: false, msg: EnterpriseFailure.FETCH }
-
-//     return { success: true, msg: EnterpriseSuccess.FETCH, data: enterprise }
-//   }
-
-
-//  let extras = {}
-//  if (params.from && params.to) {
-//    const dateFrom = new Date(params.from)
-//    const dateTo = new Date(query.to)
-//    dateTo.setHours(23, 59, 59, 999)
-//    const dateFromUtc = dateFrom.toISOString()
-//    const dateToUtc = dateTo.toISOString()
-
-//    extras = { createdAt: { $gte: dateFromUtc, $lte: dateToUtc } }
-//    delete params.to
-//    delete params.from
-//  }
-
-  // static async searchEnterprise(query) {
-  //   let { startDate, endDate, status, search } = query
-
-  //   if (!search) search = ""
-
-  //   let extraParams = {}
-
-  //   if (status && status.length > 0) extraParams.status = status
-  //   if (startDate && endDate)
-  //     extraParams.date = {
-  //       $gte: startDate,
-  //       $lte: endDate,
-  //     }
-
-  //   const enterpriseSearch = await Enterprise.aggregate([
-  //     {
-  //       $addFields: {
-  //         date: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
-  //       },
-  //     },
-  //     {
-  //       $match: {
-  //         $and: [
-  //           {
-  //             $or: [
-  //               { name: { $regex: search, $options: "i" } },
-  //               { email: { $regex: search, $options: "i" } },
-  //             ],
-  //             ...extraParams,
-  //           },
-  //         ],
-  //       },
-  //     },
-  //   ])
-
-  //   return enterpriseSearch
-  // }

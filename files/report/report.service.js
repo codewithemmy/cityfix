@@ -37,7 +37,37 @@ class ReportService {
 
     if (!report) return { success: false, msg: ReportFailure.FETCH }
 
-    return { success: true, msg: ReportSuccess.FETCH, data: report }
+    return {
+      success: true,
+      msg: ReportSuccess.FETCH,
+      data: report,
+    }
+  }
+
+  static async reportAnalysisService(payload) {
+    const { error, params, limit, skip, sort } = queryConstructor(
+      payload,
+      "createdAt",
+      "Report"
+    )
+
+    if (error) return { success: false, msg: error }
+    const report = await ReportRepository.reportAnalysisService({
+      ...params,
+      limit,
+      skip,
+      sort,
+    })
+
+    if (!report) return { success: false, msg: ReportFailure.FETCH }
+    const countReport = await ReportRepository.countAllReportParams()
+
+    return {
+      success: true,
+      msg: ReportSuccess.FETCH,
+      data: report,
+      totalReportMessages: countReport,
+    }
   }
 }
 

@@ -150,17 +150,12 @@ class ProfileService {
   static async getUserProfileService(payload) {
     const user = await this.getUserService(payload)
 
-    let extra = { userRated: payload }
-
-    const reviews = await ReviewService.getReviewService(extra)
-
-    if (!user) return { success: false, msg: UserFailure.DELETE }
+    if (!user) return { success: false, msg: UserFailure.FETCH }
 
     return {
       success: true,
-      msg: UserSuccess.DELETE,
+      msg: UserSuccess.FETCH,
       data: user,
-      review: reviews,
     }
   }
 }
