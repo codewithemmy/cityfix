@@ -41,7 +41,7 @@ class ReviewService {
     return {
       success: true,
       msg: ReviewService.FETCH,
-      data: { reviews, averageRating },
+      data: { reviews, averageRating, totalReviews },
     }
   }
 }

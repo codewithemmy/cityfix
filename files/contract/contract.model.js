@@ -10,7 +10,7 @@ const contractSchema = new mongoose.Schema(
     },
     contractStatus: {
       type: String,
-      enum: ["pending", "ongoing", "completed", "waiting"],
+      enum: ["pending", "ongoing", "completed", "waiting", "declined"],
       default: "pending",
     },
     status: {
