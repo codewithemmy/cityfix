@@ -46,15 +46,19 @@ class ContractRepository {
   }
 
   static async searchContract(query) {
-    let { search, contractStatus, assignedTo } = query
+    let { search, contractStatus, assignedTo, assignedBy } = query
 
     if (!search) search = ""
 
     let extraParams = {}
 
     if (contractStatus) extraParams.contractStatus = contractStatus
+    
     if (assignedTo)
       extraParams.assignedTo = new mongoose.Types.ObjectId(assignedTo) // Update the field name based on how the "User" model references are stored in the "Contract" model
+    
+      if (assignedBy)
+      extraParams.assignedBy = new mongoose.Types.ObjectId(assignedBy) // Update the field name based on how the "User" model references are stored in the "Contract" model
 
     const ContractSearch = await Contract.aggregate([
       {
