@@ -44,54 +44,26 @@ class ContractService {
     )
 
     if (!user) return { success: false, msg: UserFailure.USER_FOUND }
-
     const contract = await ContractRepository.findSingleContractWithParams({
-      $or: [
-        {
-          assignedBy: locals._id,
-          assignedTo: payload.assignedTo,
-        },
-        {
-          assignedTo: locals._id,
-        },
-      ],
+      _id: payload,
     })
 
-    if (!contract) return { success: false, msg: ContractFailure.START }
+    if (!contract) return { success: false, msg: ContractFailure.DECLINE }
 
-    if (
-      locals._id === payload.assignedTo &&
-      contract.contractStatus === "pending"
-    ) {
-      contract.status = "accepted"
-      contract.contractStatus = "ongoing"
-      const saveStatus = await contract.save()
+    contract.status = "accepted"
+    contract.contractStatus = "ongoing"
+    const saveStatus = await contract.save()
 
-      //send notification to user
-      await NotificationService.create({
-        userId: new mongoose.Types.ObjectId(locals._id),
-        recipientId: new mongoose.Types.ObjectId(saveStatus.assignedBy),
-        message: `Hi, ${user.firstName} has accepted your contract request, you can now send a message`,
-      })
+    //send notification to user
+    await NotificationService.create({
+      userId: new mongoose.Types.ObjectId(locals._id),
+      recipientId: new mongoose.Types.ObjectId(saveStatus.assignedBy),
+      message: `Hi, ${user.firstName} has accepted your contract request, you can now send a message`,
+    })
 
-      return {
-        success: true,
-        msg: ContractSuccess.ACCEPT,
-      }
-    } else {
-      contract.contractStatus = "waiting"
-      await contract.save()
-
-      await NotificationService.create({
-        userId: new mongoose.Types.ObjectId(locals._id),
-        recipientId: new mongoose.Types.ObjectId(payload.assignedTo),
-        message: `Hi, ${user.name} has assigned a contract to you`,
-      })
-
-      return {
-        success: true,
-        msg: ContractSuccess.START,
-      }
+    return {
+      success: true,
+      msg: ContractSuccess.ACCEPT,
     }
   }
 

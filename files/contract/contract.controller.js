@@ -18,10 +18,8 @@ const createContractController = async (req, res, next) => {
 
 const startContractController = async (req, res, next) => {
   const [error, data] = await manageAsyncOps(
-    ContractService.startContractService(req.body, res.locals.jwt)
+    ContractService.startContractService(req.params.id, res.locals.jwt)
   )
-
-  console.log("locals", res.locals.jwt)
 
   if (error) return next(error)
 
