@@ -53,11 +53,11 @@ class ContractRepository {
     let extraParams = {}
 
     if (contractStatus) extraParams.contractStatus = contractStatus
-    
+
     if (assignedTo)
       extraParams.assignedTo = new mongoose.Types.ObjectId(assignedTo) // Update the field name based on how the "User" model references are stored in the "Contract" model
-    
-      if (assignedBy)
+
+    if (assignedBy)
       extraParams.assignedBy = new mongoose.Types.ObjectId(assignedBy) // Update the field name based on how the "User" model references are stored in the "Contract" model
 
     const ContractSearch = await Contract.aggregate([
@@ -71,8 +71,21 @@ class ContractRepository {
           from: "user", // Collection name of the "User" model
           localField: "assignedBy", // Field in the "Contract" model that references the "User" model
           foreignField: "_id", // Field in the "User" model that corresponds to the reference
-          pipeline: [{ $project: { name: 1, email: 1, profileImage: 1 } }],
+          pipeline: [
+            { $project: { firstName: 1, name: 1, email: 1, profileImage: 1 } },
+          ],
           as: "contractor", // Output field that will contain the matched "User" document
+        },
+      },
+      {
+        $lookup: {
+          from: "user", // Collection name of the "User" model
+          localField: "assignedTo", // Field in the "Contract" model that references the "User" model
+          foreignField: "_id", // Field in the "User" model that corresponds to the reference
+          pipeline: [
+            { $project: { firstName: 1, name: 1, email: 1, profileImage: 1 } },
+          ],
+          as: "cityBuilder", // Output field that will contain the matched "User" document
         },
       },
       {
