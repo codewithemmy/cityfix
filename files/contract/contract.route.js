@@ -12,10 +12,10 @@ const {
 contractRoute.use(isAuthenticated)
 
 //routes
-contractRoute.route("/").post(createContractController)
-contractRoute.route("/").get(getContractController)
-contractRoute.route("/start/:id").put(startContractController)
-contractRoute.route("/decline/:id").put(declineContractController)
 contractRoute.route("/end/:id").put(endContractController)
+contractRoute.route("/").post(createContractController)
+contractRoute.route("/start/:id").put(startContractController)
+contractRoute.route("/").get(getContractController)
+contractRoute.route("/decline/:id").put(declineContractController)
 
 module.exports = contractRoute
