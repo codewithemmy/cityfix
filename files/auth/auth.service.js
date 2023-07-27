@@ -85,6 +85,42 @@ class AuthService {
 
     return { success: true, msg: AuthSuccess.PASSWORD_RESET }
   }
+
+  static async verifyOtpService(payload) {
+    const { email, phoneNumber } = payload
+    const user = await UserRepository.findSingleUserWithParams({
+      $or: [{ phoneNumber: phoneNumber }, { email: email }],
+    })
+
+    if (!user) return { success: false, msg: AuthFailure.FETCH }
+
+    const { otp, expiry } = generateOtp()
+
+    user.verificationOtp = otp
+
+    await user.save()
+
+    /** once the created send otp mail for verification, if accountType is citybuilder send otp to phone number*/
+    const substitutional_parameters = {
+      name: user.name,
+      emailOtp: otp,
+    }
+
+    await sendMailNotification(
+      email,
+      "Verify OTP",
+      substitutional_parameters,
+      "VERIFICATION"
+    )
+
+    // await onRequestOTP(otp, validPhone.phone)
+
+    return {
+      success: true,
+      msg: AuthSuccess.OTP_SENT,
+      otp: otp,
+    }
+  }
 }
 
 module.exports = AuthService
