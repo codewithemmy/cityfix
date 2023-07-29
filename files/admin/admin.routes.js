@@ -2,6 +2,7 @@ const adminRoute = require("express").Router()
 const { isAuthenticated } = require("../../utils/index")
 const { uploadManager } = require("../../utils/multer")
 const { getReportAnalysis } = require("../report/report.controller")
+const { reviewListController } = require("../review/review.controller")
 const {
   getUserController,
   searchUserController,
@@ -34,5 +35,8 @@ adminRoute.route("/user-analysis").get(userAnalysisController)
 
 //report
 adminRoute.route("/report-analysis").get(getReportAnalysis)
+
+//reviews
+adminRoute.route("/review-list").get(reviewListController)
 
 module.exports = adminRoute

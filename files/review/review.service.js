@@ -40,8 +40,33 @@ class ReviewService {
 
     return {
       success: true,
-      msg: ReviewService.FETCH,
+      msg: ReviewSuccess.FETCH,
       data: { reviews, averageRating, totalReviews },
+    }
+  }
+
+  static async reviewListService(payload) {
+    const { error, params, limit, skip, sort } = queryConstructor(
+      payload,
+      "createdAt",
+      "Review"
+    )
+
+    if (error) return { success: false, msg: error }
+
+    const reviews = await ReviewRepository.reviewList({
+      ...params,
+      limit,
+      skip,
+      sort,
+    })
+
+    if (!reviews) return { success: false, msg: ReviewFailure.FETCH }
+
+    return {
+      success: true,
+      msg: ReviewSuccess.FETCH,
+      data: reviews,
     }
   }
 }
