@@ -9,8 +9,8 @@ class NotificationRepository {
     return await Notification.findOne({ ...notificationPayload })
   }
 
-  static async fetchNotificationsByParams(restOfPayload) {
-    const { limit, skip, sort, ...restOfPayload } = userPayload
+  static async fetchNotificationsByParams(userPayload) {
+    let { limit, skip, sort, ...restOfPayload } = userPayload
 
     const notification = await Notification.find({
       ...restOfPayload,
