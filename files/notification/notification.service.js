@@ -12,9 +12,20 @@ class NotificationService {
   }
 
   static async fetchNotifications(query) {
+    const { error, params, limit, skip, sort } = queryConstructor(
+      query,
+      "createdAt",
+      "Notification"
+    )
+
+    if (error) return { success: false, msg: error }
+
     const notifications =
       await NotificationRepository.fetchNotificationsByParams({
-        ...query,
+        ...params,
+        limit,
+        skip,
+        sort,
       })
 
     if (!notifications)

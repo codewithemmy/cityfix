@@ -9,9 +9,11 @@ class NotificationRepository {
     return await Notification.findOne({ ...notificationPayload })
   }
 
-  static async fetchNotificationsByParams(userPayload) {
+  static async fetchNotificationsByParams(restOfPayload) {
+    const { limit, skip, sort, ...restOfPayload } = userPayload
+
     const notification = await Notification.find({
-      ...userPayload,
+      ...restOfPayload,
     })
       .populate("userId", {
         name: 1,
@@ -24,6 +26,9 @@ class NotificationRepository {
         firstName: 1,
         lastName: 1,
       })
+      .sort(sort)
+      .skip(skip)
+      .limit(limit)
 
     return notification
   }

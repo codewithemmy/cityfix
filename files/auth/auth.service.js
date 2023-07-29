@@ -28,11 +28,14 @@ class AuthService {
     confirmOtp.verified = Date.now()
     await confirmOtp.save()
 
+    const accountType = confirmOtp.accountType
+
     /** send confirmation mail or sms to user */
 
     return {
       success: true,
       msg: AuthSuccess.VERIFY_OTP,
+      accountType,
     }
   }
 
