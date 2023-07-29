@@ -11,7 +11,9 @@ dotenv.config({ path: path.join(__dirname, "../.env") })
 
 const port = config.PORT || 5000
 const httpServer = createServer(app)
-const io = new Server(httpServer, { cors: { origin: "*" } })
+const io = new Server(httpServer, {
+  cors: { origin: config.SOCKET_SERVER, credentials: true },
+})
 
 const startServer = () => {
   socketConnection(io)
