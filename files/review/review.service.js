@@ -4,12 +4,12 @@ const { ReviewRepository } = require("./review.repository")
 
 class ReviewService {
   static async createReview(payload, locals) {
-    const { userRated } = payload
+    const { reviewedMadeFor } = payload
 
     const review = await ReviewRepository.create({
       ...payload,
-      userRated,
-      ratedBy: locals._id,
+      reviewedMadeFor,
+      reviewer: locals._id,
     })
 
     if (!review) return { success: false, msg: ReviewFailure.CREATE }
