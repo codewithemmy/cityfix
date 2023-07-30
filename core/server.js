@@ -12,7 +12,7 @@ dotenv.config({ path: path.join(__dirname, "../.env") })
 const port = config.PORT || 5173
 const httpServer = createServer(app)
 const io = new Server(httpServer, {
-  cors: { origin: "*" },
+  cors: { origin: config.SOCKET_SERVER },
 })
 
 const startServer = () => {
