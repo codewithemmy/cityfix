@@ -11,8 +11,10 @@ dotenv.config({ path: path.join(__dirname, "../.env") })
 
 const port = config.PORT || 5173
 const httpServer = createServer(app)
+
+//set up the cors with server
 const io = new Server(httpServer, {
-  cors: { origin: "wss://cityfix.onrender.com" },
+  cors: { origin: "https://cityfix.onrender.com" },
 })
 
 const startServer = () => {
