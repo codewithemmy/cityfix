@@ -30,6 +30,8 @@ const getReportAnalysis = async (req, res, next) => {
   const [error, data] = await manageAsyncOps(
     ReportService.reportAnalysisService(req.query)
   )
+  console.log("error", error)
+  console.log("locals", res.locals.jwt)
 
   if (error) return next(error)
 
