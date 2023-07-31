@@ -14,7 +14,7 @@ const httpServer = createServer(app)
 
 //set up the cors with server
 const io = new Server(httpServer, {
-  cors: { origin: "https://cityfix.onrender.com" },
+  cors: { origin: "*" },
 })
 
 const startServer = () => {
