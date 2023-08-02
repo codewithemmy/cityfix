@@ -2,24 +2,31 @@ const { handleApplicationErrors, notFound } = require("./response")
 
 const express = require("express")
 const cors = require("cors")
+const helmet = require("helmet")
 const compression = require("compression")
 const emailValidation = require("./emailCheck")
 const routes = require("./routes")
 
 const app = express()
 
-const application = () => {
+const application = (io) => {
   app.use(express.json())
   app.use(express.urlencoded({ extended: false }))
+  app.use(helmet())
   app.use(compression())
   app.use(cors())
   app.use(emailValidation)
 
-  routes(app)
+  app.use((req, res, next) => {
+    res.io = io
+    next()
+  })
+
   app.get("/", (req, res) => {
     res.status(200).json({ message: "citifix is working fine" })
   })
 
+  routes(app)
   app.use(handleApplicationErrors) //application errors handler
   app.use(notFound)
 }
