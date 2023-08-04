@@ -76,7 +76,26 @@ class ReportRepository {
               },
             },
           ],
-          as: "users",
+          as: "reporter",
+        },
+      },
+      {
+        $lookup: {
+          from: "user",
+          localField: "reportedUser",
+          foreignField: "_id",
+          pipeline: [
+            {
+              $project: {
+                name: 1,
+                firstName: 1,
+                lastName: 1,
+                email: 1,
+                profileImage: 1,
+              },
+            },
+          ],
+          as: "reportedUser",
         },
       },
       {
@@ -84,10 +103,10 @@ class ReportRepository {
           $and: [
             {
               $or: [
-                { "users.name": { $regex: search, $options: "i" } },
-                { "users.firstName": { $regex: search, $options: "i" } },
-                { "users.lastName": { $regex: search, $options: "i" } },
-                { "users.email": { $regex: search, $options: "i" } },
+                { "reporter.name": { $regex: search, $options: "i" } },
+                { "reporter.firstName": { $regex: search, $options: "i" } },
+                { "reporter.lastName": { $regex: search, $options: "i" } },
+                { "reporter.email": { $regex: search, $options: "i" } },
               ],
               ...extraParams,
             },

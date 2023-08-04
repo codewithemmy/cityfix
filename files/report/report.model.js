@@ -6,6 +6,10 @@ const reportSchema = new mongoose.Schema(
       type: mongoose.Types.ObjectId,
       ref: "User",
     },
+    reportedUser: {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+    },
     subject: {
       type: String,
     },

@@ -20,6 +20,8 @@ const {
   deleteUserController,
 } = require("./admin.controller")
 
+
+//admin route
 adminRoute.route("/").post(adminSignUpController)
 adminRoute.route("/login").post(adminLogin)
 
