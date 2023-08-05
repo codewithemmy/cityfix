@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema(
     accountType: {
       type: String,
       required: true,
-      enum: ["User", "CityBuilder", "Admin", "Marketer"],
+      enum: ["User", "CityBuilder", "Marketer"],
       default: "User",
     },
     yearsOfExperience: { type: Number },
@@ -60,6 +60,21 @@ const userSchema = new mongoose.Schema(
     isVerified: {
       type: Boolean,
       default: false,
+    },
+    wallet: {
+      type: Number,
+      default: 0,
+    },
+    revenues: {
+      type: Number,
+      default: 0,
+    },
+    referrals: {
+      type: Number,
+      default: 0,
+    },
+    referralLink: {
+      type: String,
     },
     passwordToken: {
       type: String,
