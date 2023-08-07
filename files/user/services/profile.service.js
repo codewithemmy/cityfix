@@ -158,6 +158,28 @@ class ProfileService {
       data: user,
     }
   }
+
+  static async deleteGalleryService(payload, locals) {
+    let { url } = payload
+
+    const isGallery = await UserRepository.findSingleUserWithParams({
+      _id: new mongoose.Types.ObjectId(locals),
+      gallery: { $in: url },
+    })
+
+    if (!isGallery) return { success: false, msg: UserFailure.FETCH }
+
+    const deleteGallery = await UserRepository.updateUserById(locals, {
+      $pull: { gallery: url },
+    })
+
+    if (!deleteGallery) return { success: false, msg: UserFailure.DELETE }
+
+    return {
+      success: true,
+      msg: UserSuccess.DELETE,
+    }
+  }
 }
 
 module.exports = { ProfileService }

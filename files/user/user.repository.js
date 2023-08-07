@@ -41,10 +41,12 @@ class UserRepository {
   static async updateUserProfile(payload, params) {
     return User.findOneAndUpdate({ ...payload }, { $set: { ...params } })
   }
+
   static async updateUserById(id, params) {
     return User.findByIdAndUpdate(
       { _id: new mongoose.Types.ObjectId(id) },
-      { ...params }
+      { ...params },
+      { new: true, runValidators: true }
     )
   }
 
