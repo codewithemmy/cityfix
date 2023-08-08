@@ -47,7 +47,7 @@ class TextService {
       conversation = newConversation
     } else conversationId = conversation._id
 
-    if (message.trim().length === 0) {
+    if (!message && !image) {
       return { success: false, msg: TextMessages.CREATE_ERROR }
     }
 
