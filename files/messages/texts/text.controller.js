@@ -25,8 +25,6 @@ const fetchTextsController = async (req, res, next) => {
     TextService.fetchTexts(req.query, res.locals.jwt)
   )
 
-  console.log("locals", res.locals.jwt)
-
   if (error) return next(error)
 
   if (!data.success) return next(new CustomError(data.msg, BAD_REQUEST, data))
