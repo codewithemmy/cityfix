@@ -61,6 +61,12 @@ class ContractService {
       message: `Hi, ${user.firstName} has accepted your contract request, you can now send a message`,
     })
 
+     await NotificationService.create({
+       userId: new mongoose.Types.ObjectId(saveStatus.assignedBy),
+       recipientId: new mongoose.Types.ObjectId(locals._id),
+       message: `Hi, ${locals.name} you accepted the contract proposed by ${user.firstName}`,
+     })
+
     return {
       success: true,
       msg: ContractSuccess.ACCEPT,
