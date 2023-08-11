@@ -3,7 +3,10 @@ const { isAuthenticated } = require("../../utils/index")
 const { uploadManager } = require("../../utils/multer")
 const { getReportAnalysis } = require("../report/report.controller")
 const { reviewListController } = require("../review/review.controller")
-const { createCampaignController, getCampaignController } = require("../campaign/campaign.controller")
+const {
+  createCampaignController,
+  getCampaignController,
+} = require("../campaign/campaign.controller")
 const {
   getUserController,
   searchUserController,
@@ -18,8 +21,8 @@ const {
   createUserController,
   disableOrEnableController,
   deleteUserController,
+  fetchAdminController,
 } = require("./admin.controller")
-
 
 //admin route
 adminRoute.route("/").post(adminSignUpController)
@@ -45,5 +48,8 @@ adminRoute.route("/review-list").get(reviewListController)
 //campaign
 adminRoute.route("/campaign").post(createCampaignController)
 adminRoute.route("/campaign").get(getCampaignController)
+
+//admin profile
+adminRoute.route("/me").get(fetchAdminController)
 
 module.exports = adminRoute

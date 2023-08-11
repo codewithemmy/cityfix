@@ -194,6 +194,19 @@ class AdminAuthService {
       data: user.disable,
     }
   }
+  static async fetchAdminServices(locals) {
+    const admin = await AdminRepository.fetchAdmin({
+      _id: new mongoose.Types.ObjectId(locals),
+    })
+
+    if (!admin) return { SUCCESS: false, msg: adminMessages.NO_ADMIN_FOUND }
+
+    return {
+      SUCCESS: true,
+      msg: adminMessages.ADMIN_FOUND,
+      data: admin,
+    }
+  }
 }
 
 module.exports = { AdminAuthService }

@@ -123,6 +123,17 @@ const deleteUserController = async (req, res, next) => {
 
   return responseHandler(res, 200, data)
 }
+const fetchAdminController = async (req, res, next) => {
+  const [error, data] = await manageAsyncOps(
+    AdminAuthService.fetchAdminServices(res.locals.jwt._id)
+  )
+
+  if (error) return next(error)
+
+  if (!data.SUCCESS) return next(new CustomError(data.msg, 400, data))
+
+  return responseHandler(res, 200, data)
+}
 
 module.exports = {
   adminSignUpController,
@@ -135,4 +146,5 @@ module.exports = {
   createUserController,
   disableOrEnableController,
   deleteUserController,
+  fetchAdminController,
 }
