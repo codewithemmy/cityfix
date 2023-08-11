@@ -65,7 +65,7 @@ class AdminAuthService {
       "createdAt",
       "Admin"
     )
-    if (error) return { success: false, msg: error }
+    if (error) return { SUCCESS: false, msg: error }
 
     const getAdmin = await AdminRepository.findAdminParams({
       ...params,
@@ -75,9 +75,9 @@ class AdminAuthService {
     })
 
     if (getAdmin.length < 1)
-      return { success: false, msg: authMessages.ADMIN_NOT_FOUND }
+      return { SUCCESS: false, msg: authMessages.ADMIN_NOT_FOUND }
 
-    return { success: true, msg: authMessages.ADMIN_FOUND, data: getAdmin }
+    return { SUCCESS: true, msg: authMessages.ADMIN_FOUND, data: getAdmin }
   }
 
   static async updateAdminService(data) {
@@ -108,13 +108,13 @@ class AdminAuthService {
       _id: new mongoose.Types.ObjectId(body.id),
     })
 
-    if (!admin) return { success: false, msg: authMessages.ADMIN_NOT_FOUND }
+    if (!admin) return { SUCCESS: false, msg: authMessages.ADMIN_NOT_FOUND }
 
     //verify password
     const prevPasswordCheck = await verifyPassword(prevPassword, admin.password)
 
     if (!prevPasswordCheck)
-      return { success: false, msg: authMessages.INCORRECT_PASSWORD }
+      return { SUCCESS: false, msg: authMessages.INCORRECT_PASSWORD }
 
     //change password
     if (body.password !== body.confirmPassword) {

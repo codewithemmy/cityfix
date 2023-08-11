@@ -144,18 +144,18 @@ class ProfileService {
       _id: new mongoose.Types.ObjectId(locals),
     })
 
-    if (!deleteAccount) return { success: false, msg: UserFailure.DELETE }
+    if (!deleteAccount) return { SUCCESS: false, msg: UserFailure.DELETE }
 
-    return { success: true, msg: UserSuccess.DELETE }
+    return { SUCCESS: true, msg: UserSuccess.DELETE }
   }
 
   static async getUserProfileService(payload) {
     const user = await this.getUserService(payload)
 
-    if (!user) return { success: false, msg: UserFailure.FETCH }
+    if (!user) return { SUCCESS: false, msg: UserFailure.FETCH }
 
     return {
-      success: true,
+      SUCCESS: true,
       msg: UserSuccess.FETCH,
       data: user,
     }
@@ -169,16 +169,16 @@ class ProfileService {
       gallery: { $in: url },
     })
 
-    if (!isGallery) return { success: false, msg: UserFailure.FETCH }
+    if (!isGallery) return { SUCCESS: false, msg: UserFailure.FETCH }
 
     const deleteGallery = await UserRepository.updateUserById(locals, {
       $pull: { gallery: url },
     })
 
-    if (!deleteGallery) return { success: false, msg: UserFailure.DELETE }
+    if (!deleteGallery) return { SUCCESS: false, msg: UserFailure.DELETE }
 
     return {
-      success: true,
+      SUCCESS: true,
       msg: UserSuccess.DELETE,
     }
   }
@@ -188,13 +188,13 @@ class ProfileService {
       _id: new mongoose.Types.ObjectId(locals._id),
     })
 
-    if (!user) return { success: false, msg: UserFailure.SWITCH }
+    if (!user) return { SUCCESS: false, msg: UserFailure.SWITCH }
 
     await UserRepository.updateUserById(locals._id, {
       ...payload,
     })
 
-    return { success: true, msg: UserSuccess.SWITCH }
+    return { SUCCESS: true, msg: UserSuccess.SWITCH }
   }
 }
 

@@ -13,7 +13,7 @@ module.exports.UserFailure = {
   USER_FOUND: "User not found, Sign-Up to login",
   PHONE_EXIST: "Phone number exist already",
   SOFT_DELETE: "User account deleted",
-  DELETE: "User account deleted",
+  DELETE: "unable to delete",
   FETCH: "User not found",
   SEARCH_ERROR: "Invalid data input",
   PASSWORD: "Invalid password input",
