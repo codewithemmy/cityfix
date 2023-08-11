@@ -123,9 +123,22 @@ const deleteUserController = async (req, res, next) => {
 
   return responseHandler(res, 200, data)
 }
+
 const fetchAdminController = async (req, res, next) => {
   const [error, data] = await manageAsyncOps(
     AdminAuthService.fetchAdminServices(res.locals.jwt._id)
+  )
+
+  if (error) return next(error)
+
+  if (!data.SUCCESS) return next(new CustomError(data.msg, 400, data))
+
+  return responseHandler(res, 200, data)
+}
+
+const createMarketerController = async (req, res, next) => {
+  const [error, data] = await manageAsyncOps(
+    AdminAuthService.createMarketerService(req.body)
   )
 
   if (error) return next(error)
@@ -147,4 +160,5 @@ module.exports = {
   disableOrEnableController,
   deleteUserController,
   fetchAdminController,
+  createMarketerController,
 }

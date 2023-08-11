@@ -22,6 +22,7 @@ const {
   disableOrEnableController,
   deleteUserController,
   fetchAdminController,
+  createMarketerController,
 } = require("./admin.controller")
 
 //admin route
@@ -51,5 +52,8 @@ adminRoute.route("/campaign").get(getCampaignController)
 
 //admin profile
 adminRoute.route("/me").get(fetchAdminController)
+
+//create marketer
+adminRoute.route("/create-marketer").put(createMarketerController)
 
 module.exports = adminRoute

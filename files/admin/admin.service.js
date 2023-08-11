@@ -207,6 +207,34 @@ class AdminAuthService {
       data: admin,
     }
   }
+
+  static async createMarketerService(payload) {
+    const user = await UserRepository.findSingleUserWithParams({
+      email: payload.email,
+    })
+
+    if (!user)
+      return { SUCCESS: false, msg: adminMessages.MARKETER_NOT_CREATED }
+
+    const referral = `cityfix.com/marketer/${user._id}-referral-link`
+
+    const referralUsed = await UserRepository.findUserWithParams({
+      referralLink: referral,
+    })
+
+    if (referralUsed)
+      return { SUCCESS: false, msg: adminMessages.REFERRAL_USED }
+
+    user.referralLink = referral
+    user.accountType = "Marketer"
+    const userLink = await user.save()
+
+    return {
+      SUCCESS: true,
+      msg: adminMessages.MARKETER_CREATED,
+      data: userLink,
+    }
+  }
 }
 
 module.exports = { AdminAuthService }
