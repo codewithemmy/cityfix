@@ -22,7 +22,7 @@ class UserService {
       $or: [{ phoneNumber: validPhone.phone }, { email: payload.email }],
     })
 
-    if (userExist) return { success: false, msg: UserFailure.USER_EXIST }
+    if (userExist) return { SUCCESS: false, msg: UserFailure.USER_EXIST }
 
     const { otp, expiry } = generateOtp()
 
@@ -34,7 +34,7 @@ class UserService {
       password: await hashPassword(payload.password),
     })
 
-    if (!user._id) return { success: false, msg: UserFailure.CREATE }
+    if (!user._id) return { SUCCESS: false, msg: UserFailure.CREATE }
 
     /** once the created send otp mail for verification, if accountType is citybuilder send otp to phone number*/
     const substitutional_parameters = {
@@ -52,7 +52,7 @@ class UserService {
     // await onRequestOTP(otp, validPhone.phone)
 
     return {
-      success: true,
+      SUCCESS: true,
       msg: UserSuccess.CREATE,
       otp: otp,
     }
@@ -66,17 +66,17 @@ class UserService {
     })
 
     if (userProfile.isVerified !== true)
-      return { success: false, msg: UserFailure.VERIFIED }
+      return { SUCCESS: false, msg: UserFailure.VERIFIED }
 
     //confirm if user has been deleted
     if (userProfile.isDelete)
-      return { success: false, msg: UserFailure.SOFT_DELETE }
+      return { SUCCESS: false, msg: UserFailure.SOFT_DELETE }
 
-    if (!userProfile) return { success: false, msg: UserFailure.USER_FOUND }
+    if (!userProfile) return { SUCCESS: false, msg: UserFailure.USER_FOUND }
 
     const isPassword = await verifyPassword(password, userProfile.password)
 
-    if (!isPassword) return { success: false, msg: UserFailure.FETCH }
+    if (!isPassword) return { SUCCESS: false, msg: UserFailure.FETCH }
 
     let token
 
@@ -103,7 +103,7 @@ class UserService {
 
     //return result
     return {
-      success: true,
+      SUCCESS: true,
       msg: UserSuccess.FETCH,
       data: user,
     }
@@ -121,28 +121,28 @@ class UserService {
       },
     })
 
-    if (!rateUser) return { success: false, msg: UserFailure.UPDATE }
+    if (!rateUser) return { SUCCESS: false, msg: UserFailure.UPDATE }
 
-    return { success: true, msg: UserSuccess.UPDATE }
+    return { SUCCESS: true, msg: UserSuccess.UPDATE }
   }
 
   static async userOverviewServices() {
     const userOverview = await UserRepository.userOverview()
 
-    if (!userOverview) return { success: false, msg: UserFailure.FETCH }
+    if (!userOverview) return { SUCCESS: false, msg: UserFailure.FETCH }
 
-    return { success: true, msg: UserSuccess.FETCH, data: userOverview }
+    return { SUCCESS: true, msg: UserSuccess.FETCH, data: userOverview }
   }
 
   static async userAnalysisService(payload) {
     if (isNaN(payload.month) || payload.month < 1 || payload.month > 12)
-      return { success: false, msg: `Incorrect Month or Number passed` }
+      return { SUCCESS: false, msg: `Incorrect Month or Number passed` }
 
     const analysis = await UserRepository.userAnalysis(payload.month)
 
-    if (!analysis) return { success: false, msg: UserFailure.FETCH }
+    if (!analysis) return { SUCCESS: false, msg: UserFailure.FETCH }
 
-    return { success: true, msg: UserSuccess.FETCH, data: analysis }
+    return { SUCCESS: true, msg: UserSuccess.FETCH, data: analysis }
   }
 }
 module.exports = { UserService }
