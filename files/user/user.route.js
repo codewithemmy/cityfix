@@ -23,6 +23,7 @@ const {
   deleteUserController,
   getUserProfileController,
   deleteGalleryController,
+  switchUserController,
 } = require("../user/controllers/profile.controller")
 const {
   createReviewController,
@@ -56,5 +57,8 @@ userRoute.route("/profile").get(getUserProfileController)
 
 //delete gallery picture
 userRoute.route("/gallery").delete(deleteGalleryController)
+
+//switch user
+userRoute.route("/switch").put(switchUserController)
 
 module.exports = userRoute

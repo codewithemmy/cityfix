@@ -180,6 +180,20 @@ class ProfileService {
       msg: UserSuccess.DELETE,
     }
   }
+
+  static async switchUserServices(payload, locals) {
+    const user = await UserRepository.findSingleUserWithParams({
+      _id: new mongoose.Types.ObjectId(locals._id),
+    })
+
+    if (!user) return { success: false, msg: UserFailure.SWITCH }
+
+    await UserRepository.updateUserById(locals._id, {
+      ...payload,
+    })
+
+    return { success: true, msg: UserSuccess.SWITCH }
+  }
 }
 
 module.exports = { ProfileService }

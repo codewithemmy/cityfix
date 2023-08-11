@@ -3,6 +3,7 @@ module.exports.UserSuccess = {
   FETCH: "User successfully fetched",
   UPDATE: "Update Successful",
   DELETE: "Delete Successful",
+  SWITCH: "account switch is successful",
 }
 
 module.exports.UserFailure = {
@@ -18,4 +19,5 @@ module.exports.UserFailure = {
   PASSWORD: "Invalid password input",
   VERIFIED: "not a verified user, verify your account",
   EMAIL_EXIST: "Email currently exists",
+  SWITCH: "account switch is unsuccessful",
 }
