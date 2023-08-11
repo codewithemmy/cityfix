@@ -73,10 +73,12 @@ class ProfileService {
         { profession: { $regex: search, $options: "i" } },
         { location: { $regex: search, $options: "i" } },
         { name: { $regex: search, $options: "i" } },
+        { location: { $regex: search, $options: "i" } },
       ],
     }
 
-    const user = await UserRepository.findAllUsersParams(query)
+    // const user = await UserRepository.findAllUsersParams(query)
+    const user = await this.getUserService(query)
 
     if (!user) return { success: false, msg: UserFailure.SEARCH_ERROR }
 

@@ -36,6 +36,7 @@ const userSchema = new mongoose.Schema(
     profession: { type: String },
     nearestBusStop: { type: String },
     localGovernment: { type: String },
+    location: { type: String },
     state: { type: String },
     clients: [{ type: String }],
     completedContract: { type: Number, default: 0 },
