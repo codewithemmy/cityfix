@@ -36,9 +36,9 @@ adminRoute.route("/user").get(getUserController)
 adminRoute.route("/search").get(searchUserController)
 adminRoute.route("/create-user").post(createUserController)
 adminRoute.route("/disable/:id").put(disableOrEnableController)
+adminRoute.route("/delete/:id").delete(deleteUserController)
 adminRoute.route("/overview").get(userOverviewController)
 adminRoute.route("/user-analysis").get(userAnalysisController)
-adminRoute.route("/delete/:id").put(deleteUserController)
 
 //report
 adminRoute.route("/report-analysis").get(getReportAnalysis)
