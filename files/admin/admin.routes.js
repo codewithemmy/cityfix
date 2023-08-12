@@ -29,7 +29,7 @@ const {
 adminRoute.route("/").post(adminSignUpController)
 adminRoute.route("/login").post(adminLogin)
 
-adminRoute.use(isAuthenticated)
+// adminRoute.use(isAuthenticated)
 
 //user
 adminRoute.route("/user").get(getUserController)

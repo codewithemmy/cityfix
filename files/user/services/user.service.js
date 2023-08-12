@@ -65,6 +65,8 @@ class UserService {
       $or: [{ phoneNumber: phoneNumber }, { email: email }],
     })
 
+    if (!userProfile) return { SUCCESS: false, msg: UserFailure.USER_EXIST }
+
     if (userProfile.isVerified !== true)
       return { SUCCESS: false, msg: UserFailure.VERIFIED }
 
