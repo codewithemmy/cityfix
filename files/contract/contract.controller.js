@@ -51,6 +51,7 @@ const declineContractController = async (req, res, next) => {
 
   return responseHandler(res, SUCCESS, data)
 }
+
 const endContractController = async (req, res, next) => {
   const [error, data] = await manageAsyncOps(
     ContractService.endContractService(req.params.id)

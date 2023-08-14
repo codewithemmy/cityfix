@@ -54,6 +54,13 @@ class ContractService {
     contract.contractStatus = "ongoing"
     const saveStatus = await contract.save()
 
+    const contractor = await UserRepository.findSingleUserWithParams(
+      {
+        _id: new mongoose.Types.ObjectId(saveStatus.assignedBy),
+      },
+      {}
+    )
+
     //send notification to user
     await NotificationService.create({
       userId: new mongoose.Types.ObjectId(locals._id),
@@ -61,11 +68,11 @@ class ContractService {
       message: `Hi, ${user.firstName} has accepted your contract request, you can now send a message`,
     })
 
-     await NotificationService.create({
-       userId: new mongoose.Types.ObjectId(saveStatus.assignedBy),
-       recipientId: new mongoose.Types.ObjectId(locals._id),
-       message: `Hi, ${locals.name} you accepted the contract proposed by ${user.firstName}`,
-     })
+    await NotificationService.create({
+      userId: new mongoose.Types.ObjectId(saveStatus.assignedBy),
+      recipientId: new mongoose.Types.ObjectId(locals._id),
+      message: `Hi ${user.firstName}, you accepted the contract proposed by ${contractor.name}`,
+    })
 
     return {
       success: true,
