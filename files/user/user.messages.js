@@ -10,7 +10,7 @@ module.exports.UserFailure = {
   PASSWORD: "incorrect password",
   CREATE: "Unable to create user",
   UPDATE: "unable to Update",
-  USER_EXIST: "User currently exist",
+  USER_EXIST: "User does not exist",
   USER_FOUND: "User not found, Sign-Up to login",
   PHONE_EXIST: "Phone number exist already",
   SOFT_DELETE: "User account deleted",
