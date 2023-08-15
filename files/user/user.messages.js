@@ -7,6 +7,7 @@ module.exports.UserSuccess = {
 }
 
 module.exports.UserFailure = {
+  PASSWORD: "incorrect password",
   CREATE: "Unable to create user",
   UPDATE: "unable to Update",
   USER_EXIST: "User currently exist",

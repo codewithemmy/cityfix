@@ -78,7 +78,7 @@ class UserService {
 
     const isPassword = await verifyPassword(password, userProfile.password)
 
-    if (!isPassword) return { success: false, msg: UserFailure.FETCH }
+    if (!isPassword) return { success: false, msg: UserFailure.PASSWORD }
 
     let token
 
