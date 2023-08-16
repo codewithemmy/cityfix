@@ -16,13 +16,11 @@ class NotificationRepository {
       ...restOfPayload,
     })
       .populate("userId", {
-        name: 1,
         firstName: 1,
         lastName: 1,
         profileImage: 1,
       })
       .populate("recipientId", {
-        name: 1,
         firstName: 1,
         lastName: 1,
       })

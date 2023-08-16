@@ -68,7 +68,6 @@ class ReportRepository {
           pipeline: [
             {
               $project: {
-                name: 1,
                 firstName: 1,
                 lastName: 1,
                 email: 1,
@@ -87,7 +86,6 @@ class ReportRepository {
           pipeline: [
             {
               $project: {
-                name: 1,
                 firstName: 1,
                 lastName: 1,
                 email: 1,

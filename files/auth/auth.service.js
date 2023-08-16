@@ -105,7 +105,7 @@ class AuthService {
 
     /** once the created send otp mail for verification, if accountType is citybuilder send otp to phone number*/
     const substitutional_parameters = {
-      name: user.name,
+      name: user.lastName,
       emailOtp: otp,
     }
 

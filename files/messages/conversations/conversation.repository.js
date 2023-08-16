@@ -15,14 +15,14 @@ class ConversationRepository {
       ...restOfPayload,
     })
       .populate("entityOneId", {
-        name: 1,
         firstName: 1,
+        lastName: 1,
         email: 1,
         profileImage: 1,
       })
       .populate("entityTwoId", {
-        name: 1,
         firstName: 1,
+        lastName: 1,
         email: 1,
         profileImage: 1,
       })

@@ -5,17 +5,7 @@ const { CustomError } = require("../../../utils/errors")
 const { UserService } = require("../../user/services/user.service")
 
 const createUserController = async (req, res, next) => {
-  let { firstName } = req.body
-
-  let newBody
-
-  if (firstName) {
-    newBody = { ...req.body, accountType: "CityBuilder" }
-  } else {
-    newBody = req.body
-  }
-
-  const [error, data] = await manageAsyncOps(UserService.createUser(newBody))
+  const [error, data] = await manageAsyncOps(UserService.createUser(req.body))
 
   if (error) return next(error)
 

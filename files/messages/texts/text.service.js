@@ -18,7 +18,7 @@ class TextService {
       io,
       image: senderImage,
       firstName,
-      name,
+      lastName,
       email,
     } = textPayload
 
@@ -80,7 +80,7 @@ class TextService {
         image,
         sender: {
           image: senderImage,
-          name: name ? name : firstName,
+          name: lastName ? lastName : firstName,
           email,
         },
       })

@@ -15,14 +15,14 @@ const { sendMailNotification } = require("../../../utils/email")
 
 class UserService {
   static async createUser(payload) {
-    const { name, email, phoneNumber } = payload
+    const { lastName, email } = payload
     const validPhone = sanitizePhoneNumber(payload.phoneNumber)
 
     const userExist = await UserRepository.validateUser({
       $or: [{ phoneNumber: validPhone.phone }, { email: payload.email }],
     })
 
-    if (userExist) return { SUCCESS: false, msg: UserFailure.USER_EXIST }
+    if (userExist) return { SUCCESS: false, msg: UserFailure.EXIST }
 
     const { otp, expiry } = generateOtp()
 
@@ -38,7 +38,7 @@ class UserService {
 
     /** once the created send otp mail for verification, if accountType is citybuilder send otp to phone number*/
     const substitutional_parameters = {
-      name: name,
+      name: lastName,
       emailOtp: user.verificationOtp,
     }
 
@@ -84,7 +84,6 @@ class UserService {
 
     token = await tokenHandler({
       _id: userProfile._id,
-      name: userProfile.name,
       firstName: userProfile.firstName,
       lastName: userProfile.lastName,
       email: userProfile.email,
@@ -94,8 +93,8 @@ class UserService {
 
     const user = {
       _id: userProfile._id,
-      name: userProfile.name,
       firstName: userProfile.firstName,
+      lastName: userProfile.lastName,
       phoneNumber: userProfile.phoneNumber,
       email: userProfile.email,
       accountType: userProfile.accountType,
