@@ -147,7 +147,7 @@ class ProfileService {
 
     if (!deleteAccount) return { success: false, msg: UserFailure.DELETE }
 
-    return { success: true, msg: UserSuccess.DELETE }
+    return { SUCCESS: true, msg: UserSuccess.DELETE }
   }
 
   static async getUserProfileService(payload) {
@@ -170,17 +170,19 @@ class ProfileService {
       gallery: { $in: url },
     })
 
-    if (!isGallery) return { SUCCESS: false, msg: UserFailure.FETCH }
+    if (!isGallery) return { success: false, msg: UserFailure.FETCH }
 
     const deleteGallery = await UserRepository.updateUserById(locals, {
       $pull: { gallery: url },
     })
 
-    if (!deleteGallery) return { SUCCESS: false, msg: UserFailure.DELETE }
-
-    return {
-      success: true,
-      msg: UserSuccess.DELETE,
+    if (!deleteGallery) {
+      return { success: false, msg: UserFailure.DELETE }
+    } else {
+      return {
+        success: true,
+        msg: UserSuccess.DELETE,
+      }
     }
   }
 
