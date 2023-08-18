@@ -74,7 +74,6 @@ class ProfileService {
         { location: { $regex: search, $options: "i" } },
         { firstName: { $regex: search, $options: "i" } },
         { lastName: { $regex: search, $options: "i" } },
-        { location: { $regex: search, $options: "i" } },
       ],
     }
 
