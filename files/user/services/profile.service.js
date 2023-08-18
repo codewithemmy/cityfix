@@ -66,19 +66,33 @@ class ProfileService {
   }
 
   static async searchUser(payload) {
-    const { search } = payload
+    const { search, accountType } = payload
+    let query
+    if (!search) search = ""
 
-    const query = {
-      $or: [
-        { profession: { $regex: search, $options: "i" } },
-        { location: { $regex: search, $options: "i" } },
-        { firstName: { $regex: search, $options: "i" } },
-        { lastName: { $regex: search, $options: "i" } },
-        { email: { $regex: search, $options: "i" } },
-      ],
+    if (accountType) {
+      query = {
+        $or: [
+          { profession: { $regex: search, $options: "i" } },
+          { location: { $regex: search, $options: "i" } },
+          { firstName: { $regex: search, $options: "i" } },
+          { lastName: { $regex: search, $options: "i" } },
+          { email: { $regex: search, $options: "i" } },
+        ],
+        accountType,
+      }
+    } else {
+      query = {
+        $or: [
+          { profession: { $regex: search, $options: "i" } },
+          { location: { $regex: search, $options: "i" } },
+          { firstName: { $regex: search, $options: "i" } },
+          { lastName: { $regex: search, $options: "i" } },
+          { email: { $regex: search, $options: "i" } },
+        ],
+      }
     }
 
-    // const user = await UserRepository.findAllUsersParams(query)
     const user = await this.getUserService(query)
 
     if (!user) return { success: false, msg: UserFailure.SEARCH_ERROR }

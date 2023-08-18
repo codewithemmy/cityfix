@@ -47,12 +47,15 @@ const searchUserController = async (req, res, next) => {
     ProfileService.searchUser(req.query)
   )
 
+  console.log("error", error)
+
   if (error) return next(error)
 
   if (!data.success) return next(new CustomError(data.msg, BAD_REQUEST, data))
 
   return responseHandler(res, SUCCESS, data)
 }
+
 const userGalleryController = async (req, res, next) => {
   const [error, data] = await manageAsyncOps(
     ProfileService.userGalleryService(res.locals.jwt)
