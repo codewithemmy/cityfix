@@ -116,7 +116,7 @@ const deleteUserController = async (req, res, next) => {
   const [error, data] = await manageAsyncOps(
     ProfileService.deleteAccountService(req.params.id)
   )
-  console.log("error", error)
+
   if (error) return next(error)
 
   if (!data.SUCCESS) return next(new CustomError(data.msg, 400, data))
