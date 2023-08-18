@@ -218,12 +218,14 @@ class AdminAuthService {
 
     const referral = `cityfix.com/marketer/${user._id}-referral-link`
 
-    const referralUsed = await UserRepository.findUserWithParams({
+    const referralUsed = await UserRepository.findSingleUserWithParams({
       referralLink: referral,
     })
 
     if (referralUsed)
       return { SUCCESS: false, msg: adminMessages.REFERRAL_USED }
+
+    console.log("not here")
 
     user.referralLink = referral
     user.accountType = "Marketer"
