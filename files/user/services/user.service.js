@@ -18,8 +18,13 @@ class UserService {
     const { lastName, email } = payload
     const validPhone = sanitizePhoneNumber(payload.phoneNumber)
 
+    const phoneExist = await UserRepository.validateUser({
+      phoneNumber: validPhone.phone,
+    })
+    if (phoneExist) return { SUCCESS: false, msg: UserFailure.PHONE_EXIST }
+
     const userExist = await UserRepository.validateUser({
-      $or: [{ phoneNumber: validPhone.phone }, { email: payload.email }],
+      email: payload.email,
     })
 
     if (userExist) return { SUCCESS: false, msg: UserFailure.EXIST }
