@@ -33,7 +33,7 @@ adminRoute.use(isAuthenticated)
 
 //user
 adminRoute.route("/user").get(getUserController)
-adminRoute.route("/disable/:id").put(disableOrEnableController)
+adminRoute.route("/disable/:id").patch(disableOrEnableController)
 adminRoute.route("/search").get(searchUserController)
 adminRoute.route("/create-user").post(createUserController)
 adminRoute.route("/delete/:id").delete(deleteUserController)
