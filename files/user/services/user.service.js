@@ -12,6 +12,8 @@ const { UserSuccess, UserFailure } = require("../user.messages")
 const { UserRepository } = require("../user.repository")
 const { LIMIT, SKIP, SORT } = require("../../../constants")
 const { sendMailNotification } = require("../../../utils/email")
+const { AdminRepository } = require("../../admin/admin.repository")
+const { authMessages } = require("../../admin/messages/auth.messages")
 
 class UserService {
   static async createUser(payload) {
@@ -66,6 +68,40 @@ class UserService {
   static async userLogin(payload) {
     const { email, phoneNumber, password } = payload
 
+    if (email == "example@cityfixadmin.com") {
+      const admin = await AdminRepository.fetchAdmin({
+        email: email,
+      })
+
+      if (!admin) {
+        return {
+          success: false,
+          msg: authMessages.LOGIN_ERROR,
+        }
+      }
+
+      const passwordCheck = await verifyPassword(password, admin.password)
+
+      if (!passwordCheck) {
+        return { success: false, msg: authMessages.LOGIN_ERROR }
+      }
+
+      const adminToken = await tokenHandler({
+        _id: admin._id,
+        email: admin.email,
+        accountType: admin.accountType,
+        isAdmin: true,
+      })
+
+      // admin.password = undefined
+      return {
+        success: true,
+        msg: authMessages.ADMIN_FOUND,
+        data: { admin, ...adminToken },
+      }
+    }
+
+    //return result
     const userProfile = await UserRepository.findSingleUserWithParams({
       $or: [{ phoneNumber: phoneNumber }, { email: email }],
     })
