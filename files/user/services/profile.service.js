@@ -68,9 +68,9 @@ class ProfileService {
   static async searchUser(payload) {
     const { search, accountType } = payload
     let query
-    if (!search) search = ""
+    // if (!search) search = ""
 
-    if (accountType) {
+    if (accountType && search) {
       query = {
         $or: [
           { profession: { $regex: search, $options: "i" } },
@@ -80,6 +80,10 @@ class ProfileService {
           { email: { $regex: search, $options: "i" } },
         ],
         accountType,
+      }
+    } else if (accountType) {
+      query = {
+        accountType: accountType,
       }
     } else {
       query = {
