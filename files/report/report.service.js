@@ -1,6 +1,8 @@
 const { queryConstructor, AlphaNumeric } = require("../../utils")
+const { NotificationService } = require("../notification/notification.service")
 const { ReportFailure, ReportSuccess } = require("./report.messages")
 const { ReportRepository } = require("./report.repository")
+const mongoose = require("mongoose")
 
 class ReportService {
   static async createReport(payload, locals) {
@@ -71,11 +73,18 @@ class ReportService {
   }
 
   static async reportResponseService(payload, id) {
+    const { title, message } = payload
     const response = await ReportRepository.findReportAndUpdate(id, {
       $set: { response: { ...payload } },
     })
 
     if (!response) return { success: false, msg: ReportFailure.RESPONSE }
+
+    await NotificationService.create({
+      userId: new mongoose.Types.ObjectId(response.reportedUser),
+      recipientId: new mongoose.Types.ObjectId(response.reporterId),
+      message: `Hi, Title: ${title}... Message: ${message}`,
+    })
 
     return { success: true, msg: ReportSuccess.RESPONSE }
   }

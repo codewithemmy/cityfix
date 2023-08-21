@@ -35,7 +35,6 @@ class ReportRepository {
   }
 
   static async findReportAndUpdate(id, payload) {
-    console.log("payload", payload)
     const report = await Report.findByIdAndUpdate(
       {
         _id: new mongoose.Types.ObjectId(id),
