@@ -34,6 +34,18 @@ class ReportRepository {
     return report
   }
 
+  static async findReportAndUpdate(id, payload) {
+    console.log("payload", payload)
+    const report = await Report.findByIdAndUpdate(
+      {
+        _id: new mongoose.Types.ObjectId(id),
+      },
+      { ...payload }
+    )
+
+    return report
+  }
+
   static async reportAnalysisService(payload) {
     let { limit, skip, sort, ...query } = payload
 

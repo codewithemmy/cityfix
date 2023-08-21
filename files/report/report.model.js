@@ -21,7 +21,8 @@ const reportSchema = new mongoose.Schema(
       type: String,
     },
     response: {
-      type: String,
+      title: String,
+      message: String,
     },
   },
   { timestamps: true }

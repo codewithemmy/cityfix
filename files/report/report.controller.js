@@ -38,8 +38,21 @@ const getReportAnalysis = async (req, res, next) => {
   return responseHandler(res, SUCCESS, data)
 }
 
+const reportResponseController = async (req, res, next) => {
+  const [error, data] = await manageAsyncOps(
+    ReportService.reportResponseService(req.body, req.params.id)
+  )
+
+  if (error) return next(error)
+
+  if (!data.success) return next(new CustomError(data.msg, BAD_REQUEST, data))
+
+  return responseHandler(res, SUCCESS, data)
+}
+
 module.exports = {
   createReportController,
   getReportController,
   getReportAnalysis,
+  reportResponseController,
 }

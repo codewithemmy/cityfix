@@ -69,6 +69,16 @@ class ReportService {
       totalReportMessages: countReport,
     }
   }
+
+  static async reportResponseService(payload, id) {
+    const response = await ReportRepository.findReportAndUpdate(id, {
+      $set: { response: { ...payload } },
+    })
+
+    if (!response) return { success: false, msg: ReportFailure.RESPONSE }
+
+    return { success: true, msg: ReportSuccess.RESPONSE }
+  }
 }
 
 module.exports = { ReportService }

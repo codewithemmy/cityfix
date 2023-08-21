@@ -1,7 +1,10 @@
 const adminRoute = require("express").Router()
 const { isAuthenticated } = require("../../utils/index")
 const { uploadManager } = require("../../utils/multer")
-const { getReportAnalysis } = require("../report/report.controller")
+const {
+  getReportAnalysis,
+  reportResponseController,
+} = require("../report/report.controller")
 const { reviewListController } = require("../review/review.controller")
 const {
   createCampaignController,
@@ -42,6 +45,7 @@ adminRoute.route("/user-analysis").get(userAnalysisController)
 
 //report
 adminRoute.route("/report-analysis").get(getReportAnalysis)
+adminRoute.route("/report-response/:id").get(reportResponseController)
 
 //reviews
 adminRoute.route("/review-list").get(reviewListController)
