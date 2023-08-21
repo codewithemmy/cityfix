@@ -93,11 +93,18 @@ class UserService {
         isAdmin: true,
       })
 
+      const adminProfile = {
+        _id: admin._id,
+        email: admin.email,
+        accountType: admin.accountType,
+        ...adminToken,
+      }
+
       // admin.password = undefined
       return {
         success: true,
         msg: authMessages.ADMIN_FOUND,
-        data: { admin, ...adminToken },
+        data: adminProfile,
       }
     }
 
