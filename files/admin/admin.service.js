@@ -17,13 +17,13 @@ class AdminAuthService {
     })
 
     if (admin) {
-      return { SUCCESS: false, msg: authMessages.ADMIN_EXISTS }
+      return { success: false, msg: authMessages.ADMIN_EXISTS }
     }
 
     const password = await hashPassword(body.password)
     const signUp = await AdminRepository.create({ ...body, password })
 
-    return { SUCCESS: true, msg: authMessages.ADMIN_CREATED, data: signUp }
+    return { success: true, msg: authMessages.ADMIN_CREATED, data: signUp }
   }
 
   static async adminLoginService(body) {
