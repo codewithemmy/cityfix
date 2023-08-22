@@ -23,13 +23,13 @@ class UserService {
     const phoneExist = await UserRepository.validateUser({
       phoneNumber: validPhone.phone,
     })
-    if (phoneExist) return { SUCCESS: false, msg: UserFailure.PHONE_EXIST }
+    if (phoneExist) return { success: false, msg: UserFailure.PHONE_EXIST }
 
     const userExist = await UserRepository.validateUser({
       email: payload.email,
     })
 
-    if (userExist) return { SUCCESS: false, msg: UserFailure.EXIST }
+    if (userExist) return { success: false, msg: UserFailure.EXIST }
 
     const { otp, expiry } = generateOtp()
 

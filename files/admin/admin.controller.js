@@ -95,7 +95,7 @@ const createUserController = async (req, res, next) => {
 
   if (error) return next(error)
 
-  if (!data.SUCCESS) return next(new CustomError(data.msg, 400, data))
+  if (!data.success) return next(new CustomError(data.msg, 400, data))
 
   return responseHandler(res, 200, data)
 }
