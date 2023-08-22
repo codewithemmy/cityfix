@@ -165,7 +165,7 @@ class ProfileService {
 
     if (!deleteAccount) return { success: false, msg: UserFailure.DELETE }
 
-    return { SUCCESS: true, msg: UserSuccess.DELETE }
+    return { success: true, msg: UserSuccess.DELETE }
   }
 
   static async getUserProfileService(payload) {

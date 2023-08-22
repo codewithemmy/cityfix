@@ -70,7 +70,7 @@ const changeAdminPasswordController = async (req, res, next) => {
   )
   if (error) return next(error)
 
-  if (!data.SUCCESS) return next(new CustomError(data.msg, 400, data))
+  if (!data.success) return next(new CustomError(data.msg, 400, data))
 
   return responseHandler(res, 200, data)
 }
@@ -84,7 +84,7 @@ const imageUpload = async (req, res, next) => {
 
   if (error) return next(error)
 
-  if (!data.SUCCESS) return next(new CustomError(data.msg, 400, data))
+  if (!data.success) return next(new CustomError(data.msg, 400, data))
 
   return responseHandler(res, 200, data)
 }
@@ -107,7 +107,7 @@ const disableOrEnableController = async (req, res, next) => {
 
   if (error) return next(error)
 
-  if (!data.SUCCESS) return next(new CustomError(data.msg, 400, data))
+  if (!data.success) return next(new CustomError(data.msg, 400, data))
 
   return responseHandler(res, 200, data)
 }
@@ -119,7 +119,7 @@ const deleteUserController = async (req, res, next) => {
 
   if (error) return next(error)
 
-  if (!data.SUCCESS) return next(new CustomError(data.msg, 400, data))
+  if (!data.success) return next(new CustomError(data.msg, 400, data))
 
   return responseHandler(res, 200, data)
 }
@@ -131,7 +131,7 @@ const fetchAdminController = async (req, res, next) => {
 
   if (error) return next(error)
 
-  if (!data.SUCCESS) return next(new CustomError(data.msg, 400, data))
+  if (!data.success) return next(new CustomError(data.msg, 400, data))
 
   return responseHandler(res, 200, data)
 }
@@ -143,7 +143,7 @@ const createMarketerController = async (req, res, next) => {
 
   if (error) return next(error)
 
-  if (!data.SUCCESS) return next(new CustomError(data.msg, 400, data))
+  if (!data.success) return next(new CustomError(data.msg, 400, data))
 
   return responseHandler(res, 200, data)
 }

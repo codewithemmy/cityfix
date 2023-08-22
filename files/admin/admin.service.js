@@ -108,13 +108,13 @@ class AdminAuthService {
       _id: new mongoose.Types.ObjectId(body.id),
     })
 
-    if (!admin) return { SUCCESS: false, msg: authMessages.ADMIN_NOT_FOUND }
+    if (!admin) return { success: false, msg: authMessages.ADMIN_NOT_FOUND }
 
     //verify password
     const prevPasswordCheck = await verifyPassword(prevPassword, admin.password)
 
     if (!prevPasswordCheck)
-      return { SUCCESS: false, msg: authMessages.INCORRECT_PASSWORD }
+      return { success: false, msg: authMessages.INCORRECT_PASSWORD }
 
     //change password
     if (body.password !== body.confirmPassword) {
@@ -135,12 +135,12 @@ class AdminAuthService {
 
     if (changePassword) {
       return {
-        SUCCESS: true,
+        success: true,
         msg: authMessages.PASSWORD_RESET_SUCCESS,
       }
     } else {
       return {
-        SUCCESS: false,
+        success: false,
         msg: authMessages.PASSWORD_RESET_FAILURE,
       }
     }
@@ -154,12 +154,12 @@ class AdminAuthService {
     })
     if (!user) {
       return {
-        SUCCESS: false,
+        success: false,
         msg: adminMessages.UPDATE_IMAGE_FAILURE,
       }
     } else {
       return {
-        SUCCESS: true,
+        success: true,
         msg: adminMessages.UPDATE_IMAGE_SUCCESS,
         user,
       }
@@ -182,27 +182,28 @@ class AdminAuthService {
       _id: new mongoose.Types.ObjectId(payload),
     })
 
-    if (!user) return { SUCCESS: false, msg: authMessages.USER_NOT_FOUND }
+    if (!user) return { success: false, msg: authMessages.USER_NOT_FOUND }
 
     user.disable = true
     user.status = "Disabled"
     await user.save()
 
     return {
-      SUCCESS: true,
+      success: true,
       msg: authMessages.USER_FOUND,
       data: user.disable,
     }
   }
+
   static async fetchAdminServices(locals) {
     const admin = await AdminRepository.fetchAdmin({
       _id: new mongoose.Types.ObjectId(locals),
     })
 
-    if (!admin) return { SUCCESS: false, msg: adminMessages.NO_ADMIN_FOUND }
+    if (!admin) return { success: false, msg: adminMessages.NO_ADMIN_FOUND }
 
     return {
-      SUCCESS: true,
+      success: true,
       msg: adminMessages.ADMIN_FOUND,
       data: admin,
     }
@@ -214,7 +215,7 @@ class AdminAuthService {
     })
 
     if (!user)
-      return { SUCCESS: false, msg: adminMessages.MARKETER_NOT_CREATED }
+      return { success: false, msg: adminMessages.MARKETER_NOT_CREATED }
 
     const referral = `cityfix.com/marketer/${user._id}-referral-link`
 
@@ -223,7 +224,7 @@ class AdminAuthService {
     })
 
     if (referralUsed)
-      return { SUCCESS: false, msg: adminMessages.REFERRAL_USED }
+      return { success: false, msg: adminMessages.REFERRAL_USED }
 
     console.log("not here")
 
@@ -232,7 +233,7 @@ class AdminAuthService {
     const userLink = await user.save()
 
     return {
-      SUCCESS: true,
+      success: true,
       msg: adminMessages.MARKETER_CREATED,
       data: userLink,
     }
