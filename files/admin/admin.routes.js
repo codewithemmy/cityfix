@@ -45,7 +45,7 @@ adminRoute.route("/user-analysis").get(userAnalysisController)
 
 //report
 adminRoute.route("/report-analysis").get(getReportAnalysis)
-adminRoute.route("/report-response/:id").get(reportResponseController)
+adminRoute.route("/report-response/:id").patch(reportResponseController)
 
 //reviews
 adminRoute.route("/review-list").get(reviewListController)
