@@ -12,6 +12,10 @@ const campaignSchema = new mongoose.Schema(
       type: String,
       enum: ["adverts", "blog", "newLetter", "emailSms"],
     },
+    accountType: {
+      type: String,
+      enum: ["User", "CityBuilder", "Marketer", "All"],
+    },
     campaign: {
       type: String,
     },

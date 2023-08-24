@@ -2,21 +2,77 @@ const mongoose = require("mongoose")
 const { queryConstructor } = require("../../utils")
 const { LIMIT, SKIP, SORT } = require("../../constants")
 const { CampaignRepository } = require("./campaign.repository")
+const {
+  NotificationRepository,
+} = require("../notification/notification.repository")
 const { CampaignFailure, CampaignSuccess } = require("./campaign.messages")
+const { UserRepository } = require("../user/user.repository")
 
 class CampaignService {
   static async createCampaignService(payload, locals) {
-    const campaign = await CampaignRepository.create({
+    const { accountType, title, campaign } = payload
+    const newCampaign = await CampaignRepository.create({
       ...payload,
       userId: locals._id,
     })
 
-    if (!campaign) return { success: false, msg: CampaignFailure.CREATE }
+    let mappedUsers
+
+    if (accountType === "User") {
+      const user = await UserRepository.findUserWithParams({
+        accountType: "User",
+      })
+      mappedUsers = user.map((item) => {
+        NotificationRepository.createNotification({
+          recipientId: new mongoose.Types.ObjectId(item._id),
+          title: `${title}`,
+          message: `${campaign}`,
+          accountType,
+        })
+      })
+    } else if (accountType === "CityBuilder") {
+      const user = await UserRepository.findUserWithParams({
+        accountType: "CityBuilder",
+      })
+      mappedUsers = user.map((item) => {
+        NotificationRepository.createNotification({
+          recipientId: new mongoose.Types.ObjectId(item._id),
+          title: `${title}`,
+          message: `${campaign}`,
+          accountType,
+        })
+      })
+    } else if (accountType === "Marketer") {
+      const user = await UserRepository.findUserWithParams({
+        accountType: "Marketer",
+      })
+      mappedUsers = user.map((item) => {
+        NotificationRepository.createNotification({
+          recipientId: new mongoose.Types.ObjectId(item._id),
+          title: `${title}`,
+          message: `${campaign}`,
+          accountType,
+        })
+      })
+    } else {
+      const user = await UserRepository.findUserWithParams()
+      mappedUsers = user.map((item) => {
+        NotificationRepository.createNotification({
+          recipientId: new mongoose.Types.ObjectId(item._id),
+          title: `${title}`,
+          message: `${campaign}`,
+          accountType,
+        })
+      })
+    }
+    await Promise.all(mappedUsers)
+
+    if (!newCampaign) return { success: false, msg: CampaignFailure.CREATE }
 
     return {
       success: true,
       msg: CampaignSuccess.CREATE,
-      campaign,
+      newCampaign,
     }
   }
 

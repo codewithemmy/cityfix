@@ -21,10 +21,10 @@ const NotificationSchema = new mongoose.Schema(
       enum: ["new", "read"],
       default: "new",
     },
-    // recipient: {
-    //   type: String,
-    //   enum: ["admin"],
-    // },
+    accountType: {
+      type: String,
+      enum: ["User", "CityBuilder", "Marketer", "All"],
+    },
   },
   { timestamps: true }
 )
