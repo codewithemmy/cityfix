@@ -112,9 +112,7 @@ class ReportRepository {
           $and: [
             {
               $or: [
-                { "reporter.name": { $regex: search, $options: "i" } },
-                { "reporter.firstName": { $regex: search, $options: "i" } },
-                { "reporter.lastName": { $regex: search, $options: "i" } },
+                { "reporter.fullName": { $regex: search, $options: "i" } },
                 { "reporter.email": { $regex: search, $options: "i" } },
               ],
               ...extraParams,
