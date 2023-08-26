@@ -36,8 +36,19 @@ class CampaignRepository {
     )
   }
 
+  static async fetchAndUpdateCampaign(id, params) {
+    return Campaign.findByIdAndUpdate(
+      { _id: new mongoose.Types.ObjectId(id) },
+      { ...params },
+      { new: true, runValidators: true }
+    )
+  }
+
   static async updateSetCampaign(payload, params) {
     return Campaign.findOneAndUpdate({ ...payload }, { $set: { ...params } })
+  }
+  static async deleteCampaign(id) {
+    return Campaign.findByIdAndDelete({ _id: new mongoose.Types.ObjectId(id) })
   }
 
   static async countsByStatus(query) {

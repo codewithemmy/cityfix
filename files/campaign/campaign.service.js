@@ -103,5 +103,29 @@ class CampaignService {
       totalCampaigns: countCampaign,
     }
   }
+  static async editCampaignService(payload, id) {
+    const campaign = await CampaignRepository.fetchAndUpdateCampaign(
+      id,
+      payload
+    )
+
+    if (!campaign) return { success: false, msg: CampaignFailure.UPDATE }
+
+    return {
+      success: true,
+      msg: CampaignSuccess.UPDATE,
+    }
+  }
+
+  static async deleteCampaignService(id) {
+    const campaign = await CampaignRepository.deleteCampaign(id)
+
+    if (!campaign) return { success: false, msg: CampaignFailure.SOFT_DELETE }
+
+    return {
+      success: true,
+      msg: CampaignSuccess.SOFT_DELETE,
+    }
+  }
 }
 module.exports = { CampaignService }

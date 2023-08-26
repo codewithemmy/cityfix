@@ -28,4 +28,34 @@ const getCampaignController = async (req, res, next) => {
   return responseHandler(res, SUCCESS, data)
 }
 
-module.exports = { createCampaignController, getCampaignController }
+const editCampaignController = async (req, res, next) => {
+  const [error, data] = await manageAsyncOps(
+    CampaignService.editCampaignService(req.body, req.params.id)
+  )
+
+  console.log("error", error)
+  if (error) return next(error)
+
+  if (!data.success) return next(new CustomError(data.msg, BAD_REQUEST, data))
+
+  return responseHandler(res, SUCCESS, data)
+}
+
+const deleteCampaignController = async (req, res, next) => {
+  const [error, data] = await manageAsyncOps(
+    CampaignService.deleteCampaignService(req.params.id)
+  )
+
+  if (error) return next(error)
+
+  if (!data.success) return next(new CustomError(data.msg, BAD_REQUEST, data))
+
+  return responseHandler(res, SUCCESS, data)
+}
+
+module.exports = {
+  createCampaignController,
+  getCampaignController,
+  editCampaignController,
+  deleteCampaignController,
+}

@@ -9,6 +9,8 @@ const { reviewListController } = require("../review/review.controller")
 const {
   createCampaignController,
   getCampaignController,
+  editCampaignController,
+  deleteCampaignController,
 } = require("../campaign/campaign.controller")
 const {
   getUserController,
@@ -53,6 +55,9 @@ adminRoute.route("/review-list").get(reviewListController)
 //campaign
 adminRoute.route("/campaign").post(createCampaignController)
 adminRoute.route("/campaign").get(getCampaignController)
+adminRoute.route("/campaign/:id").patch(editCampaignController)
+adminRoute.route("/campaign/:id").delete(deleteCampaignController)
+
 
 //admin profile
 adminRoute.route("/me").get(fetchAdminController)
