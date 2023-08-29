@@ -215,7 +215,7 @@ class ProfileService {
       ...payload,
     })
 
-    return { success: true, msg: UserSuccess.SWITCH }
+    return { success: true, msg: UserSuccess.SWITCH, data: user }
   }
 }
 

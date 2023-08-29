@@ -17,7 +17,7 @@ const { authMessages } = require("../../admin/messages/auth.messages")
 
 class UserService {
   static async createUser(payload) {
-    const { lastName, email } = payload
+    const { lastName, email, referralId } = payload
     const validPhone = sanitizePhoneNumber(payload.phoneNumber)
 
     const phoneExist = await UserRepository.validateUser({
@@ -43,6 +43,17 @@ class UserService {
 
     if (!user._id) return { success: false, msg: UserFailure.CREATE }
 
+    if (referralId) {
+      //validate the user
+      const referral = await UserRepository.validateUser({
+        _id: referralId,
+        accountType: "Marketer",
+      })
+
+      referral.referrals++
+      referral.usersReferred.push(user._id)
+    }
+
     /** once the created send otp mail for verification, if accountType is citybuilder send otp to phone number*/
     const substitutional_parameters = {
       name: lastName,
@@ -66,7 +77,7 @@ class UserService {
   }
 
   static async userLogin(payload) {
-    const { email, phoneNumber, password } = payload
+    const { email, phoneNumber, password, accountType } = payload
 
     if (email == "example@cityfixadmin.com") {
       const admin = await AdminRepository.fetchAdmin({
@@ -128,25 +139,28 @@ class UserService {
 
     if (!isPassword) return { success: false, msg: UserFailure.PASSWORD }
 
+    userprofile.accountType = accountType
+    const profile = await userprofile.save()
+
     let token
 
     token = await tokenHandler({
-      _id: userProfile._id,
-      firstName: userProfile.firstName,
-      lastName: userProfile.lastName,
-      email: userProfile.email,
-      phoneNumber: userProfile.phoneNumber,
+      _id: profile._id,
+      firstName: profile.firstName,
+      lastName: profile.lastName,
+      email: profile.email,
+      phoneNumber: profile.phoneNumber,
       isAdmin: false,
     })
 
     const user = {
-      _id: userProfile._id,
-      firstName: userProfile.firstName,
-      lastName: userProfile.lastName,
-      phoneNumber: userProfile.phoneNumber,
-      email: userProfile.email,
-      accountType: userProfile.accountType,
-      status: userProfile.status,
+      _id: profile._id,
+      firstName: profile.firstName,
+      lastName: profile.lastName,
+      phoneNumber: profile.phoneNumber,
+      email: profile.email,
+      accountType: profile.accountType,
+      status: profile.status,
       ...token,
     }
 

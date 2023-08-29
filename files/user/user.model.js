@@ -59,10 +59,7 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    wallet: {
-      type: Number,
-      default: 0,
-    },
+
     revenues: {
       type: Number,
       default: 0,
@@ -74,6 +71,12 @@ const userSchema = new mongoose.Schema(
     referralLink: {
       type: String,
     },
+    usersReferred: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "User",
+      },
+    ],
     passwordToken: {
       type: String,
     },
