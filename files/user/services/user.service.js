@@ -45,13 +45,14 @@ class UserService {
 
     if (referralId) {
       //validate the user
-      const referral = await UserRepository.validateUser({
+      const referral = await UserRepository.findSingleUserWithParams({
         _id: referralId,
         accountType: "Marketer",
       })
 
       referral.referrals++
       referral.usersReferred.push(user._id)
+      await referral.save()
     }
 
     /** once the created send otp mail for verification, if accountType is citybuilder send otp to phone number*/
@@ -139,8 +140,8 @@ class UserService {
 
     if (!isPassword) return { success: false, msg: UserFailure.PASSWORD }
 
-    userprofile.accountType = accountType
-    const profile = await userprofile.save()
+    userProfile.accountType = accountType
+    const profile = await userProfile.save()
 
     let token
 
