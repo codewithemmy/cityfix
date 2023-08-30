@@ -143,22 +143,22 @@ class UserService {
     let token
 
     token = await tokenHandler({
-      _id: profile._id,
-      firstName: profile.firstName,
-      lastName: profile.lastName,
-      email: profile.email,
-      phoneNumber: profile.phoneNumber,
+      _id: userProfile._id,
+      firstName: userProfile.firstName,
+      lastName: userProfile.lastName,
+      email: userProfile.email,
+      phoneNumber: userProfile.phoneNumber,
       isAdmin: false,
     })
 
     const user = {
-      _id: profile._id,
-      firstName: profile.firstName,
-      lastName: profile.lastName,
-      phoneNumber: profile.phoneNumber,
-      email: profile.email,
-      accountType: profile.accountType,
-      status: profile.status,
+      _id: userProfile._id,
+      firstName: userProfile.firstName,
+      lastName: userProfile.lastName,
+      phoneNumber: userProfile.phoneNumber,
+      email: userProfile.email,
+      accountType: userProfile.accountType,
+      status: userProfile.status,
       ...token,
     }
 
