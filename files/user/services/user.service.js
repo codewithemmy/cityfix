@@ -78,7 +78,7 @@ class UserService {
   }
 
   static async userLogin(payload) {
-    const { email, phoneNumber, password, accountType } = payload
+    const { email, phoneNumber, password } = payload
 
     if (email == "example@cityfixadmin.com") {
       const admin = await AdminRepository.fetchAdmin({
@@ -139,9 +139,6 @@ class UserService {
     const isPassword = await verifyPassword(password, userProfile.password)
 
     if (!isPassword) return { success: false, msg: UserFailure.PASSWORD }
-
-    userProfile.accountType = accountType
-    const profile = await userProfile.save()
 
     let token
 
