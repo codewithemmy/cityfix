@@ -32,6 +32,7 @@ const searchUser = async (req, res, next) => {
   return responseHandler(res, 200, data)
 }
 
+//rate user
 const rateUserController = async (req, res, next) => {
   const [error, data] = await manageAsyncOps(
     UserService.rateUserService(req.body, res.locals.jwt)
