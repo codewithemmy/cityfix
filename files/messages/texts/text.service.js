@@ -41,7 +41,7 @@ class TextService {
         entityOneId: new mongoose.Types.ObjectId(_id),
         entityOne: "User",
         entityTwoId: new mongoose.Types.ObjectId(recipientId),
-        entityTwo: "user",
+        entityTwo: "User",
       })
       conversationId = newConversation._id
       conversation = newConversation
