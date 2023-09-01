@@ -217,6 +217,24 @@ class ProfileService {
 
     return { success: true, msg: UserSuccess.SWITCH, data: user }
   }
+
+  static async getReferralsService(id) {
+    const referrals = await UserRepository.findSingleUserWithParams(
+      {
+        _id: new mongoose.Types.ObjectId(id),
+      },
+      { usersReferred: 1 },
+      "usersReferred"
+    )
+
+    if (!referrals) return { success: false, msg: UserFailure.FETCH }
+
+    return {
+      success: true,
+      msg: UserSuccess.FETCH,
+      data: referrals,
+    }
+  }
 }
 
 module.exports = { ProfileService }

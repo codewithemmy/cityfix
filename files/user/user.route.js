@@ -24,6 +24,7 @@ const {
   getUserProfileController,
   deleteGalleryController,
   switchUserController,
+  getReferralsController,
 } = require("../user/controllers/profile.controller")
 const {
   createReviewController,
@@ -60,5 +61,8 @@ userRoute.route("/gallery").delete(deleteGalleryController)
 
 //switch user
 userRoute.route("/switch").put(switchUserController)
+
+//get referrals
+userRoute.route("/referrals").get(getReferralsController)
 
 module.exports = userRoute
