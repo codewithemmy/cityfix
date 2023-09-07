@@ -1,5 +1,5 @@
 const adminRoute = require("express").Router()
-const { isAuthenticated } = require("../../utils/index")
+const { isAuthenticated, adminVerifier } = require("../../utils/index")
 const { uploadManager } = require("../../utils/multer")
 const {
   getReportAnalysis,
@@ -53,11 +53,10 @@ adminRoute.route("/report-response/:id").patch(reportResponseController)
 adminRoute.route("/review-list").get(reviewListController)
 
 //campaign
-adminRoute.route("/campaign").post(createCampaignController)
+adminRoute.route("/campaign").post(adminVerifier, createCampaignController)
 adminRoute.route("/campaign").get(getCampaignController)
 adminRoute.route("/campaign/:id").patch(editCampaignController)
 adminRoute.route("/campaign/:id").delete(deleteCampaignController)
-
 
 //admin profile
 adminRoute.route("/me").get(fetchAdminController)

@@ -15,6 +15,7 @@ const uploadManager = (destination) => {
       cloudinary: cloudinary,
       params: {
         folder: `Citifix/${destination}`,
+        quality: "auto:best",
       },
     }),
   })
