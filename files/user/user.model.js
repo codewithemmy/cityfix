@@ -34,6 +34,10 @@ const userSchema = new mongoose.Schema(
     nearestBusStop: { type: String },
     localGovernment: { type: String },
     location: { type: String },
+    locationCoord: {
+      type: { type: String },
+      coordinates: [],
+    },
     state: { type: String },
     clients: [{ type: String }],
     completedContract: { type: Number, default: 0 },

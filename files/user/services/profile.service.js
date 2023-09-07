@@ -122,6 +122,13 @@ class ProfileService {
     const user = await UserRepository.findSingleUserWithParams({
       _id: locals._id,
     })
+    let locationCoord
+    if (body.lng && body.lat) {
+      locationCoord = {
+        type: "Point",
+        coordinates: [parseFloat(body.lat), parseFloat(body.lng)],
+      }
+    }
 
     if (!user) return { success: false, msg: UserFailure.UPDATE }
 
@@ -129,6 +136,7 @@ class ProfileService {
       { _id: locals._id },
       {
         ...body,
+        locationCoord,
       }
     )
 
