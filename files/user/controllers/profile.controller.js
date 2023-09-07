@@ -148,6 +148,30 @@ const getReferralsController = async (req, res, next) => {
   return responseHandler(res, SUCCESS, data)
 }
 
+const getCityBuilderCoordController = async (req, res, next) => {
+  const [error, data] = await manageAsyncOps(
+    ProfileService.getCityBuilderCoord(req.query)
+  )
+
+  if (error) return next(error)
+
+  if (!data.success) return next(new CustomError(data.msg, BAD_REQUEST, data))
+
+  return responseHandler(res, SUCCESS, data)
+}
+
+const searchByCoordController = async (req, res, next) => {
+  const [error, data] = await manageAsyncOps(
+    ProfileService.searchCityBuilder(req.query)
+  )
+
+  if (error) return next(error)
+
+  if (!data.success) return next(new CustomError(data.msg, BAD_REQUEST, data))
+
+  return responseHandler(res, SUCCESS, data)
+}
+
 module.exports = {
   profileImageController,
   galleryController,
@@ -161,4 +185,6 @@ module.exports = {
   deleteGalleryController,
   switchUserController,
   getReferralsController,
+  getCityBuilderCoordController,
+  searchByCoordController,
 }

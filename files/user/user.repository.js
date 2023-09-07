@@ -149,6 +149,48 @@ class UserRepository {
 
     return analysis
   }
+
+  static async findCityBuilderByCoordinates(userPayload) {
+    const { limit, skip, sort, ...restOfPayload } = userPayload
+
+    let { lat, lng, search, ...extraParams } = restOfPayload
+    if (!search) search = ""
+
+    const user = await User.aggregate([
+      {
+        $geoNear: {
+          near: {
+            type: "Point",
+            coordinates: [parseFloat(lng), parseFloat(lat)],
+          },
+          key: "locationCoord",
+          maxDistance: parseFloat(20000) * 1609,
+          distanceField: "distance",
+          spherical: true,
+        },
+      },
+      {
+        $sort: {
+          createdAt: 1,
+        },
+      },
+      {
+        $match: {
+          $and: [
+            {
+              $or: [{ firstName: { $regex: search, $options: "i" } }],
+              ...extraParams,
+            },
+          ],
+        },
+      },
+    ])
+      .sort(sort)
+      .skip(skip)
+      .limit(limit)
+
+    return user
+  }
 }
 
 module.exports = { UserRepository }

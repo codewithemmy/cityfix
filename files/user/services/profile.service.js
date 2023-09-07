@@ -243,6 +243,68 @@ class ProfileService {
       data: referrals,
     }
   }
+
+  static async getCityBuilderCoord(userPayload) {
+    const { error, params, limit, skip, sort } = queryConstructor(
+      userPayload,
+      "createdAt",
+      "User"
+    )
+    if (error) return { success: false, msg: error }
+
+    const allUsers = await UserRepository.findCityBuilderByCoordinates({
+      ...params,
+      limit,
+      skip,
+      sort,
+    })
+
+    if (allUsers.length < 1) return { success: false, msg: UserFailure.FETCH }
+
+    return { success: true, msg: UserSuccess.FETCH, data: allUsers }
+  }
+
+  static async searchCityBuilder(payload) {
+    const { search, accountType, lat, lng } = payload
+    let query
+
+    if (accountType && search && lat && lng) {
+      query = {
+        $or: [
+          { profession: { $regex: search, $options: "i" } },
+          { location: { $regex: search, $options: "i" } },
+          { firstName: { $regex: search, $options: "i" } },
+          { lastName: { $regex: search, $options: "i" } },
+          { email: { $regex: search, $options: "i" } },
+        ],
+        accountType,
+        lat,
+        lng,
+      }
+    } else if (accountType && lat && lng) {
+      query = {
+        accountType: accountType,
+        lat,
+        lng,
+      }
+    } else {
+      query = {
+        search: "",
+      }
+    }
+
+    console.log("query", query)
+
+    const cityBuilder = await this.getCityBuilderCoord(query)
+
+    if (!cityBuilder) return { success: false, msg: UserFailure.SEARCH_ERROR }
+
+    return {
+      success: true,
+      msg: UserSuccess.FETCH,
+      data: cityBuilder,
+    }
+  }
 }
 
 module.exports = { ProfileService }

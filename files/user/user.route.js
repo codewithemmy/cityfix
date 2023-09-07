@@ -25,6 +25,8 @@ const {
   deleteGalleryController,
   switchUserController,
   getReferralsController,
+  getCityBuilderCoordController,
+  searchByCoordController,
 } = require("../user/controllers/profile.controller")
 const {
   createReviewController,
@@ -55,6 +57,8 @@ userRoute.route("/delete-account").delete(deleteUserController)
 userRoute.route("/review").post(createReviewController)
 userRoute.route("/review").get(getReviewController)
 userRoute.route("/profile").get(getUserProfileController)
+userRoute.route("/city-builder").get(getCityBuilderCoordController)
+userRoute.route("/search-coordinate").get(searchByCoordController)
 
 //delete gallery picture
 userRoute.route("/gallery").delete(deleteGalleryController)
