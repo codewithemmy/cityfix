@@ -122,9 +122,12 @@ class ProfileService {
     const user = await UserRepository.findSingleUserWithParams({
       _id: locals._id,
     })
+
     let locationCoord
+
     if (body.lng && body.lat) {
       locationCoord = {
+        address: body.address,
         type: "Point",
         coordinates: [parseFloat(body.lat), parseFloat(body.lng)],
       }
@@ -292,8 +295,6 @@ class ProfileService {
         search: "",
       }
     }
-
-    console.log("query", query)
 
     const cityBuilder = await this.getCityBuilderCoord(query)
 

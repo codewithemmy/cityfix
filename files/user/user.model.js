@@ -35,6 +35,7 @@ const userSchema = new mongoose.Schema(
     localGovernment: { type: String },
     location: { type: String },
     locationCoord: {
+      address: { type: String },
       type: { type: String },
       coordinates: [],
     },
