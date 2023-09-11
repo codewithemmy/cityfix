@@ -4,7 +4,7 @@ const fs = require("fs")
 
 module.exports.socketConnection = async (io) => {
   io.on("connection", async (socket) => {
-    console.log(`⚡: ${socket.id} user just connected!`)
+    console.log(`⚡⚡: ${socket.id} user just connected!`)
     socket.on("join", async (obj) => {
       try {
         //check to delete the socket id with the userId

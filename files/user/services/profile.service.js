@@ -262,7 +262,7 @@ class ProfileService {
       sort,
     })
 
-    if (allUsers.length < 1) return { success: false, msg: UserFailure.FETCH }
+    if (allUsers.length < 1) return { success: true, msg: UserSuccess.LOCATION }
 
     return { success: true, msg: UserSuccess.FETCH, data: allUsers }
   }

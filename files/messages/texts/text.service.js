@@ -15,6 +15,7 @@ class TextService {
     const {
       _id,
       accountType,
+      isAdmin,
       io,
       image: senderImage,
       firstName,
@@ -39,7 +40,7 @@ class TextService {
     if (!conversation) {
       const newConversation = await ConversationRepository.createConversation({
         entityOneId: new mongoose.Types.ObjectId(_id),
-        entityOne: "User",
+        sender: isAdmin ? "Admin" : "User",
         entityTwoId: new mongoose.Types.ObjectId(recipientId),
         entityTwo: recipient,
       })
@@ -53,7 +54,7 @@ class TextService {
 
     const text = await TextRepository.createText({
       senderId: new mongoose.Types.ObjectId(_id),
-      sender: "User",
+      sender: isAdmin ? "Admin" : "User",
       recipientId: new mongoose.Types.ObjectId(recipientId),
       recipient: recipient,
       conversationId,

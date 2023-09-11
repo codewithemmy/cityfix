@@ -4,6 +4,7 @@ module.exports.UserSuccess = {
   UPDATE: "Update Successful",
   DELETE: "Delete Successful",
   SWITCH: "account switch is successful",
+  LOCATION: "No City-Builder in your Location",
 }
 
 module.exports.UserFailure = {
