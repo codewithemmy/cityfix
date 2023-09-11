@@ -57,6 +57,8 @@ userRoute.route("/delete-account").delete(deleteUserController)
 userRoute.route("/review").post(createReviewController)
 userRoute.route("/review").get(getReviewController)
 userRoute.route("/profile").get(getUserProfileController)
+
+//coordinates routes
 userRoute.route("/city-builder").get(getCityBuilderCoordController)
 userRoute.route("/search-coordinate").get(searchByCoordController)
 
