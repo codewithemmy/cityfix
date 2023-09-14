@@ -1,5 +1,4 @@
 const { handleApplicationErrors, notFound } = require("./response")
-
 const express = require("express")
 const cors = require("cors")
 const xss = require("xss-clean")
