@@ -61,7 +61,7 @@ class ReviewService {
       sort,
     })
 
-    if (!reviews) return { success: false, msg: ReviewFailure.FETCH }
+    if (!reviews) return { success: true, msg: ReviewFailure.FETCH, data: [] }
 
     return {
       success: true,

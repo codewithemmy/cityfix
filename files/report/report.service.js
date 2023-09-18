@@ -54,6 +54,7 @@ class ReportService {
     )
 
     if (error) return { success: false, msg: error }
+
     const report = await ReportRepository.reportAnalysisService({
       ...params,
       limit,

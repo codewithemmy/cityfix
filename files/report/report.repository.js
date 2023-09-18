@@ -52,6 +52,8 @@ class ReportRepository {
 
     if (!search) search = ""
 
+    console.log("search", search)
+
     let extraParams = {}
 
     if (from && to)
@@ -65,6 +67,7 @@ class ReportRepository {
         _id: new mongoose.Types.ObjectId(_id),
       }
 
+      //  const report = await Report.find()
     const report = await Report.aggregate([
       {
         $addFields: {
@@ -114,7 +117,6 @@ class ReportRepository {
           $and: [
             {
               $or: [
-                { "reporter.name": { $regex: search, $options: "i" } },
                 { "reporter.firstName": { $regex: search, $options: "i" } },
                 { "reporter.lastName": { $regex: search, $options: "i" } },
                 { "reporter.email": { $regex: search, $options: "i" } },
