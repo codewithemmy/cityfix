@@ -74,12 +74,15 @@ class TextService {
 
     if (socketDetails)
       io.to(socketDetails.socketId).emit("private-message", {
+        recipientId,
         message,
         conversationId,
         image,
-        sender: {
+        senderId: {
+          _id,
           image: senderImage,
-          name: lastName ? lastName : firstName,
+          firstName,
+          lastName,
           email,
         },
       })
