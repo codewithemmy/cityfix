@@ -64,6 +64,30 @@ const userAnalysisController = async (req, res, next) => {
   return responseHandler(res, 200, data)
 }
 
+const authLoginController = async (req, res, next) => {
+  const [error, data] = await manageAsyncOps(
+    UserService.authLoginService(req.body)
+  )
+
+  if (error) return next(error)
+
+  if (!data.success) return next(new CustomError(data.msg, BAD_REQUEST, data))
+
+  return responseHandler(res, SUCCESS, data)
+}
+
+const authCreateUserController = async (req, res, next) => {
+  const [error, data] = await manageAsyncOps(
+    UserService.authCreateUserService(req.body)
+  )
+
+  if (error) return next(error)
+
+  if (!data.success) return next(new CustomError(data.msg, BAD_REQUEST, data))
+
+  return responseHandler(res, SUCCESS, data)
+}
+
 module.exports = {
   createUserController,
   userLoginController,
@@ -71,4 +95,7 @@ module.exports = {
   rateUserController,
   userOverviewController,
   userAnalysisController,
+  authLoginController,
+  authCreateUserController,
+  authLoginController,
 }
