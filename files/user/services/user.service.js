@@ -263,8 +263,6 @@ class UserService {
 
     if (userExist) return { success: false, msg: UserFailure.EXIST }
 
-    const { otp, expiry } = generateOtp()
-
     //hash password
     const user = await UserRepository.create({
       ...payload,
@@ -288,7 +286,6 @@ class UserService {
     return {
       success: true,
       msg: UserSuccess.CREATE,
-      otp: otp,
     }
   }
 }
