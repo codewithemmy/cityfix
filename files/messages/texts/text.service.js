@@ -37,8 +37,8 @@ class TextService {
 
     if (!conversation) {
       const newConversation = await ConversationRepository.createConversation({
+        entityOne: "User",
         entityOneId: new mongoose.Types.ObjectId(_id),
-        sender: "User",
         entityTwoId: new mongoose.Types.ObjectId(recipientId),
         entityTwo: recipient,
       })
