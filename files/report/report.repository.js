@@ -52,8 +52,6 @@ class ReportRepository {
 
     if (!search) search = ""
 
-    console.log("search", search)
-
     let extraParams = {}
 
     if (from && to)

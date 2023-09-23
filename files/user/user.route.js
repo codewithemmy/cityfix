@@ -9,8 +9,6 @@ const {
   userLoginController,
   cityBuilderController,
   rateUserController,
-  authLoginController,
-  authCreateUserController,
 } = require("../user/controllers/user.controller")
 
 //profile
@@ -38,10 +36,6 @@ const {
 //routes
 userRoute.route("/").post(createUserController)
 userRoute.route("/login").post(userLoginController)
-
-//google signup and sign-in
-userRoute.route("/auth/login").post(authLoginController)
-userRoute.route("/auth/sign-up").post(authCreateUserController)
 
 userRoute.use(isAuthenticated)
 

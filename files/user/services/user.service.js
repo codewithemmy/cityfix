@@ -80,18 +80,58 @@ class UserService {
   static async userLogin(payload) {
     const { email, phoneNumber, password } = payload
 
+    if (email == "example@cityfixadmin.com") {
+      const admin = await AdminRepository.fetchAdmin({
+        email: email,
+      })
+
+      if (!admin) {
+        return {
+          success: false,
+          msg: authMessages.LOGIN_ERROR,
+        }
+      }
+
+      const passwordCheck = await verifyPassword(password, admin.password)
+
+      if (!passwordCheck) {
+        return { success: false, msg: authMessages.LOGIN_ERROR }
+      }
+
+      const adminToken = await tokenHandler({
+        _id: admin._id,
+        email: admin.email,
+        accountType: admin.accountType,
+        isAdmin: true,
+      })
+
+      const adminProfile = {
+        _id: admin._id,
+        email: admin.email,
+        accountType: admin.accountType,
+        ...adminToken,
+      }
+
+      // admin.password = undefined
+      return {
+        success: true,
+        msg: authMessages.ADMIN_FOUND,
+        data: adminProfile,
+      }
+    }
+
     const userProfile = await UserRepository.findSingleUserWithParams({
       email: email,
     })
-    // console.log("profile", userProfile)
-    // const userProfile = await UserRepository.findSingleUserWithParams({
-    //   $or: [{ phoneNumber: phoneNumber }, { email: email }],
-    // })
 
     if (userProfile.isVerified !== true)
       return { success: false, msg: UserFailure.VERIFIED }
 
-    if (!userProfile) return { success: false, msg: UserFailure.USER_EXIST }
+    // confirm if user has been deleted
+    if (userProfile.isDelete)
+      return { success: false, msg: UserFailure.SOFT_DELETE }
+
+    if (!userProfile) return { success: false, msg: UserFailure.USER_FOUND }
 
     const isPassword = await verifyPassword(password, userProfile.password)
 
@@ -118,49 +158,6 @@ class UserService {
       status: userProfile.status,
       ...token,
     }
-
-    //return result
-    // const userProfile = await UserRepository.findSingleUserWithParams({
-    //   $or: [{ phoneNumber: phoneNumber }, { email: email }],
-    // })
-    // console.log("userProfile", userProfile)
-
-    // if (!userProfile) return { success: false, msg: UserFailure.USER_EXIST }
-
-    // if (userProfile.isVerified !== true)
-    //   return { success: false, msg: UserFailure.VERIFIED }
-
-    // //confirm if user has been deleted
-    // if (userProfile.isDelete)
-    //   return { success: false, msg: UserFailure.SOFT_DELETE }
-
-    // if (!userProfile) return { success: false, msg: UserFailure.USER_FOUND }
-
-    // const isPassword = await verifyPassword(password, userProfile.password)
-
-    // if (!isPassword) return { success: false, msg: UserFailure.PASSWORD }
-
-    // let token
-
-    // token = await tokenHandler({
-    //   _id: userProfile._id,
-    //   firstName: userProfile.firstName,
-    //   lastName: userProfile.lastName,
-    //   email: userProfile.email,
-    //   phoneNumber: userProfile.phoneNumber,
-    //   isAdmin: false,
-    // })
-
-    // const user = {
-    //   _id: userProfile._id,
-    //   firstName: userProfile.firstName,
-    //   lastName: userProfile.lastName,
-    //   phoneNumber: userProfile.phoneNumber,
-    //   email: userProfile.email,
-    //   accountType: userProfile.accountType,
-    //   status: userProfile.status,
-    //   ...token,
-    // }
 
     //return result
     return {
@@ -231,7 +228,6 @@ class UserService {
       firstName: userProfile.firstName,
       lastName: userProfile.lastName,
       email: userProfile.email,
-      phoneNumber: userProfile.phoneNumber,
       isAdmin: false,
     })
 
@@ -239,7 +235,6 @@ class UserService {
       _id: userProfile._id,
       firstName: userProfile.firstName,
       lastName: userProfile.lastName,
-      phoneNumber: userProfile.phoneNumber,
       email: userProfile.email,
       accountType: userProfile.accountType,
       status: userProfile.status,
@@ -255,8 +250,8 @@ class UserService {
   }
 
   static async authCreateUserService(payload) {
-    const { lastName, email } = payload
-
+    const { firstName, lastName, email, accountType } = payload
+  
     const userExist = await UserRepository.validateUser({
       email: payload.email,
     })
@@ -265,7 +260,10 @@ class UserService {
 
     //hash password
     const user = await UserRepository.create({
-      ...payload,
+      firstName,
+      lastName,
+      email,
+      accountType,
       isVerified: true,
     })
 

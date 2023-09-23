@@ -11,6 +11,7 @@ const {
   resetPasswordController,
   verifyOtpController,
 } = require("./controller/auth.controller")
+const { authLoginController, authCreateUserController } = require("../user/controllers/user.controller")
 
 const authRoute = require("express").Router()
 
@@ -19,5 +20,9 @@ authRoute.post("/verify", verifyUserController)
 authRoute.post("/forgot-password", forgotPasswordController)
 authRoute.patch("/reset-password/:id", resetPasswordController)
 authRoute.post("/verify-otp", verifyOtpController)
+
+//google signup and sign-in
+authRoute.route("/sign-up").post(authCreateUserController)
+authRoute.route("/google/login").post(authLoginController)
 
 module.exports = authRoute

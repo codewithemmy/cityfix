@@ -33,7 +33,6 @@ const editCampaignController = async (req, res, next) => {
     CampaignService.editCampaignService(req.body, req.params.id)
   )
 
-  console.log("error", error)
   if (error) return next(error)
 
   if (!data.success) return next(new CustomError(data.msg, BAD_REQUEST, data))

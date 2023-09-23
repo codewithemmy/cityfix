@@ -105,7 +105,6 @@ class TransactionService {
   }
 
   static async initiateSubscriptionPayment(body, user) {
-    console.log("user", user)
     // get the enterprise data
     const enterprise = await EnterpriseRepository.fetchEnterprise(
       { _id: new mongoose.Types.ObjectId(user.enterpriseId) },

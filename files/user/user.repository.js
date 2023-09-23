@@ -10,8 +10,8 @@ class UserRepository {
     return await User.find({ ...userPayload }).select(select)
   }
 
-  static async findSingleUserWithParams(userPayload, select) {
-    const user = await User.findOne({ ...userPayload }).select(select)
+  static async findSingleUserWithParams(userPayload) {
+    const user = await User.findOne({ ...userPayload })
 
     return user
   }

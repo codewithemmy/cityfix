@@ -21,8 +21,6 @@ class AuthService {
 
     if (!confirmOtp) return { success: false, msg: AuthFailure.VERIFY_OTP }
 
-    // console.log("hash", hash)
-
     confirmOtp.isVerified = true
     confirmOtp.verificationOtp = ""
     confirmOtp.verified = Date.now()

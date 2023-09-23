@@ -226,8 +226,6 @@ class AdminAuthService {
     if (referralUsed)
       return { success: false, msg: adminMessages.REFERRAL_USED }
 
-    console.log("not here")
-
     user.referralLink = referral
     user.accountType = "Marketer"
     const userLink = await user.save()

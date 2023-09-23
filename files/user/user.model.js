@@ -11,12 +11,11 @@ const userSchema = new mongoose.Schema(
     email: {
       type: String,
     },
-    phoneNumber: {
-      type: String,
-      unique: true,
-    },
     password: { type: String },
     profileImage: { type: String },
+    phoneNumber: {
+      type: String,
+    },
     gallery: [
       {
         type: String,
