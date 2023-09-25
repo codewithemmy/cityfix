@@ -81,8 +81,6 @@ const authCreateUserController = async (req, res, next) => {
     UserService.authCreateUserService(req.body)
   )
 
-  console.log("error", error)
-
   if (error) return next(error)
 
   if (!data.success) return next(new CustomError(data.msg, BAD_REQUEST, data))

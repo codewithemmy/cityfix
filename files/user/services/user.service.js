@@ -251,7 +251,7 @@ class UserService {
 
   static async authCreateUserService(payload) {
     const { firstName, lastName, email, accountType } = payload
-  
+
     const userExist = await UserRepository.validateUser({
       email: payload.email,
     })
@@ -281,9 +281,31 @@ class UserService {
       "GOOGLE_SIGNUP"
     )
 
+    let token
+
+    token = await tokenHandler({
+      _id: userProfile._id,
+      firstName: userProfile.firstName,
+      lastName: userProfile.lastName,
+      email: userProfile.email,
+      isAdmin: false,
+    })
+
+    const loginDetails = {
+      _id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      accountType: user.accountType,
+      status: user.status,
+      ...token,
+    }
+
+    //return result
     return {
       success: true,
       msg: UserSuccess.CREATE,
+      data: loginDetails,
     }
   }
 }
