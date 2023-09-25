@@ -284,10 +284,10 @@ class UserService {
     let token
 
     token = await tokenHandler({
-      _id: userProfile._id,
-      firstName: userProfile.firstName,
-      lastName: userProfile.lastName,
-      email: userProfile.email,
+      _id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
       isAdmin: false,
     })
 
