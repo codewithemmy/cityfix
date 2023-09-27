@@ -1,21 +1,10 @@
-const contractRoute = require("express").Router()
+const campaignRoute = require("express").Router()
 const { isAuthenticated } = require("../../utils")
+const { getCampaignController } = require("./campaign.controller")
 
-const {
-  createContractController,
-  getContractController,
-  startContractController,
-  declineContractController,
-  endContractController,
-} = require("./contract.controller")
-
-contractRoute.use(isAuthenticated)
+campaignRoute.use(isAuthenticated)
 
 //routes
-// contractRoute.route("/end/:id").put(endContractController)
-// contractRoute.route("/").post(createContractController)
-// contractRoute.route("/start/:id").put(startContractController)
-// contractRoute.route("/").get(getContractController)
-// contractRoute.route("/decline/:id").put(declineContractController)
+campaignRoute.route("/").get(getCampaignController)
 
-module.exports = contractRoute
+module.exports = campaignRoute

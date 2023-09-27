@@ -32,8 +32,9 @@ const getCampaignController = async (req, res, next) => {
 }
 
 const editCampaignController = async (req, res, next) => {
+  let value = await fileModifier(req)
   const [error, data] = await manageAsyncOps(
-    CampaignService.editCampaignService(req.body, req.params.id)
+    CampaignService.editCampaignService(value, req.params.id)
   )
 
   if (error) return next(error)

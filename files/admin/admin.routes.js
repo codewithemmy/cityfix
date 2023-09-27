@@ -56,12 +56,14 @@ adminRoute.route("/review-list").get(reviewListController)
 adminRoute
   .route("/campaign")
   .post(
-    uploadManager("bloImage").single("image"),
+    uploadManager("blogImage").single("image"),
     adminVerifier,
     createCampaignController
   )
 adminRoute.route("/campaign").get(getCampaignController)
-adminRoute.route("/campaign/:id").patch(editCampaignController)
+adminRoute
+  .route("/campaign/:id")
+  .patch(uploadManager("blogImage").single("image"), editCampaignController)
 adminRoute.route("/campaign/:id").delete(deleteCampaignController)
 
 //admin profile

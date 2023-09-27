@@ -105,11 +105,14 @@ class CampaignService {
       totalCampaigns: countCampaign,
     }
   }
+
   static async editCampaignService(payload, id) {
-    const campaign = await CampaignRepository.fetchAndUpdateCampaign(
-      id,
-      payload
-    )
+    const { image, body } = payload
+    
+    const campaign = await CampaignRepository.fetchAndUpdateCampaign(id, {
+      image,
+      ...body,
+    })
 
     if (!campaign) return { success: false, msg: CampaignFailure.UPDATE }
 
