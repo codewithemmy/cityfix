@@ -10,9 +10,11 @@ const { UserRepository } = require("../user/user.repository")
 
 class CampaignService {
   static async createCampaignService(payload, locals) {
-    const { accountType, title, campaign } = payload
+    const { image, body } = payload
+    const { accountType, title, campaign } = body
     const newCampaign = await CampaignRepository.create({
-      ...payload,
+      ...body,
+      image,
       userId: locals._id,
     })
 

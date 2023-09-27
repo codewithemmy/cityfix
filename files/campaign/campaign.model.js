@@ -19,6 +19,9 @@ const campaignSchema = new mongoose.Schema(
     campaign: {
       type: String,
     },
+    image: {
+      type: String,
+    },
     userId: {
       type: mongoose.Types.ObjectId,
       ref: "Admin",

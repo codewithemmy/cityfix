@@ -53,7 +53,13 @@ adminRoute.route("/report-response/:id").patch(reportResponseController)
 adminRoute.route("/review-list").get(reviewListController)
 
 //campaign
-adminRoute.route("/campaign").post(adminVerifier, createCampaignController)
+adminRoute
+  .route("/campaign")
+  .post(
+    uploadManager("bloImage").single("image"),
+    adminVerifier,
+    createCampaignController
+  )
 adminRoute.route("/campaign").get(getCampaignController)
 adminRoute.route("/campaign/:id").patch(editCampaignController)
 adminRoute.route("/campaign/:id").delete(deleteCampaignController)

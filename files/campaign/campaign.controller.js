@@ -1,13 +1,16 @@
 const { BAD_REQUEST, SUCCESS } = require("../../constants/statusCode")
 const { responseHandler } = require("../../core/response")
-const { manageAsyncOps } = require("../../utils")
+const { manageAsyncOps, fileModifier } = require("../../utils")
 const { CustomError } = require("../../utils/errors")
 const { CampaignService } = require("./campaign.service")
 
 const createCampaignController = async (req, res, next) => {
+  let value = await fileModifier(req)
   const [error, data] = await manageAsyncOps(
-    CampaignService.createCampaignService(req.body, res.locals.jwt)
+    CampaignService.createCampaignService(value, res.locals.jwt)
   )
+
+  console.log("error", error)
 
   if (error) return next(error)
 
