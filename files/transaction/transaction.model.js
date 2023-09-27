@@ -19,6 +19,12 @@ const TransactionSchema = new mongoose.Schema(
       required: true,
       enum: ["paystack", "bank"],
     },
+    paymentFor: {
+      type: String,
+      required: true,
+      enum: ["UserBoost"],
+      default: "UserBoost",
+    },
     reference: {
       type: String,
       required: true,

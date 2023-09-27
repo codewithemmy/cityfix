@@ -7,12 +7,13 @@ const { validate } = require("../../validations/validate")
 
 const { isAuthenticated } = require("../../utils")
 const {
-  paymentTransactionController,
+  paymentTransactionController, verifyTransactionController,
 } = require("./controller/transaction.controller")
 
 // transactionRoute.use(isAuthenticated)
 
 transactionRoute.route("/initiate").post(paymentTransactionController)
+transactionRoute.route("/verify").get(verifyTransactionController)
 
 //routes
 module.exports = transactionRoute

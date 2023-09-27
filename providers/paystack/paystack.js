@@ -10,6 +10,9 @@ const {
 
 const RequestHandler = require("../../utils/axios.provision")
 const { providerMessages } = require("../providers.messages")
+const {
+  NotificationService,
+} = require("../../files/notification/notification.service")
 
 class PaystackPaymentService {
   paymentRequestHandler = RequestHandler.setup({
@@ -40,13 +43,12 @@ class PaystackPaymentService {
       responseStatus = "failed"
     }
 
-    const { updatedExisting } =
-      await TransactionRepository.updateTransactionDetails(
-        { reference: payload.reference },
-        { status: responseStatus, metaData: JSON.stringify(payload) }
-      )
+    const transaction = await TransactionRepository.updateTransactionDetails(
+      { reference: payload.reference },
+      { status: responseStatus, metaData: JSON.stringify(payload) }
+    )
 
-    if (!updatedExisting)
+    if (!transaction)
       return { success: false, msg: TransactionMessages.PAYMENT_FAILURE }
 
     return { success: statusVerification.success, msg: statusVerification.msg }
@@ -82,6 +84,45 @@ class PaystackPaymentService {
     }
   }
 
+  async verifyPayment(payload) {
+    //check success of transaction
+    const { data } = payload
+    const transaction = await TransactionRepository.fetchOne(
+      {
+        reference: data.reference,
+      },
+      true
+    )
+
+    if (!transaction?._id)
+      return { success: false, msg: TransactionMessages.TRANSACTION_NOT_FOUND }
+
+    if (transaction?.status != "pending")
+      return { success: false, msg: TransactionMessages.DUPLICATE_TRANSACTION }
+
+    const verifyAndUpdateTransactionRecord = await this.verifySuccessOfPayment(
+      data
+    )
+
+    if (!verifyAndUpdateTransactionRecord.success) {
+      await NotificationService.create({
+        userId: new mongoose.Types.ObjectId(transaction.userId),
+        recipientId: new mongoose.Types.ObjectId(transaction.userId),
+        message: `Unconfirmed/failed payment of ${data.amount}`,
+      })
+      return { success: false, msg: TransactionMessages.PAYMENT_FAILURE }
+    }
+
+    //if payment is successful, create a notification for the user
+    await NotificationService.create({
+      userId: new mongoose.Types.ObjectId(transaction.userId),
+      recipientId: new mongoose.Types.ObjectId(transaction.userId),
+      message: `Successful payment of ${data.amount}`,
+    })
+
+    return { success: true, msg: TransactionMessages.PAYMENT_SUCCESS }
+  }
+
   async verifyProviderPayment(reference) {
     const { data: response } = await this.paymentRequestHandler({
       method: "GET",
@@ -89,7 +130,7 @@ class PaystackPaymentService {
     })
 
     if (response.status && response.message == "Verification successful") {
-      return this.verifyCardPayment(response)
+      return this.verifyPayment(response)
     }
 
     return { success: false, msg: response.message }

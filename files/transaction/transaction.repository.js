@@ -14,15 +14,15 @@ class TransactionRepository {
   }
 
   static async updateTransactionDetails(transactionPayload, update) {
-    const { lastErrorObject: response } = await Transaction.findOneAndUpdate(
+    const transaction = await Transaction.findOneAndUpdate(
       {
         ...transactionPayload,
       },
       { ...update },
-      { rawResult: true } //returns details about the update
+      { new: true, runValidation: true } //returns details about the update
     )
 
-    return response
+    return transaction
   }
 }
 
