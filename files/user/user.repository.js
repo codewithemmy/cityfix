@@ -162,7 +162,7 @@ class UserRepository {
             coordinates: [parseFloat(lng), parseFloat(lat)],
           },
           key: "locationCoord",
-          maxDistance: parseFloat(20000) * 1609,
+          maxDistance: 10000,
           distanceField: "distance",
           spherical: true,
         },
