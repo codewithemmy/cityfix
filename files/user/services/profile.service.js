@@ -125,7 +125,7 @@ class ProfileService {
 
     let locationCoord
 
-    if (body.lng && body.lat) {
+    if (body.lng && body.lat || body.address) {
       locationCoord = {
         address: body.address,
         type: "Point",
