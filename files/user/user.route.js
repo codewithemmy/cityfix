@@ -1,5 +1,9 @@
 const { uploadManager } = require("../../utils/multer")
 const { checkSchema } = require("express-validator")
+const {
+  createUserValidation,
+} = require("../../validations/users/createUser.validation")
+const validate = require("../../validations/validate")
 const userRoute = require("express").Router()
 const { isAuthenticated } = require("../../utils")
 
@@ -7,8 +11,6 @@ const { isAuthenticated } = require("../../utils")
 const {
   createUserController,
   userLoginController,
-  cityBuilderController,
-  rateUserController,
 } = require("../user/controllers/user.controller")
 
 //profile
@@ -32,10 +34,18 @@ const {
   createReviewController,
   getReviewController,
 } = require("../review/review.controller")
+const {
+  loginUserValidation,
+} = require("../../validations/users/loginUser.Validation")
+const { createReviewValidation } = require("../../validations/review/createReview.validation")
 
 //routes
-userRoute.route("/").post(createUserController)
-userRoute.route("/login").post(userLoginController)
+userRoute
+  .route("/")
+  .post(validate(checkSchema(createUserValidation)), createUserController)
+userRoute
+  .route("/login")
+  .post(validate(checkSchema(loginUserValidation)), userLoginController)
 
 userRoute.use(isAuthenticated)
 
@@ -54,7 +64,7 @@ userRoute.route("/gallery").get(userGalleryController)
 userRoute.route("/update").put(updateUserController)
 userRoute.route("/change-password").put(changePasswordController)
 userRoute.route("/delete-account").delete(deleteUserController)
-userRoute.route("/review").post(createReviewController)
+userRoute.route("/review").post(validate(checkSchema(createReviewValidation)) , createReviewController)
 userRoute.route("/review").get(getReviewController)
 userRoute.route("/profile").get(getUserProfileController)
 
@@ -70,8 +80,5 @@ userRoute.route("/switch").put(switchUserController)
 
 //get referrals
 userRoute.route("/referrals").get(getReferralsController)
-
-
-
 
 module.exports = userRoute

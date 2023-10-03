@@ -1,6 +1,6 @@
 const { User } = require("../../models/user.model")
 
-const createUser = {
+const createUserValidation = {
   firstName: {
     notEmpty: true,
     errorMessage: "First name cannot be empty",
@@ -52,4 +52,4 @@ const createUser = {
   },
 }
 
-module.exports = { createUser }
+module.exports = { createUserValidation }
