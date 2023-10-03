@@ -3,7 +3,7 @@ const { checkSchema } = require("express-validator")
 const {
   createUserValidation,
 } = require("../../validations/users/createUser.validation")
-const validate = require("../../validations/validate")
+const { validate } = require("../../validations/validate")
 const userRoute = require("express").Router()
 const { isAuthenticated } = require("../../utils")
 
@@ -37,7 +37,9 @@ const {
 const {
   loginUserValidation,
 } = require("../../validations/users/loginUser.Validation")
-const { createReviewValidation } = require("../../validations/review/createReview.validation")
+const {
+  createReviewValidation,
+} = require("../../validations/review/createReview.validation")
 
 //routes
 userRoute
@@ -64,7 +66,10 @@ userRoute.route("/gallery").get(userGalleryController)
 userRoute.route("/update").put(updateUserController)
 userRoute.route("/change-password").put(changePasswordController)
 userRoute.route("/delete-account").delete(deleteUserController)
-userRoute.route("/review").post(validate(checkSchema(createReviewValidation)) , createReviewController)
+
+userRoute
+  .route("/review")
+  .post(validate(checkSchema(createReviewValidation)), createReviewController)
 userRoute.route("/review").get(getReviewController)
 userRoute.route("/profile").get(getUserProfileController)
 
