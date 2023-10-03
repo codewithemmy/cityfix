@@ -61,9 +61,11 @@ adminRoute
     createCampaignController
   )
 adminRoute.route("/campaign").get(getCampaignController)
+
 adminRoute
   .route("/campaign/:id")
   .patch(uploadManager("blogImage").single("image"), editCampaignController)
+  
 adminRoute.route("/campaign/:id").delete(deleteCampaignController)
 
 //admin profile
