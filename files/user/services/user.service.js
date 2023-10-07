@@ -145,6 +145,7 @@ class UserService {
       lastName: userProfile.lastName,
       email: userProfile.email,
       phoneNumber: userProfile.phoneNumber,
+      status: userProfile.status,
       isAdmin: false,
     })
 

@@ -156,7 +156,7 @@ const verifyToken = async (token) => {
   try {
     return jwt.verify(token, process.env.JWT_SECRET)
   } catch (error) {
-    throw new Error("Unable to verify token.")
+    c
   }
 }
 
@@ -168,6 +168,9 @@ const isAuthenticated = async (req, res, next) => {
       authToken = authToken.split(" ")[1]
       const payload = await verifyToken(authToken)
       if (payload) {
+        if (payload.status === "Disabled") {
+          throw new Error("Account Disable!... Contact Admin")
+        }
         req.payload = payload
         res.locals.jwt = payload
         return next()
