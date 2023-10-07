@@ -119,13 +119,14 @@ class ProfileService {
   }
 
   static async UpdateUserService(body, locals) {
+    delete body.email
     const user = await UserRepository.findSingleUserWithParams({
       _id: locals._id,
     })
 
     let locationCoord
 
-    if (body.lng && body.lat || body.address) {
+    if ((body.lng && body.lat) || body.address) {
       locationCoord = {
         address: body.address,
         type: "Point",
