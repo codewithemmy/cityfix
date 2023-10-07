@@ -6,6 +6,7 @@ const { ContractFailure, ContractSuccess } = require("./contract.messages")
 const { NotificationService } = require("../notification/notification.service")
 const { UserRepository } = require("../user/user.repository")
 const { UserFailure } = require("../user/user.messages")
+const { sendMailNotification } = require("../../utils/email")
 
 class ContractService {
   static async createContractService(payload, locals) {
@@ -73,6 +74,17 @@ class ContractService {
       recipientId: new mongoose.Types.ObjectId(locals._id),
       message: `Hi ${user.firstName}, you accepted the contract proposed by ${contractor.firstName}`,
     })
+    const substitutional_parameters = {
+      assignor: contractor.firstName,
+      assignee: user.firstName,
+    }
+
+    await sendMailNotification(
+      contractor.email,
+      "Contract Status",
+      substitutional_parameters,
+      "CONTRACT"
+    )
 
     return {
       success: true,
