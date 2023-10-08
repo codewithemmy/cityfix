@@ -168,6 +168,16 @@ const isAuthenticated = async (req, res, next) => {
       authToken = authToken.split(" ")[1]
       const payload = await verifyToken(authToken)
       if (payload) {
+        if (
+          (!req.url === "/update" && !payload._doc.profession) ||
+          !payload._doc.state ||
+          !payload._doc.ninDriverLicense ||
+          !payload._doc.localGovernment
+        ) {
+          return res
+            .status(200)
+            .json({ message: `you are yet to update or complete your profile` })
+        }
         if (payload.status === "Disabled") {
           throw new Error("Account Disable!... Contact Admin")
         }
