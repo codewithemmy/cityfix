@@ -48,6 +48,7 @@ class AdminAuthService {
       _id: admin._id,
       email: admin.email,
       accountType: admin.accountType,
+      status: admin.status,
       isAdmin: true,
     })
 
