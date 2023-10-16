@@ -76,5 +76,5 @@ adminRoute.route("/me").get(fetchAdminController)
 adminRoute.route("/create-marketer").put(createMarketerController)
 
 //admin route for normal admin
-adminRoute.route("/admin-status/:id").patch(enableOrDisableAdminController)
+adminRoute.route("/status/:id").patch(enableOrDisableAdminController)
 module.exports = adminRoute
