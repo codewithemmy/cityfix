@@ -41,7 +41,7 @@ adminRoute.use(isAuthenticated)
 adminRoute.route("/user").get(getUserController)
 adminRoute.route("/search").get(searchUserController)
 adminRoute.route("/create-user").post(createUserController)
-adminRoute.route("/delete/:id").delete(deleteUserController)
+adminRoute.route("/delete/:id").delete(adminVerifier, deleteUserController)
 adminRoute.route("/overview").get(userOverviewController)
 adminRoute.route("/user-analysis").get(userAnalysisController)
 
@@ -65,7 +65,7 @@ adminRoute.route("/campaign").get(getCampaignController)
 adminRoute
   .route("/campaign/:id")
   .patch(uploadManager("blogImage").single("image"), editCampaignController)
-  
+
 adminRoute.route("/campaign/:id").delete(deleteCampaignController)
 
 //admin profile
