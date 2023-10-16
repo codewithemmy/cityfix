@@ -15,8 +15,14 @@ const adminSchema = new mongoose.Schema(
     image: String,
     accountType: {
       type: String,
-      enum: ["superAdmin"],
+      enum: ["superAdmin", "admin"],
       default: "superAdmin",
+    },
+    status: {
+      type: String,
+      required: true,
+      enum: ["Active", "InActive", "Disabled", "Pending"],
+      default: "Active",
     },
   },
   { timestamps: true }

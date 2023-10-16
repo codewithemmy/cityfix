@@ -28,13 +28,13 @@ const {
   deleteUserController,
   fetchAdminController,
   createMarketerController,
+  enableOrDisableAdminController,
 } = require("./admin.controller")
 
 //admin route
 adminRoute.route("/").post(adminSignUpController)
 adminRoute.route("/login").post(adminLogin)
 
-adminRoute.route("/disable/:id").patch(disableOrEnableController)
 adminRoute.use(isAuthenticated)
 
 //user
@@ -44,6 +44,7 @@ adminRoute.route("/create-user").post(createUserController)
 adminRoute.route("/delete/:id").delete(adminVerifier, deleteUserController)
 adminRoute.route("/overview").get(userOverviewController)
 adminRoute.route("/user-analysis").get(userAnalysisController)
+adminRoute.route("/disable/:id").patch(disableOrEnableController)
 
 //report
 adminRoute.route("/report-analysis").get(getReportAnalysis)
@@ -74,4 +75,6 @@ adminRoute.route("/me").get(fetchAdminController)
 //create marketer
 adminRoute.route("/create-marketer").put(createMarketerController)
 
+//admin route for normal admin
+adminRoute.route("/admin-status/:id").patch(enableOrDisableAdminController)
 module.exports = adminRoute

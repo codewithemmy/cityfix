@@ -177,21 +177,23 @@ class AdminAuthService {
     return { SUCCESS: true, msg: authMessages.ADMIN_FOUND, data: getAdmin }
   }
 
-  static async disableOrEnableService(payload) {
+  static async disableOrEnableService(userId, body) {
     const user = await UserRepository.findSingleUserWithParams({
-      _id: new mongoose.Types.ObjectId(payload),
+      _id: new mongoose.Types.ObjectId(userId),
     })
 
     if (!user) return { success: false, msg: authMessages.USER_NOT_FOUND }
 
-    user.disable = true
-    user.status = "Disabled"
-    await user.save()
+    const updateUser = await UserRepository.updateUserById(userId, {
+      ...body,
+    })
+
+    if (!updateUser)
+      return { success: false, msg: adminMessages.UPDATE_PROFILE_FAILURE }
 
     return {
       success: true,
-      msg: authMessages.USER_FOUND,
-      data: user.disable,
+      msg: adminMessages.UPDATE_PROFILE_FAILURE,
     }
   }
 
@@ -234,6 +236,26 @@ class AdminAuthService {
       success: true,
       msg: adminMessages.MARKETER_CREATED,
       data: userLink,
+    }
+  }
+
+  static async disableOrEnableAdminService(adminId, body) {
+    const admin = await AdminRepository.fetchAdmin({
+      _id: new mongoose.Types.ObjectId(adminId),
+    })
+
+    if (!admin) return { success: false, msg: adminMessages.NO_ADMIN_FOUND }
+
+    const updateAdmin = await AdminRepository.updateAdminById(adminId, {
+      ...body,
+    })
+
+    if (!updateAdmin)
+      return { success: false, msg: adminMessages.UPDATE_PROFILE_FAILURE }
+
+    return {
+      success: true,
+      msg: adminMessages.UPDATE_PROFILE_SUCCESS,
     }
   }
 }
