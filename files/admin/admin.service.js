@@ -179,13 +179,15 @@ class AdminAuthService {
   }
 
   static async disableOrEnableService(userId, body) {
+
     const user = await UserRepository.findSingleUserWithParams({
       _id: new mongoose.Types.ObjectId(userId),
     })
 
     if (!user) return { success: false, msg: authMessages.USER_NOT_FOUND }
 
-    const updateUser = await UserRepository.updateUserById(userId, {
+   
+   const updateUser = await UserRepository.updateUserById(userId, {
       ...body,
     })
 
@@ -194,7 +196,7 @@ class AdminAuthService {
 
     return {
       success: true,
-      msg: adminMessages.UPDATE_PROFILE_FAILURE,
+      msg: adminMessages.UPDATE_PROFILE_SUCCESS,
     }
   }
 
