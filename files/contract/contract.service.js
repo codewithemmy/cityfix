@@ -14,6 +14,7 @@ class ContractService {
       {
         assignedBy: locals._id,
         assignedTo: payload.assignedTo,
+        contractStatus: "ongoing",
       },
       {}
     )
