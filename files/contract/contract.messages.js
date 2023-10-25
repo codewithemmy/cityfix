@@ -18,4 +18,5 @@ module.exports.ContractFailure = {
   SEARCH_ERROR: "Invalid data input",
   CONTRACT_ASSIGNED: "Artisan already have a Contract",
   END_CONTRACT: "Unable to end contract",
+  COUNT: "you cannot create more than 3 contract with a specific CityBuilder",
 }

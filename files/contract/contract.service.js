@@ -10,6 +10,20 @@ const { sendMailNotification } = require("../../utils/email")
 
 class ContractService {
   static async createContractService(payload, locals) {
+    const contractCount = await ContractRepository.findContractWithParams(
+      {
+        assignedBy: locals._id,
+        assignedTo: payload.assignedTo,
+      },
+      {}
+    )
+
+    if (contractCount.length >= 3)
+      return {
+        success: false,
+        msg: ContractFailure.COUNT,
+      }
+
     const contract = await ContractRepository.create({
       ...payload,
       assignedBy: locals._id,
