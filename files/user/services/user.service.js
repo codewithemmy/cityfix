@@ -73,7 +73,7 @@ class UserService {
     return {
       success: true,
       msg: UserSuccess.CREATE,
-      otp: otp,
+      data: user,
     }
   }
 
@@ -124,7 +124,7 @@ class UserService {
       email: email,
     })
 
-    if (userProfile.isVerified !== true)
+    if (!userProfile.isVerified)
       return { success: false, msg: UserFailure.VERIFIED }
 
     // confirm if user has been deleted
