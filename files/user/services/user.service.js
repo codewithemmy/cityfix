@@ -140,17 +140,7 @@ class UserService {
     let token
 
     token = await tokenHandler({
-      _id: userProfile._id,
-      firstName: userProfile.firstName,
-      lastName: userProfile.lastName,
-      phoneNumber: userProfile.phoneNumber,
-      email: userProfile.email,
-      accountType: userProfile.accountType,
-      status: userProfile.status,
-      profession: userProfile.profession,
-      state: userProfile.ninDriverLicense,
-      ninDriverLicense: userProfile.ninDriverLicense,
-      localGovernment: userProfile.localGovernment,
+      ...userProfile,
       isAdmin: false,
     })
 

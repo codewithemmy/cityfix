@@ -10,7 +10,7 @@ const COUNTRY_CODE = "234"
 const tokenHandler = async (payload) => {
   try {
     const token = jwt.sign({ ...payload }, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_LIFETIME,
+      expiresIn: '365d',
     })
     return { token }
   } catch (error) {
