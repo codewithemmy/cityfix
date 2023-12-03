@@ -68,8 +68,6 @@ class UserService {
       "VERIFICATION"
     )
 
-    // await onRequestOTP(otp, validPhone.phone)
-
     return {
       success: true,
       msg: UserSuccess.CREATE,
@@ -140,8 +138,14 @@ class UserService {
     let token
 
     token = await tokenHandler({
-      ...userProfile,
       isAdmin: false,
+      _id: userProfile._id,
+      firstName: userProfile.firstName,
+      lastName: userProfile.lastName,
+      phoneNumber: userProfile.phoneNumber,
+      email: userProfile.email,
+      accountType: userProfile.accountType,
+      status: userProfile.status,
     })
 
     const user = {

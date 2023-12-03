@@ -26,8 +26,8 @@ class ContractService {
       }
 
     const contract = await ContractRepository.create({
+      assignedBy: new mongoose.Types.ObjectId(locals._id),
       ...payload,
-      assignedBy: locals._id,
     })
 
     if (!contract) return { success: false, msg: ContractFailure.CREATE }
