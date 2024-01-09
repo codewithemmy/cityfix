@@ -29,6 +29,7 @@ const {
   fetchAdminController,
   createMarketerController,
   enableOrDisableAdminController,
+  updateAdminController,
 } = require("./admin.controller")
 
 //admin route
@@ -77,4 +78,9 @@ adminRoute.route("/create-marketer").put(createMarketerController)
 
 //admin route for normal admin
 adminRoute.route("/status/:id").patch(enableOrDisableAdminController)
+
+adminRoute
+  .route("/update")
+  .patch(uploadManager("citifixWallPaper").single("image"), updateAdminController)
+
 module.exports = adminRoute

@@ -59,6 +59,7 @@ class UserService {
     const substitutional_parameters = {
       name: lastName,
       emailOtp: user.verificationOtp,
+      email,
     }
 
     await sendMailNotification(

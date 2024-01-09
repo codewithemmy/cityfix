@@ -81,12 +81,15 @@ class AdminAuthService {
     return { SUCCESS: true, msg: authMessages.ADMIN_FOUND, data: getAdmin }
   }
 
-  static async updateAdminService(data) {
-    const { body, params } = data
+  static async updateAdminService(data, id) {
+    const { body, image } = data
+
     const admin = await AdminRepository.updateAdminDetails(
-      { _id: new mongoose.Types.ObjectId(params.id) },
-      body
+      { _id: new mongoose.Types.ObjectId(id) },
+      { ...body, image }
     )
+
+    delete admin.password
 
     if (!admin) {
       return {
@@ -179,15 +182,13 @@ class AdminAuthService {
   }
 
   static async disableOrEnableService(userId, body) {
-
     const user = await UserRepository.findSingleUserWithParams({
       _id: new mongoose.Types.ObjectId(userId),
     })
 
     if (!user) return { success: false, msg: authMessages.USER_NOT_FOUND }
 
-   
-   const updateUser = await UserRepository.updateUserById(userId, {
+    const updateUser = await UserRepository.updateUserById(userId, {
       ...body,
     })
 

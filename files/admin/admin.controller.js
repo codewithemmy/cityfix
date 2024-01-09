@@ -54,9 +54,11 @@ const getLoggedInAdminController = async (req, res, next) => {
 }
 
 const updateAdminController = async (req, res, next) => {
+  const value = await fileModifier(req)
   const [error, data] = await manageAsyncOps(
-    AdminAuthService.updateAdminService(req)
+    AdminAuthService.updateAdminService(value, res.locals.jwt._id)
   )
+
   if (error) return next(error)
 
   if (!data.SUCCESS) return next(new CustomError(data.msg, 400, data))
