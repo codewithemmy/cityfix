@@ -52,7 +52,6 @@
       .main-content {
         width: 70%;
         margin: auto;
-        text-align: center;
         margin-top: 20px;
         margin-bottom: 50px;
       }
@@ -60,27 +59,37 @@
       .hi {
         width: 80%;
         text-align: left;
+        padding: 0 60px;
         margin-top: 20px;
         margin-bottom: 40px;
       }
 
       .title {
-          margin: auto;
+        margin: auto;
         width: 100%;
+        text-align: center;
         font-size: 18px;
         margin-bottom: 20px;
         color: green;
       }
 
       .content {
-          margin: auto;
+        margin: auto;
+        text-align: center;
         width: 100%;
         font-size: 12px;
-        margin-bottom: 20px;
+        margin-bottom: 40px;
+      }
+
+      .btn-cont {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
 
       .btn {
-          margin: auto;
+        margin: auto;
         padding: 10px 20px;
         background-color: white;
         color: green;
@@ -98,14 +107,15 @@
       }
 
       footer {
-        width: 70%;
         margin: auto;
+        width: 70%;
         background-color: white;
         color: green;
         padding: 10px;
       }
 
       .social-icons {
+        margin: auto;
         width: 100%;
         display: flex;
         justify-content: center;
@@ -126,14 +136,22 @@
       }
 
       .footer-text {
+        margin: auto;
         width: 70%;
         font-size: 11px;
         padding: 10px;
         text-align: center;
-        margin: auto;
       }
 
-      @media screen and (max-width: 768px) {
+      .footer-logo-cont {
+        margin: auto;
+        width: 75px;
+      }
+      .footer-logo {
+        width: 100%;
+      }
+
+      @media screen and (max-width: 850px) {
         body {
           padding: 8px;
         }
@@ -149,6 +167,11 @@
           width: 100%;
           padding-left: 10px;
         }
+
+        .hi {
+        padding: 0 20px;
+      }
+      
         .footer {
           width: 100%;
           padding: 5px;
@@ -157,26 +180,27 @@
     </style>
   </head>
   <body>
-   <header>
+    <header>
       <div class="img-cont">
-        <img class="logo" src="https://res.cloudinary.com/dwrkyk0oz/image/upload/v1704813820/Citifix/citifixWallPaper/e9xy8dfljb1dplwl0ogy.png" alt="Header Icon" />
+                <img class="logo" src="https://res.cloudinary.com/dwrkyk0oz/image/upload/v1704813820/Citifix/citifixWallPaper/e9xy8dfljb1dplwl0ogy.png" alt="Header Icon" />
       </div>
     </header>
 
     <div class="hero-section">
-      <img class="hero-image" src="https://res.cloudinary.com/dwrkyk0oz/image/upload/v1704813726/Citifix/citifixWallPaper/bxyhq38mpiufkv2231d6.png" alt="Hero Image" />
+       <img class="hero-image" src="https://res.cloudinary.com/dwrkyk0oz/image/upload/v1704813726/Citifix/citifixWallPaper/bxyhq38mpiufkv2231d6.png" alt="Hero Image" />
     </div>
-
 
     <div class="main-content">
       <div class="hi">Hi, {{name}}</div>
-      <h2 class="title">Citifix</h2>
+      <h2 class="title">Sign Up</h2>
       <div class="content">
-        <p>Welcome on board, We are positive that you have a wonderful experience using Cityfix.</p>
-</p>
-        <p>Kindly Note that it's import you update you profile information and password for a better experience</p>
+        <p> Welcome on board, We are positive that you have a wonderful experience using Cityfix.</p>
+        <p>Kindly Note that it's important you update you profile and pending
+  information for a better experience</p>
       </div>
-      <button class="btn">Explore More</button>
+      <div class="btn-cont">
+        <button class="btn">Explore More</button>
+      </div>
     </div>
 
     <footer class="footer">
@@ -203,10 +227,10 @@
         </p>
       </div>
       <div class="footer-text">
-        This message was sent to {senderEmail} by citysolutions@gmail.com
+        This message was sent by citysolutions@gmail.com
       </div>
       <div class="footer-text">@2023, Cityfix Nigeria.</div>
-      <div class="img-cont">
+      <div class="footer-logo-cont">
         <img class="logo" src="https://res.cloudinary.com/dwrkyk0oz/image/upload/v1704813820/Citifix/citifixWallPaper/e9xy8dfljb1dplwl0ogy.png" alt="Header Icon" />
       </div>
     </footer>
