@@ -132,6 +132,26 @@ class NotificationService {
       return await this.postNotifications(payload)
     }
   }
+
+  static async updateNotificationService(userId) {
+    const fetchNotification =
+      await NotificationRepository.findNotificationWithoutQuery({
+        recipientId: new mongoose.Types.ObjectId("656c38cfa2c48a5c9f0135ca"),
+      })
+
+    if (!fetchNotification)
+      return { status: false, msg: `Error updating notification` }
+
+    const notification = fetchNotification.map(async (user) => {
+      user.status = "read"
+      await user.save()
+    })
+
+    if (!notification)
+      return { success: false, msg: `Unable to update notification` }
+
+    return { success: true, msg: `Update successful` }
+  }
 }
 
 module.exports = { NotificationService }

@@ -8,6 +8,9 @@ class NotificationRepository {
   static async findSingleNotificationByParams(notificationPayload) {
     return await Notification.findOne({ ...notificationPayload })
   }
+  static async findNotificationWithoutQuery(notificationPayload) {
+    return await Notification.find({ ...notificationPayload })
+  }
 
   static async fetchNotificationsByParams(userPayload) {
     let { limit, skip, sort, ...restOfPayload } = userPayload
@@ -29,6 +32,10 @@ class NotificationRepository {
       .limit(limit)
 
     return notification
+  }
+
+  static async updateAllNotificationByParams(notificationPayload) {
+    return await Notification.findOneAndUpdate({ ...notificationPayload })
   }
 }
 

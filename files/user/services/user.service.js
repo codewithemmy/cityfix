@@ -123,6 +123,8 @@ class UserService {
       email: email,
     })
 
+    if (!userProfile) return { success: false, msg: `Not a valid user` }
+
     if (!userProfile.isVerified)
       return { success: false, msg: UserFailure.VERIFIED }
 
