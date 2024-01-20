@@ -146,6 +146,17 @@ class ProfileService {
 
     if (!updateUser) return { success: false, msg: UserFailure.UPDATE }
 
+    if (
+      updateUser.location &&
+      updateUser.state &&
+      updateUser.localGovernment &&
+      updateUser.profession &&
+      updateUser.ninDriverLicense
+    ) {
+      updateUser.profileUpdated = true
+      await updateUser.save()
+    }
+
     return { success: true, msg: UserSuccess.UPDATE }
   }
 

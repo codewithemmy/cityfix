@@ -63,7 +63,7 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-
+    profileUpdated: { type: Boolean, default: false },
     revenues: {
       type: Number,
       default: 0,
