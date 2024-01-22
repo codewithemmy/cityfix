@@ -31,7 +31,7 @@ const updateNotification = async (req, res, next) => {
   const [error, data] = await manageAsyncOps(
     NotificationService.updateNotificationService(res.locals.jwt._id)
   )
-  console.log("error", error)
+
   if (error) return next(error)
 
   if (!data.SUCCESS) return next(new CustomError(data.msg, 400, data))

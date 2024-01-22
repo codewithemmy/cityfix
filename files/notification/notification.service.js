@@ -136,7 +136,7 @@ class NotificationService {
   static async updateNotificationService(userId) {
     const fetchNotification =
       await NotificationRepository.findNotificationWithoutQuery({
-        recipientId: new mongoose.Types.ObjectId("656c38cfa2c48a5c9f0135ca"),
+        recipientId: new mongoose.Types.ObjectId(userId),
       })
 
     if (!fetchNotification)
