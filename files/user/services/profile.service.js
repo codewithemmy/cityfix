@@ -68,7 +68,6 @@ class ProfileService {
   static async searchUser(payload) {
     const { search, accountType } = payload
     let query
-    // if (!search) search = ""
 
     if (accountType && search) {
       query = {
