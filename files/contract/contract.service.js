@@ -12,8 +12,8 @@ class ContractService {
   static async createContractService(payload, locals) {
     const contractCount = await ContractRepository.findContractWithParams(
       {
-        assignedBy: locals._id,
-        assignedTo: payload.assignedTo,
+        assignedBy: new mongoose.Types.ObjectId(locals._id),
+        assignedTo: new mongoose.Types.ObjectId(payload.assignedTo),
         contractStatus: "ongoing",
       },
       {}

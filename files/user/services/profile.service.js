@@ -129,7 +129,7 @@ class ProfileService {
       locationCoord = {
         address: body.address,
         type: "Point",
-        coordinates: [parseFloat(body.lat), parseFloat(body.lng)],
+        coordinates: [parseFloat(body.lng), parseFloat(body.lat)],
       }
     }
 
