@@ -133,7 +133,7 @@ class ProfileService {
       }
     }
 
-    if (!user) return { success: false, msg: UserFailure.UPDATE }
+    if (!user) return { success: false, msg: UserFailure.FETCH }
 
     const updateUser = await UserRepository.updateUserProfile(
       { _id: locals._id },

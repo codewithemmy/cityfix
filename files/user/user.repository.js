@@ -176,7 +176,6 @@ class UserRepository {
         $match: {
           $and: [
             {
-              $or: [{ firstName: { $regex: search, $options: "i" } }],
               ...extraParams,
             },
             { state: { $exists: true } },
