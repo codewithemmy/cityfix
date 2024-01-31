@@ -151,8 +151,7 @@ class UserRepository {
   static async findCityBuilderByCoordinates(userPayload) {
     const { limit, skip, sort, ...restOfPayload } = userPayload
 
-    let { lat, lng, search, ...extraParams } = restOfPayload
-    if (!search) search = ""
+    let { lat, lng, ...extraParams } = restOfPayload
 
     const user = await User.aggregate([
       {
