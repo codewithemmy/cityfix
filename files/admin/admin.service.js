@@ -33,7 +33,7 @@ class AdminAuthService {
 
     if (!admin) {
       return {
-        SUCCESS: false,
+        success: false,
         msg: authMessages.LOGIN_ERROR,
       }
     }
@@ -41,7 +41,7 @@ class AdminAuthService {
     const passwordCheck = await verifyPassword(body.password, admin.password)
 
     if (!passwordCheck) {
-      return { SUCCESS: false, msg: authMessages.LOGIN_ERROR }
+      return { success: false, msg: authMessages.LOGIN_ERROR }
     }
 
     const token = await tokenHandler({
@@ -54,7 +54,7 @@ class AdminAuthService {
 
     // admin.password = undefined
     return {
-      SUCCESS: true,
+      success: true,
       msg: authMessages.ADMIN_FOUND,
       data: { admin, ...token },
     }
@@ -66,7 +66,7 @@ class AdminAuthService {
       "createdAt",
       "Admin"
     )
-    if (error) return { SUCCESS: false, msg: error }
+    if (error) return { success: false, msg: error }
 
     const getAdmin = await AdminRepository.findAdminParams({
       ...params,
@@ -76,9 +76,9 @@ class AdminAuthService {
     })
 
     if (getAdmin.length < 1)
-      return { SUCCESS: false, msg: authMessages.ADMIN_NOT_FOUND }
+      return { success: false, msg: authMessages.ADMIN_NOT_FOUND }
 
-    return { SUCCESS: true, msg: authMessages.ADMIN_FOUND, data: getAdmin }
+    return { success: true, msg: authMessages.ADMIN_FOUND, data: getAdmin }
   }
 
   static async updateAdminService(data, id) {
@@ -93,12 +93,12 @@ class AdminAuthService {
 
     if (!admin) {
       return {
-        SUCCESS: false,
+        success: false,
         msg: adminMessages.UPDATE_PROFILE_FAILURE,
       }
     } else {
       return {
-        SUCCESS: true,
+        success: true,
         msg: adminMessages.UPDATE_PROFILE_SUCCESS,
         admin,
       }
@@ -123,7 +123,7 @@ class AdminAuthService {
     //change password
     if (body.password !== body.confirmPassword) {
       return {
-        SUCCESS: false,
+        success: false,
         msg: "Passwords mismatch",
       }
     }
@@ -176,9 +176,9 @@ class AdminAuthService {
       _id: new mongoose.Types.ObjectId(_id),
     })
 
-    if (!getAdmin) return { SUCCESS: false, msg: authMessages.ADMIN_NOT_FOUND }
+    if (!getAdmin) return { success: false, msg: authMessages.ADMIN_NOT_FOUND }
 
-    return { SUCCESS: true, msg: authMessages.ADMIN_FOUND, data: getAdmin }
+    return { success: true, msg: authMessages.ADMIN_FOUND, data: getAdmin }
   }
 
   static async disableOrEnableService(userId, body) {

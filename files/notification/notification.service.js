@@ -110,9 +110,9 @@ class NotificationService {
     }
 
     if (!success)
-      return { SUCCESS: false, msg: notificationMessages.NOT_DELIVERED }
+      return { success: false, msg: notificationMessages.NOT_DELIVERED }
 
-    return { SUCCESS: true, msg: notificationMessages.DELIVERED }
+    return { success: true, msg: notificationMessages.DELIVERED }
   }
 
   static async validateNotificationRecipient(payload) {
