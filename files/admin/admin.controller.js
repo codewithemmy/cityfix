@@ -24,7 +24,7 @@ const adminLogin = async (req, res, next) => {
 
   if (error) return next(error)
 
-  if (!data?.SUCCESS) return next(new CustomError(data.msg, 401, data))
+  if (!data?.success) return next(new CustomError(data.msg, 401, data))
 
   return responseHandler(res, 200, data)
 }
