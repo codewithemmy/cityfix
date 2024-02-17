@@ -177,12 +177,7 @@ class UserRepository {
             {
               ...extraParams,
             },
-            { state: { $exists: true } },
-            { profession: { $exists: true } },
-            { profileImage: { $exists: true } },
-            { phoneNumber: { $exists: true } },
-            { ninDriverLicense: { $exists: true } },
-            { localGovernment: { $exists: true } },
+            { profileUpdated: true },
           ],
         },
       },

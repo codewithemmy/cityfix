@@ -49,8 +49,12 @@ class ContractRepository {
     let { search, contractStatus, assignedTo, assignedBy } = query
 
     if (!search) search = ""
+    const twoDaysAgo = new Date(Date.now() - 2 * 24 * 60 * 60 * 1000) // Calculate two days ago
 
-    let extraParams = {}
+    let extraParams = {
+      contractStatus: { $ne: "pending" }, // Not equal to 'pending'
+      createdAt: { $lte: twoDaysAgo }, // Less than or equal to two days ago
+    }
 
     if (contractStatus) extraParams.contractStatus = contractStatus
 

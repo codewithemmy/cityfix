@@ -7,7 +7,8 @@ const notificationRoute = require("../files/notification/notification.route")
 const textRoute = require("../files/messages/texts/text.route")
 const conversationRoute = require("../files/messages/conversations/conversation.route")
 const transactionRoute = require("../files/transaction/transaction.route")
-const campaignRoute = require('../files/campaign/campaign.route')
+const campaignRoute = require("../files/campaign/campaign.route")
+const subscriptionRoute = require("../files/subscription/subscription.routes")
 
 const routes = (app) => {
   const base_url = "/api/v1"
@@ -22,6 +23,7 @@ const routes = (app) => {
   app.use(`${base_url}/chats`, textRoute)
   app.use(`${base_url}/conversation`, conversationRoute)
   app.use(`${base_url}/campaign`, campaignRoute)
+  app.use(`${base_url}/subscription`, subscriptionRoute)
 }
 
 module.exports = routes
