@@ -57,11 +57,9 @@ class TransactionService {
     }
   }
 
-  static async initiateWithdrawalTransaction() {}
-
-  static async verifyPaymentManually(payload) {
+  static async verifyCardPayment(payload) {
     await this.getConfig()
-    return this.paymentProvider.verifyProviderPayment(payload.reference)
+    return this.paymentProvider.verifyCardPayment(payload)
   }
 }
 

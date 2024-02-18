@@ -5,13 +5,15 @@ const { validate } = require("../../validations/validate")
 const { isAuthenticated } = require("../../utils")
 const {
   paymentTransactionController,
-  verifyTransactionController,
+  paystackWebHook,
 } = require("./controller/transaction.controller")
 const {
   createTransactionValidation,
 } = require("../../validations/transaction/createTransaction.validation")
 
-// transactionRoute.use(isAuthenticated)
+transactionRoute.post("/paystack-webhook", paystackWebHook)
+
+transactionRoute.use(isAuthenticated)
 
 transactionRoute
   .route("/initiate")
@@ -19,8 +21,6 @@ transactionRoute
     validate(checkSchema(createTransactionValidation)),
     paymentTransactionController
   )
-  
-transactionRoute.route("/verify").get(verifyTransactionController)
 
 //routes
 module.exports = transactionRoute

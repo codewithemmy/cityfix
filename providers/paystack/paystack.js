@@ -43,15 +43,19 @@ class PaystackPaymentService {
       responseStatus = "failed"
     }
 
-    const transaction = await TransactionRepository.updateTransactionDetails(
-      { reference: payload.reference },
-      { status: responseStatus, metaData: JSON.stringify(payload) }
-    )
+    const updatedExisting =
+      await TransactionRepository.updateTransactionDetails(
+        { reference: payload.reference },
+        { status: responseStatus, metaData: JSON.stringify(payload) }
+      )
 
-    if (!transaction)
+    if (!updatedExisting)
       return { success: false, msg: TransactionMessages.PAYMENT_FAILURE }
 
-    return { success: statusVerification.success, msg: statusVerification.msg }
+    return {
+      success: statusVerification.success,
+      msg: statusVerification.msg,
+    }
   }
 
   async initiatePayment(paymentPayload) {
@@ -84,15 +88,12 @@ class PaystackPaymentService {
     }
   }
 
-  async verifyPayment(payload) {
+  async verifyCardPayment(payload) {
     //check success of transaction
     const { data } = payload
-    const transaction = await TransactionRepository.fetchOne(
-      {
-        reference: data.reference,
-      },
-      true
-    )
+    const transaction = await TransactionRepository.fetchOne({
+      reference: data.reference,
+    })
 
     if (!transaction?._id)
       return { success: false, msg: TransactionMessages.TRANSACTION_NOT_FOUND }
@@ -103,6 +104,10 @@ class PaystackPaymentService {
     const verifyAndUpdateTransactionRecord = await this.verifySuccessOfPayment(
       data
     )
+
+    if (!verifyAndUpdateTransactionRecord.success) {
+      return { success: false, msg: verifyAndUpdateTransactionRecord.msg }
+    }
 
     if (!verifyAndUpdateTransactionRecord.success) {
       await NotificationService.create({
@@ -121,19 +126,6 @@ class PaystackPaymentService {
     })
 
     return { success: true, msg: TransactionMessages.PAYMENT_SUCCESS }
-  }
-
-  async verifyProviderPayment(reference) {
-    const { data: response } = await this.paymentRequestHandler({
-      method: "GET",
-      url: `/transaction/verify/${reference}`,
-    })
-
-    if (response.status && response.message == "Verification successful") {
-      return this.verifyPayment(response)
-    }
-
-    return { success: false, msg: response.message }
   }
 }
 
