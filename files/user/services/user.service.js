@@ -165,7 +165,7 @@ class UserService {
     //return result
     return {
       success: true,
-      msg: UserSuccess.FETCH,
+      msg: `Login Successful`,
       data: user,
     }
   }
