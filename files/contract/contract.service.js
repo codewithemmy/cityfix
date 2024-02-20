@@ -80,8 +80,8 @@ class ContractService {
     //send notification to user
     await NotificationService.create({
       userId: new mongoose.Types.ObjectId(locals._id),
-      recipientId: new mongoose.Types.ObjectId(saveStatus.assignedBy),
-      message: `Hi, ${user.firstName} has accepted your contract request, you can now send a message`,
+      recipientId: new mongoose.Types.ObjectId(contractor._id),
+      message: `Hi, ${contractor.firstName} has accepted your contract request, you can now send a message`,
     })
 
     await NotificationService.create({
