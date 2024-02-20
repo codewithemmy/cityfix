@@ -3,9 +3,13 @@ const createTransactionValidation = {
     notEmpty: true,
     errorMessage: "amount name cannot be empty",
   },
-  email: {
+  userId: {
     notEmpty: true,
-    errorMessage: "email cannot be empty",
+    errorMessage: "userId cannot be empty",
+  },
+  subscriptionId: {
+    notEmpty: true,
+    errorMessage: "subscriptionId cannot be empty",
   },
 }
 

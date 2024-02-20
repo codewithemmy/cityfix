@@ -9,8 +9,10 @@ const {
 } = require("../transaction.messages")
 const { TransactionRepository } = require("../transaction.repository")
 const { UserRepository } = require("../../user/user.repository")
-const { UserFailure } = require("../../user/user.messages")
-const { AdminRepository } = require("../../admin/admin.repository")
+const {
+  SubscriptionRepository,
+} = require("../../subscription/subscription.repository")
+
 class TransactionService {
   static paymentProvider
 
@@ -19,28 +21,34 @@ class TransactionService {
   }
 
   static async initiatePaymentTransaction(payload) {
-    const { email, amount } = payload
+    const { userId, amount, subscriptionId } = payload
+
+    const user = await UserRepository.findSingleUserWithParams({
+      _id: new mongoose.Types.ObjectId(userId),
+    })
+
+    const subscription = await SubscriptionRepository.findSingleSubscription({
+      _id: new mongoose.Types.ObjectId(subscriptionId),
+    })
+
+    if (!user) return { success: false, msg: TransactionFailure.INITIATE }
+    if (!subscription) return { success: false, msg: `Invalid subscription Id` }
 
     await this.getConfig()
     const paymentDetails = await this.paymentProvider.initiatePayment({
-      email,
+      email: user.email,
       amount,
     })
 
     if (!paymentDetails.success)
       return { success: false, msg: TransactionFailure.INITIATE }
 
-    const user = await UserRepository.findSingleUserWithParams({
-      email,
-    })
-
-    if (!user) return { success: false, msg: TransactionFailure.INITIATE }
-
     const transaction = await TransactionRepository.create({
       userId: user._id,
       userType: "User",
-      email,
+      email: user.email,
       amount,
+      subscriptionId,
       reference: paymentDetails.data.reference,
       channel: "paystack",
     })

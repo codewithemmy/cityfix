@@ -10,6 +10,10 @@ const TransactionSchema = new mongoose.Schema(
       type: mongoose.Types.ObjectId,
       refPath: "userType",
     },
+    subscriptionId: {
+      type: mongoose.Types.ObjectId,
+      ref: "Subscription",
+    },
     amount: {
       type: Number,
       required: true,

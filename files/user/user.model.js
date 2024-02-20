@@ -29,6 +29,7 @@ const userSchema = new mongoose.Schema(
     },
     yearsOfExperience: { type: Number },
     aboutYourself: { type: String },
+    subExpiryDate: { type: Date },
     profession: { type: String },
     nearestBusStop: { type: String },
     localGovernment: { type: String },
