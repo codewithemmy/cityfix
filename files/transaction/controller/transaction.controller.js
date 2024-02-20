@@ -33,6 +33,7 @@ const paystackWebHook = async (req, res, next) => {
     )
     res.send(200)
   }
+}
 
 module.exports = {
   paymentTransactionController,
