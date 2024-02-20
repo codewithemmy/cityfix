@@ -52,11 +52,15 @@ class ContractRepository {
     let twoDaysAgo = new Date()
     twoDaysAgo.setDate(twoDaysAgo.getDate() - 2)
 
-    let extraParams = {
-      createdAt: { $lte: twoDaysAgo }, // Less than or equal to two days ago
-    }
+    let extraParams = {}
+    let extras = {}
 
     if (contractStatus) extraParams.contractStatus = contractStatus
+    if (contractStatus === "pending") {
+      extras = {
+        createdAt: { $gte: twoDaysAgo }, // Less than or equal to two days ago
+      }
+    }
 
     if (assignedTo)
       extraParams.assignedTo = new mongoose.Types.ObjectId(assignedTo) // Update the field name based on how the "User" model references are stored in the "Contract" model
@@ -100,6 +104,7 @@ class ContractRepository {
             },
           ],
           ...extraParams,
+          ...extras,
         },
       },
     ])
