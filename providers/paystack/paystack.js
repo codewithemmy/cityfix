@@ -13,6 +13,7 @@ const { providerMessages } = require("../providers.messages")
 const {
   NotificationService,
 } = require("../../files/notification/notification.service")
+const { UserRepository } = require("../../files/user/user.repository")
 
 class PaystackPaymentService {
   paymentRequestHandler = RequestHandler.setup({
@@ -112,8 +113,9 @@ class PaystackPaymentService {
     if (!verifyAndUpdateTransactionRecord.success) {
       await NotificationService.create({
         userId: new mongoose.Types.ObjectId(transaction.userId),
-        recipientId: new mongoose.Types.ObjectId(transaction.userId),
+        recipient: "Admin",
         message: `Unconfirmed/failed payment of ${data.amount}`,
+        title: "Payment",
       })
       return { success: false, msg: TransactionMessages.PAYMENT_FAILURE }
     }
@@ -121,9 +123,24 @@ class PaystackPaymentService {
     //if payment is successful, create a notification for the user
     await NotificationService.create({
       userId: new mongoose.Types.ObjectId(transaction.userId),
-      recipientId: new mongoose.Types.ObjectId(transaction.userId),
+      recipient: "Admin",
       message: `Successful payment of ${data.amount}`,
+      title: "Payment",
     })
+
+    let currentDate = new Date()
+    currentDate.setDate(
+      currentDate.getDate() + transaction.subscriptionId.duration
+    )
+
+    const user = await UserRepository.findSingleUserWithParams({
+      _id: new mongoose.Types.ObjectId(transaction.userId),
+    })
+
+    if (!user) return { success: false, msg: `Payment made by invalid user` }
+
+    user.subExpiryDate = currentDate
+    await user.save()
 
     return { success: true, msg: TransactionMessages.PAYMENT_SUCCESS }
   }

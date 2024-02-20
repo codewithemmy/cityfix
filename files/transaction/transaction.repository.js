@@ -6,7 +6,9 @@ class TransactionRepository {
   }
 
   static async fetchOne(payload) {
-    return Transaction.findOne({ ...payload })
+    return Transaction.findOne({ ...payload }).populate({
+      path: "subscriptionId",
+    })
   }
 
   static async fetch(payload, select) {

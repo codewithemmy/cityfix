@@ -10,6 +10,9 @@ const NotificationSchema = new mongoose.Schema(
       type: mongoose.Types.ObjectId,
       ref: "User",
     },
+    recipient: {
+      type: String,
+    },
     title: {
       type: String,
     },

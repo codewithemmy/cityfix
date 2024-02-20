@@ -5,6 +5,9 @@ const subscriptionModel = new mongoose.Schema(
     name: {
       type: String,
     },
+    duration: {
+      type: Number,
+    },
     amount: {
       type: Number,
     },
