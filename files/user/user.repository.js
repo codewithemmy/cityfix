@@ -149,11 +149,17 @@ class UserRepository {
   }
 
   static async findCityBuilderByCoordinates(userPayload) {
-    const { limit, skip, sort, ...restOfPayload } = userPayload
+    const { limit, skip, sort, boost, ...restOfPayload } = userPayload
+
+    let subscribedUsers = {}
+    if (boost) {
+      let boostDate = new Date()
+      subscribedUsers = { subExpiryDate: { $gte: boostDate } } // Changed $lte to $gte
+    }
 
     let { lat, lng, ...extraParams } = restOfPayload
 
-    const user = await User.aggregate([
+    const users = await User.aggregate([
       {
         $geoNear: {
           near: {
@@ -173,11 +179,12 @@ class UserRepository {
       },
       {
         $match: {
+          ...subscribedUsers,
+          profileUpdated: true,
           $and: [
             {
               ...extraParams,
             },
-            { profileUpdated: true },
           ],
         },
       },
@@ -186,7 +193,7 @@ class UserRepository {
       .skip(skip)
       .limit(limit)
 
-    return user
+    return users
   }
 }
 
