@@ -17,7 +17,7 @@ class ReviewRepository {
       .sort(sort)
       .skip(skip)
       .limit(limit)
-      .populate({ path: "reviewer", select: "name profileImage" })
+      .populate({ path: "reviewer", select: "name firstName lastName profileImage" })
 
     return report
   }
