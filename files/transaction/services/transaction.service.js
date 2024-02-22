@@ -25,15 +25,17 @@ class TransactionService {
     let currentDate = new Date()
     const user = await UserRepository.findSingleUserWithParams({
       _id: new mongoose.Types.ObjectId(userId),
-      subExpiryDate: { $gt: currentDate },
     })
+
+    if (!user) return { success: false, msg: `Invalid User` }
+
+    if (user.subExpiryDate && user.subExpiryDate > currentDate)
+      return { success: false, msg: `User has an existing subscription` }
 
     const subscription = await SubscriptionRepository.findSingleSubscription({
       _id: new mongoose.Types.ObjectId(subscriptionId),
     })
 
-    if (user)
-      return { success: false, msg: `User has an existing subscription` }
     if (!subscription) return { success: false, msg: `Invalid subscription Id` }
 
     await this.getConfig()
