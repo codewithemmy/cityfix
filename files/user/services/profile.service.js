@@ -146,7 +146,6 @@ class ProfileService {
     if (!updateUser) return { success: false, msg: UserFailure.UPDATE }
 
     if (
-      updateUser.location &&
       updateUser.state &&
       updateUser.localGovernment &&
       updateUser.profession &&
