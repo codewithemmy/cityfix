@@ -32,7 +32,7 @@ class TransactionService {
       _id: new mongoose.Types.ObjectId(subscriptionId),
     })
 
-    if (!user)
+    if (user)
       return { success: false, msg: `User has an existing subscription` }
     if (!subscription) return { success: false, msg: `Invalid subscription Id` }
 
