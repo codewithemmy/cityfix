@@ -167,7 +167,7 @@ class UserRepository {
             coordinates: [parseFloat(lng), parseFloat(lat)],
           },
           key: "locationCoord",
-          maxDistance: parseFloat(3000) * 800,
+          maxDistance: parseFloat(20000) * 1609,
           distanceField: "distance",
           spherical: true,
         },
@@ -179,11 +179,11 @@ class UserRepository {
       },
       {
         $match: {
-          ...subscribedUsers,
-          profileUpdated: true,
-          $and: [
+          $or: [
             {
               ...extraParams,
+              profileUpdated: true,
+              ...subscribedUsers,
             },
           ],
         },
