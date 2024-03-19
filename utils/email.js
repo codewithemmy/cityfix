@@ -9,6 +9,8 @@ const mailTransport = nodemailer.createTransport({
   host: process.env.SMS_HOST,
   port: process.env.SMS_PORT,
   secure: true, // use TLS
+  debug: true,
+  connectionTimeout: 10000,
   auth: {
     user: process.env.SMS_USER,
     pass: process.env.SMS_PASS,
@@ -41,7 +43,7 @@ const sendMailNotification = async (
   const compiledTemplate = handlebars.compile(source)
 
   await mailTransport.sendMail({
-    from: '"Citifix" <citifix@gmail.com>', // sender address
+    from: '"Citifix" <email@cityfix.ng>', // sender address
     to: to_email, // list of receivers
     subject: subject, // Subject line
     html: compiledTemplate(substitutional_parameters),
