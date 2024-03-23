@@ -64,7 +64,7 @@ class AuthService {
       "RESET_OTP"
     )
 
-    return { success: true, msg: AuthSuccess.OTP_SENT, otp: otp, id: user._id }
+    return { success: true, msg: AuthSuccess.OTP_SENT, id: user._id }
   }
 
   static async resetPassword(body, id) {
